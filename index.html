@@ -15,7 +15,6 @@
   --bg: #08080e;
   --surface: #111119;
   --surface2: #1a1a26;
-  --surface3: #222233;
   --border: #2a2a3d;
   --text: #eeeef4;
   --text-dim: #7c7c9a;
@@ -42,21 +41,18 @@
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 .app{max-width:460px;margin:0 auto;padding:0 16px;min-height:100dvh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
 
-/* Header */
 .header{padding:52px 0 12px;display:flex;align-items:center;justify-content:space-between}
 .header-left .logo{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim)}
-.header-left h1{font-size:28px;font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,var(--run),var(--walk));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-left h1{font-size:28px;font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,var(--run),var(--walk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .header-right{display:flex;gap:8px}
 .icon-btn{width:40px;height:40px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);color:var(--text-dim);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .icon-btn.active{border-color:var(--run);color:var(--run);background:var(--run-soft)}
 .icon-btn:active{transform:scale(.92)}
 
-/* Nav */
 .nav{display:flex;gap:4px;margin:12px 0 16px;background:var(--surface);border-radius:var(--r);padding:3px}
 .nav button{flex:1;padding:9px;border:none;background:transparent;color:var(--text-dim);font-family:inherit;font-size:13px;font-weight:600;border-radius:11px;cursor:pointer;transition:all .2s}
 .nav button.active{background:var(--surface2);color:var(--text);box-shadow:0 2px 10px #0005}
 
-/* Screens */
 .screen{display:none;flex:1;flex-direction:column}.screen.active{display:flex}
 
 /* Plan */
@@ -84,7 +80,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .t-top{text-align:center}
 .twk{font-size:12px;font-weight:600;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
 .tphase{font-size:52px;font-weight:900;letter-spacing:-2px;text-transform:uppercase;transition:color .3s}
-.tphase.run{color:var(--run)}.tphase.walk{color:var(--walk)}.tphase.warmup{color:var(--warmup)}.tphase.cooldown{color:var(--cooldown)}.tphase.done{color:var(--done)}
+.tphase.run{color:var(--run)}.tphase.walk{color:var(--walk)}.tphase.warmup{color:var(--warmup)}.tphase.cooldown{color:var(--cooldown)}.tphase.done{color:var(--done)}.tphase.ready{color:var(--text-mid)}
 .tcoach{font-size:13px;color:var(--text-dim);margin-top:4px;min-height:20px;transition:all .3s;font-style:italic}
 
 .t-mid{display:flex;flex-direction:column;align-items:center;gap:16px}
@@ -116,6 +112,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .bcomp{width:100%;max-width:360px;padding:15px;border:none;border-radius:var(--r);background:linear-gradient(135deg,var(--done),#18b85c);color:var(--bg);font-family:inherit;font-size:15px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 20px var(--done-glow);transition:all .2s;display:none}
 .bcomp.vis{display:block}.bcomp:active{transform:scale(.97)}
 
+.no-workout{text-align:center;padding:40px 20px;color:var(--text-dim)}
+.no-workout .nw-icon{font-size:48px;margin-bottom:12px}
+.no-workout .nw-text{font-size:15px;margin-bottom:16px}
+.no-workout .nw-btn{display:inline-block;padding:12px 28px;background:var(--run);color:#fff;border:none;border-radius:var(--r);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.no-workout .nw-btn:active{transform:scale(.95)}
+
 /* Progress */
 .pscreen{padding-bottom:40px;overflow-y:auto}
 .srow{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
@@ -136,7 +138,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .rbtn{width:100%;padding:13px;border:1.5px solid var(--border);border-radius:var(--r);background:transparent;color:var(--text-dim);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;margin-top:12px;transition:all .2s}
 .rbtn:active{border-color:var(--run);color:var(--run)}
 
-/* Settings Modal */
+/* Settings */
 .modal-overlay{display:none;position:fixed;inset:0;background:#000a;z-index:100;align-items:flex-end;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:var(--surface);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:460px;max-height:70vh;overflow-y:auto}
@@ -152,8 +154,6 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .fu{animation:fadeUp .35s ease forwards}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.puls{animation:pulse 1.5s ease-in-out infinite}
 </style>
 </head>
 <body>
@@ -183,7 +183,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
   <div id="timer-screen" class="screen tscreen">
     <div class="t-top">
       <div class="twk" id="t-label">Week 1 · Day 1</div>
-      <div class="tphase" id="t-phase">Ready</div>
+      <div class="tphase ready" id="t-phase">Ready</div>
       <div class="tcoach" id="t-coach">Tap play to start your workout</div>
     </div>
     <div class="t-mid">
@@ -210,7 +210,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
     <div class="t-bot">
       <div class="tctrl">
         <button class="bs" onclick="resetTimer()" title="Reset">↺</button>
-        <button class="bp" id="btn-play" onclick="toggleTimer()">▶</button>
+        <button class="bp pau" id="btn-play" onclick="handlePlay()">▶</button>
         <button class="bs" onclick="skipInterval()" title="Skip">⏭</button>
       </div>
       <button class="bcomp" id="btn-comp" onclick="markComplete()">Workout Complete 🎉</button>
@@ -230,7 +230,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
   </div>
 </div>
 
-<div class="modal-overlay" id="settings-modal" onclick="event.target===this&&closeSettings()">
+<div class="modal-overlay" id="settings-modal" onclick="if(event.target===this)closeSettings()">
   <div class="modal">
     <button class="modal-close" onclick="closeSettings()">✕</button>
     <h2>Settings</h2>
@@ -259,38 +259,94 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 </div>
 
 <script>
-// ── Program Data ──
-function rp(a,b,n){const r=[];for(let i=0;i<n;i++){r.push([...a],[...b]);}return r;}
-const P=[
- [[['warmup',300],...rp(['run',60],['walk',90],8),['cooldown',300]],
-  [['warmup',300],...rp(['run',60],['walk',90],8),['cooldown',300]],
-  [['warmup',300],...rp(['run',60],['walk',90],8),['cooldown',300]]],
- [[['warmup',300],...rp(['run',90],['walk',120],6),['cooldown',300]],
-  [['warmup',300],...rp(['run',90],['walk',120],6),['cooldown',300]],
-  [['warmup',300],...rp(['run',90],['walk',120],6),['cooldown',300]]],
- [[['warmup',300],['run',90],['walk',90],['run',180],['walk',180],['run',90],['walk',90],['run',180],['walk',180],['cooldown',300]],
-  [['warmup',300],['run',90],['walk',90],['run',180],['walk',180],['run',90],['walk',90],['run',180],['walk',180],['cooldown',300]],
-  [['warmup',300],['run',90],['walk',90],['run',180],['walk',180],['run',90],['walk',90],['run',180],['walk',180],['cooldown',300]]],
- [[['warmup',300],['run',180],['walk',90],['run',300],['walk',150],['run',180],['walk',90],['run',300],['cooldown',300]],
-  [['warmup',300],['run',180],['walk',90],['run',300],['walk',150],['run',180],['walk',90],['run',300],['cooldown',300]],
-  [['warmup',300],['run',180],['walk',90],['run',300],['walk',150],['run',180],['walk',90],['run',300],['cooldown',300]]],
- [[['warmup',300],['run',300],['walk',180],['run',300],['walk',180],['run',300],['cooldown',300]],
-  [['warmup',300],['run',480],['walk',300],['run',480],['cooldown',300]],
-  [['warmup',300],['run',1200],['cooldown',300]]],
- [[['warmup',300],['run',300],['walk',180],['run',480],['walk',180],['run',300],['cooldown',300]],
-  [['warmup',300],['run',600],['walk',180],['run',600],['cooldown',300]],
-  [['warmup',300],['run',1500],['cooldown',300]]],
- [[['warmup',300],['run',1500],['cooldown',300]],
-  [['warmup',300],['run',1500],['cooldown',300]],
-  [['warmup',300],['run',1500],['cooldown',300]]],
- [[['warmup',300],['run',1680],['cooldown',300]],
-  [['warmup',300],['run',1680],['cooldown',300]],
-  [['warmup',300],['run',1680],['cooldown',300]]],
- [[['warmup',300],['run',1800],['cooldown',300]],
-  [['warmup',300],['run',1800],['cooldown',300]],
-  [['warmup',300],['run',1800],['cooldown',300]]]
-];
-const NAMES=[
+// =============================================
+// C25K PROGRAM DATA
+// =============================================
+function buildIntervals(warmup, intervals, cooldown) {
+  var result = [];
+  result.push(['warmup', warmup]);
+  for (var i = 0; i < intervals.length; i++) {
+    result.push(intervals[i]);
+  }
+  result.push(['cooldown', cooldown]);
+  return result;
+}
+
+function repeatPair(runSec, walkSec, count) {
+  var result = [];
+  for (var i = 0; i < count; i++) {
+    result.push(['run', runSec]);
+    result.push(['walk', walkSec]);
+  }
+  return result;
+}
+
+// Build all 9 weeks, 3 days each
+var PROGRAM = [];
+
+// Week 1: 60s run / 90s walk x8
+(function(){
+  var iv = repeatPair(60, 90, 8);
+  var day = buildIntervals(300, iv, 300);
+  PROGRAM.push([day.slice(), day.slice(), day.slice()]);
+})();
+
+// Week 2: 90s run / 120s walk x6
+(function(){
+  var iv = repeatPair(90, 120, 6);
+  var day = buildIntervals(300, iv, 300);
+  PROGRAM.push([day.slice(), day.slice(), day.slice()]);
+})();
+
+// Week 3: mixed
+(function(){
+  var iv = [['run',90],['walk',90],['run',180],['walk',180],['run',90],['walk',90],['run',180],['walk',180]];
+  var day = buildIntervals(300, iv, 300);
+  PROGRAM.push([day.slice(), day.slice(), day.slice()]);
+})();
+
+// Week 4: building endurance
+(function(){
+  var iv = [['run',180],['walk',90],['run',300],['walk',150],['run',180],['walk',90],['run',300]];
+  var day = buildIntervals(300, iv, 300);
+  PROGRAM.push([day.slice(), day.slice(), day.slice()]);
+})();
+
+// Week 5: progressive
+(function(){
+  var d1 = buildIntervals(300, [['run',300],['walk',180],['run',300],['walk',180],['run',300]], 300);
+  var d2 = buildIntervals(300, [['run',480],['walk',300],['run',480]], 300);
+  var d3 = buildIntervals(300, [['run',1200]], 300);
+  PROGRAM.push([d1, d2, d3]);
+})();
+
+// Week 6
+(function(){
+  var d1 = buildIntervals(300, [['run',300],['walk',180],['run',480],['walk',180],['run',300]], 300);
+  var d2 = buildIntervals(300, [['run',600],['walk',180],['run',600]], 300);
+  var d3 = buildIntervals(300, [['run',1500]], 300);
+  PROGRAM.push([d1, d2, d3]);
+})();
+
+// Week 7: 25 min runs
+(function(){
+  var day = buildIntervals(300, [['run',1500]], 300);
+  PROGRAM.push([day.slice(), day.slice(), day.slice()]);
+})();
+
+// Week 8: 28 min runs
+(function(){
+  var day = buildIntervals(300, [['run',1680]], 300);
+  PROGRAM.push([day.slice(), day.slice(), day.slice()]);
+})();
+
+// Week 9: 30 min runs
+(function(){
+  var day = buildIntervals(300, [['run',1800]], 300);
+  PROGRAM.push([day.slice(), day.slice(), day.slice()]);
+})();
+
+var NAMES = [
   ["Walk + 1min run ×8","Walk + 1min run ×8","Walk + 1min run ×8"],
   ["1.5min run ×6","1.5min run ×6","1.5min run ×6"],
   ["Mixed 1.5 & 3min runs","Mixed 1.5 & 3min runs","Mixed 1.5 & 3min runs"],
@@ -301,336 +357,697 @@ const NAMES=[
   ["28 min run","28 min run","28 min run"],
   ["30 min run 🏁","30 min run 🏁","30 min — YOU DID IT! 🎉"]
 ];
-const COACH={
-  run:["Let's go! Start running!","Time to run! You've got this!","Run time! Pick up the pace!","Here we go, run!","Push it! Start running now!","Running! Let's crush it!"],
-  walk:["Nice work! Walk it out.","Great job, take a breather.","Walking break — you earned it.","Ease up, walk now.","Walk it off, well done!"],
-  warmup:["Let's warm up with a brisk walk.","Starting your warm-up walk.","Warm-up time, get moving!"],
-  cooldown:["Almost done! Cool down walk.","Great work! Cool down now.","Cooldown, you're nearly there!"],
-  done:["Workout complete! Amazing effort!","You did it! Incredible work today!","That's a wrap! Be proud of yourself!"],
-  halfway:["Halfway there! Keep going!","You're at the halfway mark! Strong work!"],
-  tips:{run:"Keep your shoulders relaxed and breathe steadily.",walk:"Shake out your arms and take deep breaths.",warmup:"Start slow and build up your pace.",cooldown:"Gradually slow down. You did great."}
+
+var COACH_MSGS = {
+  run: ["Let's go! Start running!","Time to run! You've got this!","Run time! Pick up the pace!","Here we go, run!","Push it! Start running now!"],
+  walk: ["Nice work! Walk it out.","Great job, take a breather.","Walking break, you earned it.","Ease up, walk now.","Walk it off, well done!"],
+  warmup: ["Let's warm up with a brisk walk.","Starting your warm-up walk.","Warm-up time, get moving!"],
+  cooldown: ["Almost done! Cool down walk.","Great work! Cool down now.","Cooldown, you're nearly there!"],
+  done: ["Workout complete! Amazing effort!","You did it! Incredible work today!"],
+  halfway: ["Halfway there! Keep going!","You're at the halfway mark!"],
+  tips: {
+    run: "Keep your shoulders relaxed and breathe steadily.",
+    walk: "Shake out your arms and take deep breaths.",
+    warmup: "Start slow and build up your pace.",
+    cooldown: "Gradually slow down. You did great."
+  }
 };
 
-// ── State ──
-let selWeek=0,curWO=null,ivs=[],curIv=0,secLeft=0,totElapsed=0;
-let isRunning=false,timerInt=null,audioCtx=null;
-let voiceOn=true,voiceMode='full';
-let geoWatch=null,lastPos=null,totalDist=0,lastPaceT=0,curPace='--';
-let sessionCals=0,halfSpoken=false;
+// =============================================
+// STATE
+// =============================================
+var selWeek = 0;
+var curWO = null;       // {week, day} or null
+var ivs = [];           // current intervals array
+var curIv = 0;          // current interval index
+var secLeft = 0;        // seconds remaining in current interval
+var totElapsed = 0;     // total seconds elapsed
+var isRunning = false;
+var timerHandle = null;
+var halfSpoken = false;
 
-// ── Storage ──
-const S={
-  g(k,d){try{const v=localStorage.getItem('c25k_'+k);return v?JSON.parse(v):d}catch{return d}},
-  s(k,v){localStorage.setItem('c25k_'+k,JSON.stringify(v))}
-};
-function isDone(w,d){return S.g('prog',{})[`${w}-${d}`]!=null}
-function weekDone(w){return[0,1,2].every(d=>isDone(w,d))}
-function getSettings(){return S.g('settings',{weight:70,units:'km',voice:'full'})}
+// Audio
+var audioCtx = null;
 
-// ── Audio ──
-function beep(f,dur,n){
-  if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  let t=audioCtx.currentTime;
-  for(let i=0;i<n;i++){
-    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-    o.connect(g);g.connect(audioCtx.destination);o.frequency.value=f;o.type='sine';
-    g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.01,t+dur);
-    o.start(t);o.stop(t+dur);t+=dur+.12;
+// Voice
+var voiceOn = true;
+var voiceMode = 'full'; // 'full', 'simple', 'off'
+
+// GPS
+var geoWatch = null;
+var lastPos = null;
+var totalDist = 0;
+var lastPaceT = 0;
+var curPace = '--';
+
+// Session stats
+var sessionCals = 0;
+
+// =============================================
+// STORAGE
+// =============================================
+function storeGet(key, fallback) {
+  try {
+    var v = localStorage.getItem('c25k_' + key);
+    return v !== null ? JSON.parse(v) : fallback;
+  } catch(e) {
+    return fallback;
   }
 }
-function snd(t){
-  if(t==='run')beep(880,.12,3);else if(t==='walk')beep(523,.18,2);
-  else if(t==='warmup')beep(660,.18,1);else if(t==='cooldown')beep(440,.25,2);
-  else if(t==='done')beep(1047,.12,5);
+function storeSet(key, val) {
+  try {
+    localStorage.setItem('c25k_' + key, JSON.stringify(val));
+  } catch(e) {}
+}
+function isDone(w, d) {
+  var prog = storeGet('prog', {});
+  return prog[w + '-' + d] != null;
+}
+function weekDone(w) {
+  return isDone(w,0) && isDone(w,1) && isDone(w,2);
+}
+function getSettings() {
+  return storeGet('settings', {weight: 70, units: 'km', voice: 'full'});
 }
 
-// ── Voice ──
-function speak(text){
-  if(!voiceOn||voiceMode==='off'||!('speechSynthesis' in window))return;
-  window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  u.rate=1.0;u.pitch=1.0;u.volume=1;
-  window.speechSynthesis.speak(u);
+// =============================================
+// AUDIO (beeps)
+// =============================================
+function initAudio() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  } catch(e) {}
 }
-function voicePhase(type){
-  const msgs=COACH[type]||[];
-  if(voiceMode==='simple'){
-    const m={run:'Run',walk:'Walk',warmup:'Warm up',cooldown:'Cool down',done:'Workout complete'};
-    speak(m[type]||type);
-  } else {
-    speak(msgs[Math.floor(Math.random()*msgs.length)]||type);
+
+function beep(freq, dur, times) {
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    var t = audioCtx.currentTime;
+    for (var i = 0; i < times; i++) {
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.value = freq;
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.3, t);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + dur);
+      osc.start(t);
+      osc.stop(t + dur);
+      t += dur + 0.12;
+    }
+  } catch(e) {}
+}
+
+function playSound(type) {
+  try {
+    if (type === 'run') beep(880, 0.12, 3);
+    else if (type === 'walk') beep(523, 0.18, 2);
+    else if (type === 'warmup') beep(660, 0.18, 1);
+    else if (type === 'cooldown') beep(440, 0.25, 2);
+    else if (type === 'done') beep(1047, 0.12, 5);
+    else if (type === 'tick') beep(660, 0.06, 1);
+  } catch(e) {}
+}
+
+// =============================================
+// VOICE
+// =============================================
+function speak(text) {
+  try {
+    if (!voiceOn || voiceMode === 'off') return;
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.rate = 1.0;
+    u.pitch = 1.0;
+    u.volume = 1;
+    window.speechSynthesis.speak(u);
+  } catch(e) {}
+}
+
+function speakPhase(type) {
+  try {
+    var msgs = COACH_MSGS[type] || [];
+    if (voiceMode === 'simple') {
+      var simple = {run:'Run!', walk:'Walk!', warmup:'Warm up!', cooldown:'Cool down!', done:'Workout complete!'};
+      speak(simple[type] || type);
+    } else if (voiceMode === 'full' && msgs.length > 0) {
+      speak(msgs[Math.floor(Math.random() * msgs.length)]);
+    }
+  } catch(e) {}
+}
+
+function toggleVoice() {
+  voiceOn = !voiceOn;
+  document.getElementById('voice-toggle').classList.toggle('active', voiceOn);
+}
+
+// =============================================
+// GPS
+// =============================================
+function startGPS() {
+  try {
+    if (!navigator.geolocation) return;
+    totalDist = 0;
+    lastPos = null;
+    curPace = '--';
+    lastPaceT = 0;
+    geoWatch = navigator.geolocation.watchPosition(
+      function(pos) {
+        if (lastPos && isRunning) {
+          var d = haversine(
+            lastPos.coords.latitude, lastPos.coords.longitude,
+            pos.coords.latitude, pos.coords.longitude
+          );
+          if (d < 0.5) totalDist += d;
+        }
+        lastPos = pos;
+        if (totElapsed - lastPaceT >= 10 && totalDist > 0.01) {
+          var mpk = totElapsed / 60 / totalDist;
+          if (mpk < 30) curPace = mpk.toFixed(1);
+          lastPaceT = totElapsed;
+        }
+      },
+      function(err) { /* GPS error - continue without it */ },
+      {enableHighAccuracy: true, maximumAge: 3000, timeout: 10000}
+    );
+  } catch(e) {}
+}
+
+function stopGPS() {
+  try {
+    if (geoWatch != null) {
+      navigator.geolocation.clearWatch(geoWatch);
+      geoWatch = null;
+    }
+  } catch(e) {}
+}
+
+function haversine(lat1, lon1, lat2, lon2) {
+  var R = 6371;
+  var dLat = (lat2 - lat1) * Math.PI / 180;
+  var dLon = (lon2 - lon1) * Math.PI / 180;
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// =============================================
+// CALORIES
+// =============================================
+function calcCalories() {
+  var wt = getSettings().weight || 70;
+  var metValues = {warmup: 3, run: 8, walk: 3.5, cooldown: 3};
+  var cal = 0;
+  // Completed intervals
+  for (var i = 0; i < curIv && i < ivs.length; i++) {
+    var met = metValues[ivs[i][0]] || 3;
+    cal += met * wt * ivs[i][1] / 3600;
   }
-}
-function toggleVoice(){voiceOn=!voiceOn;document.getElementById('voice-toggle').classList.toggle('active',voiceOn);}
-
-// ── GPS ──
-function startGPS(){
-  if(!navigator.geolocation)return;
-  totalDist=0;lastPos=null;curPace='--';lastPaceT=0;
-  geoWatch=navigator.geolocation.watchPosition(p=>{
-    if(lastPos&&isRunning){
-      const d=hav(lastPos.coords.latitude,lastPos.coords.longitude,p.coords.latitude,p.coords.longitude);
-      if(d<0.5)totalDist+=d;
-    }
-    lastPos=p;
-    if(totElapsed-lastPaceT>=10&&totalDist>0.01){
-      const mpk=totElapsed/60/totalDist;
-      if(mpk<30)curPace=mpk.toFixed(1);
-      lastPaceT=totElapsed;
-    }
-  },{enableHighAccuracy:true,maximumAge:3000,timeout:10000});
-}
-function stopGPS(){if(geoWatch!=null){navigator.geolocation.clearWatch(geoWatch);geoWatch=null;}}
-function hav(a1,o1,a2,o2){
-  const R=6371,dLat=(a2-a1)*Math.PI/180,dLon=(o2-o1)*Math.PI/180;
-  const a=Math.sin(dLat/2)**2+Math.cos(a1*Math.PI/180)*Math.cos(a2*Math.PI/180)*Math.sin(dLon/2)**2;
-  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-}
-
-// ── Calories ──
-function calcCal(){
-  const wt=getSettings().weight||70;
-  const met={warmup:3,run:8,walk:3.5,cooldown:3};
-  let cal=0;
-  for(let i=0;i<curIv&&i<ivs.length;i++)cal+=(met[ivs[i][0]]||3)*wt*ivs[i][1]/3600;
-  if(curIv<ivs.length){const el=ivs[curIv][1]-secLeft;cal+=(met[ivs[curIv][0]]||3)*wt*el/3600;}
+  // Current partial interval
+  if (curIv < ivs.length) {
+    var elapsed = ivs[curIv][1] - secLeft;
+    var met2 = metValues[ivs[curIv][0]] || 3;
+    cal += met2 * wt * elapsed / 3600;
+  }
   return Math.round(cal);
 }
 
-// ── Format ──
-function fmt(s){const m=Math.floor(s/60);return`${m}:${(s%60).toString().padStart(2,'0')}`;}
-function fmtM(s){const m=Math.floor(s/60);return m<1?`${s}s`:m+'min';}
-
-// ── Screens ──
-function showScreen(n){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
-  document.getElementById(n+'-screen').classList.add('active');
-  document.querySelectorAll('.nav button')[['plan','timer','progress'].indexOf(n)].classList.add('active');
-  if(n==='progress')renderProgress();
+// =============================================
+// FORMATTING
+// =============================================
+function fmt(s) {
+  var m = Math.floor(s / 60);
+  var sec = s % 60;
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+function fmtM(s) {
+  var m = Math.floor(s / 60);
+  return m < 1 ? s + 's' : m + 'min';
 }
 
-// ── Plan ──
-function renderPlan(){
-  const sel=document.getElementById('wsel');sel.innerHTML='';
-  for(let w=0;w<9;w++){
-    const b=document.createElement('button');
-    b.className=`wk ${w===selWeek?'active':''} ${weekDone(w)?'done':''}`;
-    b.textContent=w+1;b.onclick=()=>{selWeek=w;renderPlan();};sel.appendChild(b);
+// =============================================
+// SCREEN NAV
+// =============================================
+function showScreen(name) {
+  var screens = document.querySelectorAll('.screen');
+  for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
+  var navBtns = document.querySelectorAll('.nav button');
+  for (var i = 0; i < navBtns.length; i++) navBtns[i].classList.remove('active');
+
+  document.getElementById(name + '-screen').classList.add('active');
+  var idx = ['plan','timer','progress'].indexOf(name);
+  if (idx >= 0) navBtns[idx].classList.add('active');
+
+  if (name === 'progress') renderProgress();
+
+  // If going to timer with no workout loaded, auto-load next incomplete
+  if (name === 'timer' && !curWO) {
+    autoLoadWorkout();
   }
-  const c=document.getElementById('dcards');c.innerHTML='';
-  P[selWeek].forEach((day,di)=>{
-    const total=day.reduce((a,b)=>a+b[1],0);
-    const runT=day.filter(i=>i[0]==='run').reduce((a,b)=>a+b[1],0);
-    const walkT=day.filter(i=>i[0]==='walk').reduce((a,b)=>a+b[1],0);
-    const done=isDone(selWeek,di);
-    const d=document.createElement('div');
-    d.className=`dcard fu ${done?'cday':''}`;d.style.animationDelay=`${di*.07}s`;
-    d.innerHTML=`<div class="dt">Day ${di+1}</div>
-      <div class="ds">${NAMES[selWeek][di]}</div>
-      <div class="dd"><span class="r">🏃 ${fmtM(runT)}</span><span class="w">🚶 ${fmtM(walkT)}</span><span class="t">⏱ ${fmt(total)}</span></div>
-      <div class="ivp">${day.map(iv=>`<div class="ivb ${iv[0]}" style="flex:${iv[1]}"></div>`).join('')}</div>`;
-    d.onclick=()=>startWorkout(selWeek,di);
-    c.appendChild(d);
-  });
 }
 
-// ── Timer ──
-function startWorkout(w,d){
-  curWO={week:w,day:d};ivs=P[w][d];curIv=0;totElapsed=0;
-  secLeft=ivs[0][1];isRunning=false;sessionCals=0;totalDist=0;curPace='--';halfSpoken=false;
-  clearInterval(timerInt);
-  updateTimer();
+function autoLoadWorkout() {
+  // Find next incomplete workout
+  for (var w = 0; w < 9; w++) {
+    for (var d = 0; d < 3; d++) {
+      if (!isDone(w, d)) {
+        loadWorkout(w, d);
+        return;
+      }
+    }
+  }
+  // All done? Load W1D1
+  loadWorkout(0, 0);
+}
+
+// =============================================
+// PLAN SCREEN
+// =============================================
+function renderPlan() {
+  var sel = document.getElementById('wsel');
+  sel.innerHTML = '';
+  for (var w = 0; w < 9; w++) {
+    var b = document.createElement('button');
+    b.className = 'wk' + (w === selWeek ? ' active' : '') + (weekDone(w) ? ' done' : '');
+    b.textContent = w + 1;
+    b.setAttribute('data-week', w);
+    b.onclick = function() {
+      selWeek = parseInt(this.getAttribute('data-week'));
+      renderPlan();
+    };
+    sel.appendChild(b);
+  }
+
+  var container = document.getElementById('dcards');
+  container.innerHTML = '';
+  var weekData = PROGRAM[selWeek];
+
+  for (var di = 0; di < weekData.length; di++) {
+    var day = weekData[di];
+    var total = 0, runT = 0, walkT = 0;
+    for (var j = 0; j < day.length; j++) {
+      total += day[j][1];
+      if (day[j][0] === 'run') runT += day[j][1];
+      if (day[j][0] === 'walk') walkT += day[j][1];
+    }
+    var done = isDone(selWeek, di);
+
+    var card = document.createElement('div');
+    card.className = 'dcard fu' + (done ? ' cday' : '');
+    card.style.animationDelay = (di * 0.07) + 's';
+    card.setAttribute('data-week', selWeek);
+    card.setAttribute('data-day', di);
+
+    var bars = '';
+    for (var k = 0; k < day.length; k++) {
+      bars += '<div class="ivb ' + day[k][0] + '" style="flex:' + day[k][1] + '"></div>';
+    }
+
+    card.innerHTML =
+      '<div class="dt">Day ' + (di+1) + '</div>' +
+      '<div class="ds">' + NAMES[selWeek][di] + '</div>' +
+      '<div class="dd"><span class="r">🏃 ' + fmtM(runT) + '</span><span class="w">🚶 ' + fmtM(walkT) + '</span><span class="t">⏱ ' + fmt(total) + '</span></div>' +
+      '<div class="ivp">' + bars + '</div>';
+
+    card.onclick = function() {
+      var w = parseInt(this.getAttribute('data-week'));
+      var d = parseInt(this.getAttribute('data-day'));
+      loadWorkout(w, d);
+      showScreen('timer');
+    };
+    container.appendChild(card);
+  }
+}
+
+// =============================================
+// TIMER
+// =============================================
+function loadWorkout(w, d) {
+  // Stop any running timer
+  if (timerHandle) {
+    clearInterval(timerHandle);
+    timerHandle = null;
+  }
+  isRunning = false;
+  halfSpoken = false;
+
+  curWO = {week: w, day: d};
+  ivs = PROGRAM[w][d];
+  curIv = 0;
+  totElapsed = 0;
+  secLeft = ivs[0][1];
+  sessionCals = 0;
+  totalDist = 0;
+  curPace = '--';
+
+  stopGPS();
   document.getElementById('btn-comp').classList.remove('vis');
-  document.getElementById('t-coach').textContent='Tap play to start your workout';
-  showScreen('timer');
+  document.getElementById('t-coach').textContent = 'Tap play to start your workout';
+  refreshTimerUI();
 }
 
-function updateTimer(){
-  if(!curWO)return;
-  document.getElementById('t-label').textContent=`Week ${curWO.week+1} · Day ${curWO.day+1}`;
-  const ph=curIv<ivs.length?ivs[curIv][0]:'done';
-  const pe=document.getElementById('t-phase');
-  pe.textContent=ph==='done'?'Done!':ph.charAt(0).toUpperCase()+ph.slice(1);
-  pe.className='tphase '+ph;
-  document.getElementById('t-time').textContent=fmt(Math.max(0,secLeft));
+function refreshTimerUI() {
+  if (!curWO) return;
 
-  const ne=document.getElementById('t-next');
-  if(curIv<ivs.length-1){const nx=ivs[curIv+1];ne.textContent=`Next: ${nx[0]} ${fmtM(nx[1])}`;}
-  else ne.textContent=ph==='done'?'':'Final interval';
+  document.getElementById('t-label').textContent = 'Week ' + (curWO.week+1) + ' · Day ' + (curWO.day+1);
 
-  // Ring
-  const ring=document.getElementById('ring');
-  const tot=curIv<ivs.length?ivs[curIv][1]:1;
-  ring.setAttribute('stroke-dashoffset',553*(secLeft/tot));
-  const cols={run:'var(--run)',walk:'var(--walk)',warmup:'var(--warmup)',cooldown:'var(--cooldown)',done:'var(--done)'};
-  const glows={run:'var(--run-glow)',walk:'var(--walk-glow)',warmup:'var(--warmup-glow)',cooldown:'var(--cooldown-glow)',done:'var(--done-glow)'};
-  ring.style.stroke=cols[ph]||cols.done;
-  ring.style.filter=`drop-shadow(0 0 10px ${glows[ph]||glows.done})`;
+  var phase = (curIv < ivs.length) ? ivs[curIv][0] : 'done';
+  var phaseEl = document.getElementById('t-phase');
 
-  // Total bar
-  const totalDur=ivs.reduce((a,b)=>a+b[1],0);
-  document.getElementById('tp-el').textContent=fmt(totElapsed);
-  document.getElementById('tp-tot').textContent=fmt(totalDur);
-  document.getElementById('tp-fill').style.width=`${(totElapsed/totalDur)*100}%`;
+  if (phase === 'done') {
+    phaseEl.textContent = 'Done!';
+    phaseEl.className = 'tphase done';
+  } else if (!isRunning && totElapsed === 0) {
+    phaseEl.textContent = 'Ready';
+    phaseEl.className = 'tphase ready';
+  } else {
+    phaseEl.textContent = phase.charAt(0).toUpperCase() + phase.slice(1);
+    phaseEl.className = 'tphase ' + phase;
+  }
+
+  document.getElementById('t-time').textContent = fmt(Math.max(0, secLeft));
+
+  // Next up
+  var nextEl = document.getElementById('t-next');
+  if (curIv < ivs.length - 1) {
+    var nx = ivs[curIv + 1];
+    nextEl.textContent = 'Next: ' + nx[0] + ' ' + fmtM(nx[1]);
+  } else if (phase === 'done') {
+    nextEl.textContent = '';
+  } else {
+    nextEl.textContent = 'Final interval';
+  }
+
+  // Ring progress
+  var ring = document.getElementById('ring');
+  var intervalTotal = (curIv < ivs.length) ? ivs[curIv][1] : 1;
+  var offset = 553 * (secLeft / intervalTotal);
+  ring.setAttribute('stroke-dashoffset', offset);
+
+  var colorMap = {run:'var(--run)',walk:'var(--walk)',warmup:'var(--warmup)',cooldown:'var(--cooldown)',done:'var(--done)',ready:'var(--text-dim)'};
+  var glowMap = {run:'var(--run-glow)',walk:'var(--walk-glow)',warmup:'var(--warmup-glow)',cooldown:'var(--cooldown-glow)',done:'var(--done-glow)',ready:'transparent'};
+  var displayPhase = (!isRunning && totElapsed === 0) ? 'ready' : phase;
+  ring.style.stroke = colorMap[displayPhase] || colorMap.ready;
+  ring.style.filter = 'drop-shadow(0 0 10px ' + (glowMap[displayPhase] || 'transparent') + ')';
+
+  // Total progress bar
+  var totalDur = 0;
+  for (var i = 0; i < ivs.length; i++) totalDur += ivs[i][1];
+  document.getElementById('tp-el').textContent = fmt(totElapsed);
+  document.getElementById('tp-tot').textContent = fmt(totalDur);
+  document.getElementById('tp-fill').style.width = (totalDur > 0 ? (totElapsed / totalDur) * 100 : 0) + '%';
 
   // Live stats
-  sessionCals=calcCal();
-  document.getElementById('ls-cal').textContent=sessionCals;
-  const st=getSettings();
-  if(st.units==='mi'){
-    document.getElementById('ls-pace').textContent=curPace==='--'?'--':(parseFloat(curPace)*1.609).toFixed(1);
-    document.getElementById('ll-pace').textContent='min/mi';
-    document.getElementById('ls-dist').textContent=(totalDist*0.621371).toFixed(2);
-    document.getElementById('ll-dist').textContent='mi';
+  sessionCals = calcCalories();
+  document.getElementById('ls-cal').textContent = sessionCals;
+
+  var settings = getSettings();
+  if (settings.units === 'mi') {
+    document.getElementById('ls-pace').textContent = curPace === '--' ? '--' : (parseFloat(curPace) * 1.609).toFixed(1);
+    document.getElementById('ll-pace').textContent = 'min/mi';
+    document.getElementById('ls-dist').textContent = (totalDist * 0.621371).toFixed(2);
+    document.getElementById('ll-dist').textContent = 'mi';
   } else {
-    document.getElementById('ls-pace').textContent=curPace;
-    document.getElementById('ll-pace').textContent='min/km';
-    document.getElementById('ls-dist').textContent=totalDist.toFixed(2);
-    document.getElementById('ll-dist').textContent='km';
+    document.getElementById('ls-pace').textContent = curPace;
+    document.getElementById('ll-pace').textContent = 'min/km';
+    document.getElementById('ls-dist').textContent = totalDist.toFixed(2);
+    document.getElementById('ll-dist').textContent = 'km';
   }
 
-  const b=document.getElementById('btn-play');
-  b.textContent=isRunning?'⏸':'▶';b.classList.toggle('pau',!isRunning);
+  // Play button
+  var btn = document.getElementById('btn-play');
+  btn.textContent = isRunning ? '⏸' : '▶';
+  btn.classList.toggle('pau', !isRunning);
 }
 
-function toggleTimer(){
-  if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
-  if(!curWO||curIv>=ivs.length)return;
-  isRunning=!isRunning;
-  if(isRunning){
-    voicePhase(ivs[curIv][0]);snd(ivs[curIv][0]);
-    startGPS();timerInt=setInterval(tick,1000);
-  } else {clearInterval(timerInt);stopGPS();}
-  updateTimer();
-}
+function handlePlay() {
+  // Initialize audio on first user tap (iOS requirement)
+  initAudio();
 
-function tick(){
-  secLeft--;totElapsed++;
-
-  // Halfway
-  const totalDur=ivs.reduce((a,b)=>a+b[1],0);
-  if(!halfSpoken&&totElapsed>=totalDur/2){
-    halfSpoken=true;
-    if(voiceMode==='full')speak(COACH.halfway[Math.floor(Math.random()*COACH.halfway.length)]);
+  // If no workout loaded, auto-load one
+  if (!curWO) {
+    autoLoadWorkout();
   }
 
-  // 10-second warning
-  if(secLeft===10&&curIv<ivs.length-1){
-    beep(660,.06,1);
-    if(voiceOn&&voiceMode!=='off'){
-      const next=ivs[curIv+1][0];
-      speak(`10 seconds. Get ready to ${next}.`);
+  // If workout is finished, don't toggle
+  if (curIv >= ivs.length) return;
+
+  isRunning = !isRunning;
+
+  if (isRunning) {
+    // Start the timer
+    playSound(ivs[curIv][0]);
+    speakPhase(ivs[curIv][0]);
+    startGPS();
+
+    // Clear any existing interval just in case
+    if (timerHandle) clearInterval(timerHandle);
+    timerHandle = setInterval(tick, 1000);
+  } else {
+    // Pause
+    if (timerHandle) {
+      clearInterval(timerHandle);
+      timerHandle = null;
+    }
+    stopGPS();
+  }
+
+  refreshTimerUI();
+}
+
+function tick() {
+  secLeft--;
+  totElapsed++;
+
+  // Halfway motivation
+  var totalDur = 0;
+  for (var i = 0; i < ivs.length; i++) totalDur += ivs[i][1];
+  if (!halfSpoken && totElapsed >= totalDur / 2) {
+    halfSpoken = true;
+    if (voiceMode === 'full') {
+      var msgs = COACH_MSGS.halfway;
+      speak(msgs[Math.floor(Math.random() * msgs.length)]);
     }
   }
 
-  // 3-second countdown
-  if(secLeft<=3&&secLeft>0)beep(660,.06,1);
+  // 10-second warning before next phase
+  if (secLeft === 10 && curIv < ivs.length - 1) {
+    playSound('tick');
+    var nextType = ivs[curIv + 1][0];
+    speak('10 seconds. Get ready to ' + nextType + '.');
+  }
 
-  if(secLeft<=0){
+  // 3-2-1 countdown beeps
+  if (secLeft > 0 && secLeft <= 3) {
+    playSound('tick');
+  }
+
+  // Interval finished
+  if (secLeft <= 0) {
     curIv++;
-    if(curIv<ivs.length){
-      secLeft=ivs[curIv][1];snd(ivs[curIv][0]);voicePhase(ivs[curIv][0]);
-      const tips=COACH.tips[ivs[curIv][0]];
-      document.getElementById('t-coach').textContent=tips||'';
-      // Speak tip after a delay if full mode
-      if(voiceMode==='full'&&tips)setTimeout(()=>speak(tips),3000);
+    if (curIv < ivs.length) {
+      // Move to next interval
+      secLeft = ivs[curIv][1];
+      playSound(ivs[curIv][0]);
+      speakPhase(ivs[curIv][0]);
+
+      // Update coach tip
+      var tip = COACH_MSGS.tips[ivs[curIv][0]] || '';
+      document.getElementById('t-coach').textContent = tip;
+
+      // Speak tip after delay
+      if (voiceMode === 'full' && tip) {
+        setTimeout(function() { speak(tip); }, 3500);
+      }
     } else {
-      clearInterval(timerInt);isRunning=false;stopGPS();
-      snd('done');voicePhase('done');halfSpoken=false;
-      document.getElementById('t-coach').textContent="Incredible effort! You're a champion! 🏆";
+      // Workout complete!
+      if (timerHandle) {
+        clearInterval(timerHandle);
+        timerHandle = null;
+      }
+      isRunning = false;
+      halfSpoken = false;
+      stopGPS();
+      playSound('done');
+      speakPhase('done');
+      document.getElementById('t-coach').textContent = "Incredible effort! You're a champion! 🏆";
       document.getElementById('btn-comp').classList.add('vis');
     }
   }
-  updateTimer();
+
+  refreshTimerUI();
 }
 
-function skipInterval(){
-  if(!isRunning||curIv>=ivs.length)return;
-  totElapsed+=secLeft;secLeft=0;tick();
+function skipInterval() {
+  if (!isRunning || curIv >= ivs.length) return;
+  totElapsed += secLeft;
+  secLeft = 0;
+  tick();
 }
-function resetTimer(){
-  clearInterval(timerInt);isRunning=false;stopGPS();halfSpoken=false;
-  if(curWO){curIv=0;totElapsed=0;secLeft=ivs[0][1];sessionCals=0;totalDist=0;curPace='--';}
+
+function resetTimer() {
+  if (timerHandle) {
+    clearInterval(timerHandle);
+    timerHandle = null;
+  }
+  isRunning = false;
+  halfSpoken = false;
+  stopGPS();
+
+  if (curWO) {
+    curIv = 0;
+    totElapsed = 0;
+    secLeft = ivs[0][1];
+    sessionCals = 0;
+    totalDist = 0;
+    curPace = '--';
+  }
+
   document.getElementById('btn-comp').classList.remove('vis');
-  document.getElementById('t-coach').textContent='Tap play to start your workout';
-  updateTimer();
-}
-function markComplete(){
-  if(!curWO)return;
-  const p=S.g('prog',{});
-  p[`${curWO.week}-${curWO.day}`]={cal:sessionCals,dist:parseFloat(totalDist.toFixed(2)),pace:curPace,date:new Date().toISOString()};
-  S.s('prog',p);
-  const h=S.g('history',[]);
-  h.unshift({w:curWO.week,d:curWO.day,cal:sessionCals,dist:parseFloat(totalDist.toFixed(2)),pace:curPace,date:new Date().toLocaleDateString()});
-  S.s('history',h);
-  showScreen('plan');renderPlan();
+  document.getElementById('t-coach').textContent = 'Tap play to start your workout';
+  refreshTimerUI();
 }
 
-// ── Progress ──
-function renderProgress(){
-  const p=S.g('prog',{});const st=getSettings();
-  const grid=document.getElementById('pgrid');grid.innerHTML='';
-  let count=0,tcal=0,tdist=0;
-  for(let w=0;w<9;w++){
-    for(let d=0;d<3;d++){
-      const k=`${w}-${d}`;const done=p[k]!=null;
-      if(done){count++;if(p[k].cal)tcal+=p[k].cal;if(p[k].dist)tdist+=p[k].dist;}
-      const c=document.createElement('div');c.className=`pc ${done?'dn':''}`;
-      c.innerHTML=`<div class="pw">W${w+1}</div><div class="pd">${done?'✓':'D'+(d+1)}</div>`;
-      grid.appendChild(c);
+function markComplete() {
+  if (!curWO) return;
+
+  var prog = storeGet('prog', {});
+  prog[curWO.week + '-' + curWO.day] = {
+    cal: sessionCals,
+    dist: parseFloat(totalDist.toFixed(2)),
+    pace: curPace,
+    date: new Date().toISOString()
+  };
+  storeSet('prog', prog);
+
+  var history = storeGet('history', []);
+  history.unshift({
+    w: curWO.week,
+    d: curWO.day,
+    cal: sessionCals,
+    dist: parseFloat(totalDist.toFixed(2)),
+    pace: curPace,
+    date: new Date().toLocaleDateString()
+  });
+  storeSet('history', history);
+
+  // Reset timer state
+  curWO = null;
+  showScreen('plan');
+  renderPlan();
+}
+
+// =============================================
+// PROGRESS SCREEN
+// =============================================
+function renderProgress() {
+  var prog = storeGet('prog', {});
+  var settings = getSettings();
+  var grid = document.getElementById('pgrid');
+  grid.innerHTML = '';
+  var count = 0, tcal = 0, tdist = 0;
+
+  for (var w = 0; w < 9; w++) {
+    for (var d = 0; d < 3; d++) {
+      var key = w + '-' + d;
+      var done = prog[key] != null;
+      if (done) {
+        count++;
+        if (prog[key].cal) tcal += prog[key].cal;
+        if (prog[key].dist) tdist += prog[key].dist;
+      }
+      var cell = document.createElement('div');
+      cell.className = 'pc' + (done ? ' dn' : '');
+      cell.innerHTML = '<div class="pw">W' + (w+1) + '</div><div class="pd">' + (done ? '✓' : 'D'+(d+1)) + '</div>';
+      grid.appendChild(cell);
     }
   }
-  document.getElementById('s-done').textContent=count;
-  document.getElementById('s-pct').textContent=Math.round((count/27)*100)+'%';
-  document.getElementById('s-tcal').textContent=tcal;
-  const distDisplay=st.units==='mi'?(tdist*0.621371).toFixed(1):tdist.toFixed(1);
-  document.getElementById('s-tdist').textContent=distDisplay;
-  document.getElementById('s-tdist-u').textContent='Total '+(st.units==='mi'?'mi':'km');
 
-  const h=S.g('history',[]);
-  const sec=document.getElementById('history-section');
-  if(h.length===0){sec.innerHTML='';return;}
-  let html='<div class="htitle">Recent Workouts</div><div class="hlist">';
-  h.slice(0,10).forEach(item=>{
-    const dStr=st.units==='mi'?((item.dist||0)*0.621371).toFixed(2)+' mi':((item.dist||0).toFixed(2)+' km');
-    html+=`<div class="hitem"><div class="hl">W${item.w+1}D${item.d+1} <span style="color:var(--text-dim);font-size:11px;margin-left:6px">${item.date}</span></div>
-      <div class="hr"><span style="color:var(--warmup)">${item.cal||0} kcal</span><span style="color:var(--done)">${dStr}</span></div></div>`;
-  });
-  html+='</div>';sec.innerHTML=html;
+  document.getElementById('s-done').textContent = count;
+  document.getElementById('s-pct').textContent = Math.round((count / 27) * 100) + '%';
+  document.getElementById('s-tcal').textContent = tcal;
+
+  var distVal = settings.units === 'mi' ? (tdist * 0.621371).toFixed(1) : tdist.toFixed(1);
+  document.getElementById('s-tdist').textContent = distVal;
+  document.getElementById('s-tdist-u').textContent = 'Total ' + (settings.units === 'mi' ? 'mi' : 'km');
+
+  // History
+  var history = storeGet('history', []);
+  var sec = document.getElementById('history-section');
+  if (history.length === 0) { sec.innerHTML = ''; return; }
+
+  var html = '<div class="htitle">Recent Workouts</div><div class="hlist">';
+  var max = Math.min(history.length, 10);
+  for (var i = 0; i < max; i++) {
+    var item = history[i];
+    var dStr = settings.units === 'mi'
+      ? ((item.dist || 0) * 0.621371).toFixed(2) + ' mi'
+      : ((item.dist || 0).toFixed(2) + ' km');
+    html += '<div class="hitem"><div class="hl">W' + (item.w+1) + 'D' + (item.d+1) +
+      ' <span style="color:var(--text-dim);font-size:11px;margin-left:6px">' + item.date + '</span></div>' +
+      '<div class="hr"><span style="color:var(--warmup)">' + (item.cal||0) + ' kcal</span>' +
+      '<span style="color:var(--done)">' + dStr + '</span></div></div>';
+  }
+  html += '</div>';
+  sec.innerHTML = html;
 }
 
-function resetProgress(){
-  if(confirm('Reset all progress? This cannot be undone.')){
-    localStorage.removeItem('c25k_prog');localStorage.removeItem('c25k_history');
-    renderProgress();renderPlan();
+function resetProgress() {
+  if (confirm('Reset all progress? This cannot be undone.')) {
+    try {
+      localStorage.removeItem('c25k_prog');
+      localStorage.removeItem('c25k_history');
+    } catch(e) {}
+    renderProgress();
+    renderPlan();
   }
 }
 
-// ── Settings ──
-function openSettings(){
-  const s=getSettings();
-  document.getElementById('set-weight').value=s.weight||70;
-  document.getElementById('set-units').value=s.units||'km';
-  document.getElementById('set-voice').value=s.voice||'full';
+// =============================================
+// SETTINGS
+// =============================================
+function openSettings() {
+  var s = getSettings();
+  document.getElementById('set-weight').value = s.weight || 70;
+  document.getElementById('set-units').value = s.units || 'km';
+  document.getElementById('set-voice').value = s.voice || 'full';
   document.getElementById('settings-modal').classList.add('open');
 }
-function closeSettings(){document.getElementById('settings-modal').classList.remove('open');}
-function saveSettings(){
-  const s={weight:parseInt(document.getElementById('set-weight').value)||70,
-    units:document.getElementById('set-units').value,
-    voice:document.getElementById('set-voice').value};
-  S.s('settings',s);
-  voiceMode=s.voice;voiceOn=s.voice!=='off';
-  document.getElementById('voice-toggle').classList.toggle('active',voiceOn);
+
+function closeSettings() {
+  document.getElementById('settings-modal').classList.remove('open');
+}
+
+function saveSettings() {
+  var s = {
+    weight: parseInt(document.getElementById('set-weight').value) || 70,
+    units: document.getElementById('set-units').value,
+    voice: document.getElementById('set-voice').value
+  };
+  storeSet('settings', s);
+  voiceMode = s.voice;
+  voiceOn = s.voice !== 'off';
+  document.getElementById('voice-toggle').classList.toggle('active', voiceOn);
   closeSettings();
 }
 
-// ── Init ──
-(function(){
-  const s=getSettings();
-  voiceMode=s.voice||'full';voiceOn=voiceMode!=='off';
-  document.getElementById('voice-toggle').classList.toggle('active',voiceOn);
+// =============================================
+// INIT
+// =============================================
+(function init() {
+  var s = getSettings();
+  voiceMode = s.voice || 'full';
+  voiceOn = voiceMode !== 'off';
+  document.getElementById('voice-toggle').classList.toggle('active', voiceOn);
   renderPlan();
 })();
 </script>
