@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="C25K">
+<meta name="theme-color" content="#08080e">
+<title>C25K — Couch to 5K</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08080e;
+  --surface: #111119;
+  --surface2: #1a1a26;
+  --surface3: #222233;
+  --border: #2a2a3d;
+  --text: #eeeef4;
+  --text-dim: #7c7c9a;
+  --text-mid: #a0a0bc;
+  --run: #ff4d2a;
+  --run-soft: #ff4d2a20;
+  --run-glow: #ff4d2a50;
+  --walk: #00ccff;
+  --walk-soft: #00ccff20;
+  --walk-glow: #00ccff50;
+  --warmup: #ffb020;
+  --warmup-soft: #ffb02020;
+  --warmup-glow: #ffb02050;
+  --cooldown: #9955ff;
+  --cooldown-soft: #9955ff20;
+  --cooldown-glow: #9955ff50;
+  --done: #00e676;
+  --done-soft: #00e67620;
+  --done-glow: #00e67650;
+  --r: 14px;
+  --rs: 10px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.app{max-width:460px;margin:0 auto;padding:0 16px;min-height:100dvh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
+
+/* Header */
+.header{padding:52px 0 12px;display:flex;align-items:center;justify-content:space-between}
+.header-left .logo{font-size:11px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim)}
+.header-left h1{font-size:28px;font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,var(--run),var(--walk));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-right{display:flex;gap:8px}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);color:var(--text-dim);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.icon-btn.active{border-color:var(--run);color:var(--run);background:var(--run-soft)}
+.icon-btn:active{transform:scale(.92)}
+
+/* Nav */
+.nav{display:flex;gap:4px;margin:12px 0 16px;background:var(--surface);border-radius:var(--r);padding:3px}
+.nav button{flex:1;padding:9px;border:none;background:transparent;color:var(--text-dim);font-family:inherit;font-size:13px;font-weight:600;border-radius:11px;cursor:pointer;transition:all .2s}
+.nav button.active{background:var(--surface2);color:var(--text);box-shadow:0 2px 10px #0005}
+
+/* Screens */
+.screen{display:none;flex:1;flex-direction:column}.screen.active{display:flex}
+
+/* Plan */
+.week-scroll{display:flex;gap:6px;overflow-x:auto;padding:2px 0 14px;scrollbar-width:none}
+.week-scroll::-webkit-scrollbar{display:none}
+.wk{flex-shrink:0;width:42px;height:42px;border-radius:11px;border:2px solid var(--border);background:var(--surface);color:var(--text-dim);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;position:relative}
+.wk.active{border-color:var(--run);color:var(--text);background:var(--run-soft);box-shadow:0 0 14px var(--run-glow)}
+.wk.done{border-color:var(--done);color:var(--done)}
+.wk.done::after{content:'✓';position:absolute;top:-5px;right:-4px;font-size:9px;background:var(--done);color:var(--bg);width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800}
+.days{display:flex;flex-direction:column;gap:10px;padding-bottom:90px;overflow-y:auto}
+.dcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.dcard:active{transform:scale(.985);background:var(--surface2)}
+.dcard.cday{border-color:var(--done);opacity:.65}
+.dcard.cday::before{content:'COMPLETED';position:absolute;top:10px;right:12px;font-size:10px;font-weight:800;color:var(--done);letter-spacing:1.5px}
+.dcard .dt{font-size:17px;font-weight:700;margin-bottom:2px}
+.dcard .ds{font-size:12px;color:var(--text-dim);margin-bottom:8px;line-height:1.5}
+.dcard .dd{display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500}
+.dcard .dd span{display:flex;align-items:center;gap:4px}
+.dcard .dd .r{color:var(--run)}.dcard .dd .w{color:var(--walk)}.dcard .dd .t{color:var(--text-mid)}
+.ivp{display:flex;gap:2px;margin-top:10px;height:5px;border-radius:3px;overflow:hidden}
+.ivb{border-radius:3px}.ivb.warmup{background:var(--warmup)}.ivb.run{background:var(--run)}.ivb.walk{background:var(--walk)}.ivb.cooldown{background:var(--cooldown)}
+
+/* Timer */
+.tscreen{align-items:center;justify-content:space-between;padding:10px 0 30px}
+.t-top{text-align:center}
+.twk{font-size:12px;font-weight:600;color:var(--text-dim);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+.tphase{font-size:52px;font-weight:900;letter-spacing:-2px;text-transform:uppercase;transition:color .3s}
+.tphase.run{color:var(--run)}.tphase.walk{color:var(--walk)}.tphase.warmup{color:var(--warmup)}.tphase.cooldown{color:var(--cooldown)}.tphase.done{color:var(--done)}
+.tcoach{font-size:13px;color:var(--text-dim);margin-top:4px;min-height:20px;transition:all .3s;font-style:italic}
+
+.t-mid{display:flex;flex-direction:column;align-items:center;gap:16px}
+.ring-wrap{position:relative;width:210px;height:210px}
+.ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--surface2);stroke-width:7}
+.ring-fg{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke .3s}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-time{font-family:'JetBrains Mono',monospace;font-size:48px;font-weight:700;letter-spacing:-2px}
+.ring-next{font-size:12px;color:var(--text-dim);margin-top:2px}
+
+.live-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:360px}
+.ls{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:10px 6px;text-align:center}
+.ls .lv{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700}
+.ls .ll{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.ls .lv.cal{color:var(--warmup)}.ls .lv.pace{color:var(--walk)}.ls .lv.dist{color:var(--done)}
+
+.tp{width:100%;max-width:360px}
+.tp-top{display:flex;justify-content:space-between;font-size:11px;color:var(--text-dim);margin-bottom:5px;font-family:'JetBrains Mono',monospace}
+.tp-bar{height:4px;background:var(--surface2);border-radius:2px;overflow:hidden}
+.tp-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--run),var(--walk));transition:width .3s}
+
+.t-bot{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+.tctrl{display:flex;gap:14px;align-items:center}
+.bp{width:68px;height:68px;border-radius:50%;border:none;background:var(--run);color:#fff;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px var(--run-glow);transition:all .2s}
+.bp:active{transform:scale(.9)}.bp.pau{background:var(--walk);box-shadow:0 4px 20px var(--walk-glow)}
+.bs{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--border);background:var(--surface);color:var(--text-dim);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.bs:active{transform:scale(.9)}
+.bcomp{width:100%;max-width:360px;padding:15px;border:none;border-radius:var(--r);background:linear-gradient(135deg,var(--done),#18b85c);color:var(--bg);font-family:inherit;font-size:15px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 20px var(--done-glow);transition:all .2s;display:none}
+.bcomp.vis{display:block}.bcomp:active{transform:scale(.97)}
+
+/* Progress */
+.pscreen{padding-bottom:40px;overflow-y:auto}
+.srow{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center}
+.scard .sv{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:var(--run)}
+.scard .sl{font-size:11px;color:var(--text-dim);margin-top:3px;text-transform:uppercase;letter-spacing:1px}
+.pgrid{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin-bottom:20px}
+.pc{aspect-ratio:.75;border-radius:6px;border:1.5px solid var(--border);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;color:var(--text-dim);transition:all .3s;gap:1px}
+.pc .pw{font-weight:700;font-size:8px;letter-spacing:.5px}.pc .pd{font-size:12px;font-weight:800}
+.pc.dn{border-color:var(--done);background:var(--done-soft);color:var(--done)}
+
+.htitle{font-size:14px;font-weight:700;color:var(--text-mid);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase}
+.hlist{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.hitem{display:flex;justify-content:space-between;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:12px 14px;font-size:13px}
+.hitem .hl{color:var(--text)}.hitem .hr{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);display:flex;gap:10px}
+.hitem .hr span{display:flex;align-items:center;gap:3px}
+
+.rbtn{width:100%;padding:13px;border:1.5px solid var(--border);border-radius:var(--r);background:transparent;color:var(--text-dim);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;margin-top:12px;transition:all .2s}
+.rbtn:active{border-color:var(--run);color:var(--run)}
+
+/* Settings Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:#000a;z-index:100;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:460px;max-height:70vh;overflow-y:auto}
+.modal h2{font-size:18px;font-weight:800;margin-bottom:16px}
+.modal-close{float:right;background:none;border:none;color:var(--text-dim);font-size:22px;cursor:pointer;padding:4px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.field input,.field select{width:100%;padding:12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:inherit;font-size:15px;font-weight:500;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.field input:focus,.field select:focus{border-color:var(--walk)}
+.field .hint{font-size:11px;color:var(--text-dim);margin-top:4px}
+.save-btn{width:100%;padding:14px;border:none;border-radius:var(--r);background:var(--run);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;transition:all .2s}
+.save-btn:active{transform:scale(.97)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .35s ease forwards}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.puls{animation:pulse 1.5s ease-in-out infinite}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="header-left">
+      <div class="logo">Couch to</div>
+      <h1>5K</h1>
+    </div>
+    <div class="header-right">
+      <button class="icon-btn" id="voice-toggle" onclick="toggleVoice()" title="Voice Coach">🗣</button>
+      <button class="icon-btn" onclick="openSettings()" title="Settings">⚙</button>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <button class="active" onclick="showScreen('plan')">Plan</button>
+    <button onclick="showScreen('timer')">Run</button>
+    <button onclick="showScreen('progress')">Progress</button>
+  </nav>
+
+  <div id="plan-screen" class="screen active">
+    <div class="week-scroll" id="wsel"></div>
+    <div class="days" id="dcards"></div>
+  </div>
+
+  <div id="timer-screen" class="screen tscreen">
+    <div class="t-top">
+      <div class="twk" id="t-label">Week 1 · Day 1</div>
+      <div class="tphase" id="t-phase">Ready</div>
+      <div class="tcoach" id="t-coach">Tap play to start your workout</div>
+    </div>
+    <div class="t-mid">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 200 200">
+          <circle class="ring-bg" cx="100" cy="100" r="88"/>
+          <circle class="ring-fg" id="ring" cx="100" cy="100" r="88" stroke-dasharray="553" stroke-dashoffset="553"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-time" id="t-time">0:00</div>
+          <div class="ring-next" id="t-next"></div>
+        </div>
+      </div>
+      <div class="live-stats">
+        <div class="ls"><div class="lv cal" id="ls-cal">0</div><div class="ll" id="ll-cal">kcal</div></div>
+        <div class="ls"><div class="lv pace" id="ls-pace">--</div><div class="ll" id="ll-pace">min/km</div></div>
+        <div class="ls"><div class="lv dist" id="ls-dist">0.00</div><div class="ll" id="ll-dist">km</div></div>
+      </div>
+      <div class="tp">
+        <div class="tp-top"><span id="tp-el">0:00</span><span id="tp-tot">0:00</span></div>
+        <div class="tp-bar"><div class="tp-fill" id="tp-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="t-bot">
+      <div class="tctrl">
+        <button class="bs" onclick="resetTimer()" title="Reset">↺</button>
+        <button class="bp" id="btn-play" onclick="toggleTimer()">▶</button>
+        <button class="bs" onclick="skipInterval()" title="Skip">⏭</button>
+      </div>
+      <button class="bcomp" id="btn-comp" onclick="markComplete()">Workout Complete 🎉</button>
+    </div>
+  </div>
+
+  <div id="progress-screen" class="screen pscreen">
+    <div class="srow">
+      <div class="scard"><div class="sv" id="s-done">0</div><div class="sl">Workouts</div></div>
+      <div class="scard"><div class="sv" id="s-pct">0%</div><div class="sl">Complete</div></div>
+      <div class="scard"><div class="sv" style="color:var(--warmup)" id="s-tcal">0</div><div class="sl">Total kcal</div></div>
+      <div class="scard"><div class="sv" style="color:var(--walk)" id="s-tdist">0.0</div><div class="sl" id="s-tdist-u">Total km</div></div>
+    </div>
+    <div class="pgrid" id="pgrid"></div>
+    <div id="history-section"></div>
+    <button class="rbtn" onclick="resetProgress()">Reset All Progress</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="settings-modal" onclick="event.target===this&&closeSettings()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeSettings()">✕</button>
+    <h2>Settings</h2>
+    <div class="field">
+      <label>Weight (kg)</label>
+      <input type="number" id="set-weight" placeholder="70" min="30" max="250">
+      <div class="hint">Used for calorie estimation</div>
+    </div>
+    <div class="field">
+      <label>Units</label>
+      <select id="set-units">
+        <option value="km">Kilometers</option>
+        <option value="mi">Miles</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Voice Coach</label>
+      <select id="set-voice">
+        <option value="full">Full coaching (motivational cues)</option>
+        <option value="simple">Simple (just run / walk)</option>
+        <option value="off">Off</option>
+      </select>
+    </div>
+    <button class="save-btn" onclick="saveSettings()">Save Settings</button>
+  </div>
+</div>
+
+<script>
+// ── Program Data ──
+function rp(a,b,n){const r=[];for(let i=0;i<n;i++){r.push([...a],[...b]);}return r;}
+const P=[
+ [[['warmup',300],...rp(['run',60],['walk',90],8),['cooldown',300]],
+  [['warmup',300],...rp(['run',60],['walk',90],8),['cooldown',300]],
+  [['warmup',300],...rp(['run',60],['walk',90],8),['cooldown',300]]],
+ [[['warmup',300],...rp(['run',90],['walk',120],6),['cooldown',300]],
+  [['warmup',300],...rp(['run',90],['walk',120],6),['cooldown',300]],
+  [['warmup',300],...rp(['run',90],['walk',120],6),['cooldown',300]]],
+ [[['warmup',300],['run',90],['walk',90],['run',180],['walk',180],['run',90],['walk',90],['run',180],['walk',180],['cooldown',300]],
+  [['warmup',300],['run',90],['walk',90],['run',180],['walk',180],['run',90],['walk',90],['run',180],['walk',180],['cooldown',300]],
+  [['warmup',300],['run',90],['walk',90],['run',180],['walk',180],['run',90],['walk',90],['run',180],['walk',180],['cooldown',300]]],
+ [[['warmup',300],['run',180],['walk',90],['run',300],['walk',150],['run',180],['walk',90],['run',300],['cooldown',300]],
+  [['warmup',300],['run',180],['walk',90],['run',300],['walk',150],['run',180],['walk',90],['run',300],['cooldown',300]],
+  [['warmup',300],['run',180],['walk',90],['run',300],['walk',150],['run',180],['walk',90],['run',300],['cooldown',300]]],
+ [[['warmup',300],['run',300],['walk',180],['run',300],['walk',180],['run',300],['cooldown',300]],
+  [['warmup',300],['run',480],['walk',300],['run',480],['cooldown',300]],
+  [['warmup',300],['run',1200],['cooldown',300]]],
+ [[['warmup',300],['run',300],['walk',180],['run',480],['walk',180],['run',300],['cooldown',300]],
+  [['warmup',300],['run',600],['walk',180],['run',600],['cooldown',300]],
+  [['warmup',300],['run',1500],['cooldown',300]]],
+ [[['warmup',300],['run',1500],['cooldown',300]],
+  [['warmup',300],['run',1500],['cooldown',300]],
+  [['warmup',300],['run',1500],['cooldown',300]]],
+ [[['warmup',300],['run',1680],['cooldown',300]],
+  [['warmup',300],['run',1680],['cooldown',300]],
+  [['warmup',300],['run',1680],['cooldown',300]]],
+ [[['warmup',300],['run',1800],['cooldown',300]],
+  [['warmup',300],['run',1800],['cooldown',300]],
+  [['warmup',300],['run',1800],['cooldown',300]]]
+];
+const NAMES=[
+  ["Walk + 1min run ×8","Walk + 1min run ×8","Walk + 1min run ×8"],
+  ["1.5min run ×6","1.5min run ×6","1.5min run ×6"],
+  ["Mixed 1.5 & 3min runs","Mixed 1.5 & 3min runs","Mixed 1.5 & 3min runs"],
+  ["3 & 5min run blocks","3 & 5min run blocks","3 & 5min run blocks"],
+  ["Three 5min runs","Two 8min runs","20 min run!"],
+  ["5, 8 & 5min runs","Two 10min runs","25 min run"],
+  ["25 min run","25 min run","25 min run"],
+  ["28 min run","28 min run","28 min run"],
+  ["30 min run 🏁","30 min run 🏁","30 min — YOU DID IT! 🎉"]
+];
+const COACH={
+  run:["Let's go! Start running!","Time to run! You've got this!","Run time! Pick up the pace!","Here we go, run!","Push it! Start running now!","Running! Let's crush it!"],
+  walk:["Nice work! Walk it out.","Great job, take a breather.","Walking break — you earned it.","Ease up, walk now.","Walk it off, well done!"],
+  warmup:["Let's warm up with a brisk walk.","Starting your warm-up walk.","Warm-up time, get moving!"],
+  cooldown:["Almost done! Cool down walk.","Great work! Cool down now.","Cooldown, you're nearly there!"],
+  done:["Workout complete! Amazing effort!","You did it! Incredible work today!","That's a wrap! Be proud of yourself!"],
+  halfway:["Halfway there! Keep going!","You're at the halfway mark! Strong work!"],
+  tips:{run:"Keep your shoulders relaxed and breathe steadily.",walk:"Shake out your arms and take deep breaths.",warmup:"Start slow and build up your pace.",cooldown:"Gradually slow down. You did great."}
+};
+
+// ── State ──
+let selWeek=0,curWO=null,ivs=[],curIv=0,secLeft=0,totElapsed=0;
+let isRunning=false,timerInt=null,audioCtx=null;
+let voiceOn=true,voiceMode='full';
+let geoWatch=null,lastPos=null,totalDist=0,lastPaceT=0,curPace='--';
+let sessionCals=0,halfSpoken=false;
+
+// ── Storage ──
+const S={
+  g(k,d){try{const v=localStorage.getItem('c25k_'+k);return v?JSON.parse(v):d}catch{return d}},
+  s(k,v){localStorage.setItem('c25k_'+k,JSON.stringify(v))}
+};
+function isDone(w,d){return S.g('prog',{})[`${w}-${d}`]!=null}
+function weekDone(w){return[0,1,2].every(d=>isDone(w,d))}
+function getSettings(){return S.g('settings',{weight:70,units:'km',voice:'full'})}
+
+// ── Audio ──
+function beep(f,dur,n){
+  if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  let t=audioCtx.currentTime;
+  for(let i=0;i<n;i++){
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.connect(g);g.connect(audioCtx.destination);o.frequency.value=f;o.type='sine';
+    g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.01,t+dur);
+    o.start(t);o.stop(t+dur);t+=dur+.12;
+  }
+}
+function snd(t){
+  if(t==='run')beep(880,.12,3);else if(t==='walk')beep(523,.18,2);
+  else if(t==='warmup')beep(660,.18,1);else if(t==='cooldown')beep(440,.25,2);
+  else if(t==='done')beep(1047,.12,5);
+}
+
+// ── Voice ──
+function speak(text){
+  if(!voiceOn||voiceMode==='off'||!('speechSynthesis' in window))return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.rate=1.0;u.pitch=1.0;u.volume=1;
+  window.speechSynthesis.speak(u);
+}
+function voicePhase(type){
+  const msgs=COACH[type]||[];
+  if(voiceMode==='simple'){
+    const m={run:'Run',walk:'Walk',warmup:'Warm up',cooldown:'Cool down',done:'Workout complete'};
+    speak(m[type]||type);
+  } else {
+    speak(msgs[Math.floor(Math.random()*msgs.length)]||type);
+  }
+}
+function toggleVoice(){voiceOn=!voiceOn;document.getElementById('voice-toggle').classList.toggle('active',voiceOn);}
+
+// ── GPS ──
+function startGPS(){
+  if(!navigator.geolocation)return;
+  totalDist=0;lastPos=null;curPace='--';lastPaceT=0;
+  geoWatch=navigator.geolocation.watchPosition(p=>{
+    if(lastPos&&isRunning){
+      const d=hav(lastPos.coords.latitude,lastPos.coords.longitude,p.coords.latitude,p.coords.longitude);
+      if(d<0.5)totalDist+=d;
+    }
+    lastPos=p;
+    if(totElapsed-lastPaceT>=10&&totalDist>0.01){
+      const mpk=totElapsed/60/totalDist;
+      if(mpk<30)curPace=mpk.toFixed(1);
+      lastPaceT=totElapsed;
+    }
+  },{enableHighAccuracy:true,maximumAge:3000,timeout:10000});
+}
+function stopGPS(){if(geoWatch!=null){navigator.geolocation.clearWatch(geoWatch);geoWatch=null;}}
+function hav(a1,o1,a2,o2){
+  const R=6371,dLat=(a2-a1)*Math.PI/180,dLon=(o2-o1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+Math.cos(a1*Math.PI/180)*Math.cos(a2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+// ── Calories ──
+function calcCal(){
+  const wt=getSettings().weight||70;
+  const met={warmup:3,run:8,walk:3.5,cooldown:3};
+  let cal=0;
+  for(let i=0;i<curIv&&i<ivs.length;i++)cal+=(met[ivs[i][0]]||3)*wt*ivs[i][1]/3600;
+  if(curIv<ivs.length){const el=ivs[curIv][1]-secLeft;cal+=(met[ivs[curIv][0]]||3)*wt*el/3600;}
+  return Math.round(cal);
+}
+
+// ── Format ──
+function fmt(s){const m=Math.floor(s/60);return`${m}:${(s%60).toString().padStart(2,'0')}`;}
+function fmtM(s){const m=Math.floor(s/60);return m<1?`${s}s`:m+'min';}
+
+// ── Screens ──
+function showScreen(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(n+'-screen').classList.add('active');
+  document.querySelectorAll('.nav button')[['plan','timer','progress'].indexOf(n)].classList.add('active');
+  if(n==='progress')renderProgress();
+}
+
+// ── Plan ──
+function renderPlan(){
+  const sel=document.getElementById('wsel');sel.innerHTML='';
+  for(let w=0;w<9;w++){
+    const b=document.createElement('button');
+    b.className=`wk ${w===selWeek?'active':''} ${weekDone(w)?'done':''}`;
+    b.textContent=w+1;b.onclick=()=>{selWeek=w;renderPlan();};sel.appendChild(b);
+  }
+  const c=document.getElementById('dcards');c.innerHTML='';
+  P[selWeek].forEach((day,di)=>{
+    const total=day.reduce((a,b)=>a+b[1],0);
+    const runT=day.filter(i=>i[0]==='run').reduce((a,b)=>a+b[1],0);
+    const walkT=day.filter(i=>i[0]==='walk').reduce((a,b)=>a+b[1],0);
+    const done=isDone(selWeek,di);
+    const d=document.createElement('div');
+    d.className=`dcard fu ${done?'cday':''}`;d.style.animationDelay=`${di*.07}s`;
+    d.innerHTML=`<div class="dt">Day ${di+1}</div>
+      <div class="ds">${NAMES[selWeek][di]}</div>
+      <div class="dd"><span class="r">🏃 ${fmtM(runT)}</span><span class="w">🚶 ${fmtM(walkT)}</span><span class="t">⏱ ${fmt(total)}</span></div>
+      <div class="ivp">${day.map(iv=>`<div class="ivb ${iv[0]}" style="flex:${iv[1]}"></div>`).join('')}</div>`;
+    d.onclick=()=>startWorkout(selWeek,di);
+    c.appendChild(d);
+  });
+}
+
+// ── Timer ──
+function startWorkout(w,d){
+  curWO={week:w,day:d};ivs=P[w][d];curIv=0;totElapsed=0;
+  secLeft=ivs[0][1];isRunning=false;sessionCals=0;totalDist=0;curPace='--';halfSpoken=false;
+  clearInterval(timerInt);
+  updateTimer();
+  document.getElementById('btn-comp').classList.remove('vis');
+  document.getElementById('t-coach').textContent='Tap play to start your workout';
+  showScreen('timer');
+}
+
+function updateTimer(){
+  if(!curWO)return;
+  document.getElementById('t-label').textContent=`Week ${curWO.week+1} · Day ${curWO.day+1}`;
+  const ph=curIv<ivs.length?ivs[curIv][0]:'done';
+  const pe=document.getElementById('t-phase');
+  pe.textContent=ph==='done'?'Done!':ph.charAt(0).toUpperCase()+ph.slice(1);
+  pe.className='tphase '+ph;
+  document.getElementById('t-time').textContent=fmt(Math.max(0,secLeft));
+
+  const ne=document.getElementById('t-next');
+  if(curIv<ivs.length-1){const nx=ivs[curIv+1];ne.textContent=`Next: ${nx[0]} ${fmtM(nx[1])}`;}
+  else ne.textContent=ph==='done'?'':'Final interval';
+
+  // Ring
+  const ring=document.getElementById('ring');
+  const tot=curIv<ivs.length?ivs[curIv][1]:1;
+  ring.setAttribute('stroke-dashoffset',553*(secLeft/tot));
+  const cols={run:'var(--run)',walk:'var(--walk)',warmup:'var(--warmup)',cooldown:'var(--cooldown)',done:'var(--done)'};
+  const glows={run:'var(--run-glow)',walk:'var(--walk-glow)',warmup:'var(--warmup-glow)',cooldown:'var(--cooldown-glow)',done:'var(--done-glow)'};
+  ring.style.stroke=cols[ph]||cols.done;
+  ring.style.filter=`drop-shadow(0 0 10px ${glows[ph]||glows.done})`;
+
+  // Total bar
+  const totalDur=ivs.reduce((a,b)=>a+b[1],0);
+  document.getElementById('tp-el').textContent=fmt(totElapsed);
+  document.getElementById('tp-tot').textContent=fmt(totalDur);
+  document.getElementById('tp-fill').style.width=`${(totElapsed/totalDur)*100}%`;
+
+  // Live stats
+  sessionCals=calcCal();
+  document.getElementById('ls-cal').textContent=sessionCals;
+  const st=getSettings();
+  if(st.units==='mi'){
+    document.getElementById('ls-pace').textContent=curPace==='--'?'--':(parseFloat(curPace)*1.609).toFixed(1);
+    document.getElementById('ll-pace').textContent='min/mi';
+    document.getElementById('ls-dist').textContent=(totalDist*0.621371).toFixed(2);
+    document.getElementById('ll-dist').textContent='mi';
+  } else {
+    document.getElementById('ls-pace').textContent=curPace;
+    document.getElementById('ll-pace').textContent='min/km';
+    document.getElementById('ls-dist').textContent=totalDist.toFixed(2);
+    document.getElementById('ll-dist').textContent='km';
+  }
+
+  const b=document.getElementById('btn-play');
+  b.textContent=isRunning?'⏸':'▶';b.classList.toggle('pau',!isRunning);
+}
+
+function toggleTimer(){
+  if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
+  if(!curWO||curIv>=ivs.length)return;
+  isRunning=!isRunning;
+  if(isRunning){
+    voicePhase(ivs[curIv][0]);snd(ivs[curIv][0]);
+    startGPS();timerInt=setInterval(tick,1000);
+  } else {clearInterval(timerInt);stopGPS();}
+  updateTimer();
+}
+
+function tick(){
+  secLeft--;totElapsed++;
+
+  // Halfway
+  const totalDur=ivs.reduce((a,b)=>a+b[1],0);
+  if(!halfSpoken&&totElapsed>=totalDur/2){
+    halfSpoken=true;
+    if(voiceMode==='full')speak(COACH.halfway[Math.floor(Math.random()*COACH.halfway.length)]);
+  }
+
+  // 10-second warning
+  if(secLeft===10&&curIv<ivs.length-1){
+    beep(660,.06,1);
+    if(voiceOn&&voiceMode!=='off'){
+      const next=ivs[curIv+1][0];
+      speak(`10 seconds. Get ready to ${next}.`);
+    }
+  }
+
+  // 3-second countdown
+  if(secLeft<=3&&secLeft>0)beep(660,.06,1);
+
+  if(secLeft<=0){
+    curIv++;
+    if(curIv<ivs.length){
+      secLeft=ivs[curIv][1];snd(ivs[curIv][0]);voicePhase(ivs[curIv][0]);
+      const tips=COACH.tips[ivs[curIv][0]];
+      document.getElementById('t-coach').textContent=tips||'';
+      // Speak tip after a delay if full mode
+      if(voiceMode==='full'&&tips)setTimeout(()=>speak(tips),3000);
+    } else {
+      clearInterval(timerInt);isRunning=false;stopGPS();
+      snd('done');voicePhase('done');halfSpoken=false;
+      document.getElementById('t-coach').textContent="Incredible effort! You're a champion! 🏆";
+      document.getElementById('btn-comp').classList.add('vis');
+    }
+  }
+  updateTimer();
+}
+
+function skipInterval(){
+  if(!isRunning||curIv>=ivs.length)return;
+  totElapsed+=secLeft;secLeft=0;tick();
+}
+function resetTimer(){
+  clearInterval(timerInt);isRunning=false;stopGPS();halfSpoken=false;
+  if(curWO){curIv=0;totElapsed=0;secLeft=ivs[0][1];sessionCals=0;totalDist=0;curPace='--';}
+  document.getElementById('btn-comp').classList.remove('vis');
+  document.getElementById('t-coach').textContent='Tap play to start your workout';
+  updateTimer();
+}
+function markComplete(){
+  if(!curWO)return;
+  const p=S.g('prog',{});
+  p[`${curWO.week}-${curWO.day}`]={cal:sessionCals,dist:parseFloat(totalDist.toFixed(2)),pace:curPace,date:new Date().toISOString()};
+  S.s('prog',p);
+  const h=S.g('history',[]);
+  h.unshift({w:curWO.week,d:curWO.day,cal:sessionCals,dist:parseFloat(totalDist.toFixed(2)),pace:curPace,date:new Date().toLocaleDateString()});
+  S.s('history',h);
+  showScreen('plan');renderPlan();
+}
+
+// ── Progress ──
+function renderProgress(){
+  const p=S.g('prog',{});const st=getSettings();
+  const grid=document.getElementById('pgrid');grid.innerHTML='';
+  let count=0,tcal=0,tdist=0;
+  for(let w=0;w<9;w++){
+    for(let d=0;d<3;d++){
+      const k=`${w}-${d}`;const done=p[k]!=null;
+      if(done){count++;if(p[k].cal)tcal+=p[k].cal;if(p[k].dist)tdist+=p[k].dist;}
+      const c=document.createElement('div');c.className=`pc ${done?'dn':''}`;
+      c.innerHTML=`<div class="pw">W${w+1}</div><div class="pd">${done?'✓':'D'+(d+1)}</div>`;
+      grid.appendChild(c);
+    }
+  }
+  document.getElementById('s-done').textContent=count;
+  document.getElementById('s-pct').textContent=Math.round((count/27)*100)+'%';
+  document.getElementById('s-tcal').textContent=tcal;
+  const distDisplay=st.units==='mi'?(tdist*0.621371).toFixed(1):tdist.toFixed(1);
+  document.getElementById('s-tdist').textContent=distDisplay;
+  document.getElementById('s-tdist-u').textContent='Total '+(st.units==='mi'?'mi':'km');
+
+  const h=S.g('history',[]);
+  const sec=document.getElementById('history-section');
+  if(h.length===0){sec.innerHTML='';return;}
+  let html='<div class="htitle">Recent Workouts</div><div class="hlist">';
+  h.slice(0,10).forEach(item=>{
+    const dStr=st.units==='mi'?((item.dist||0)*0.621371).toFixed(2)+' mi':((item.dist||0).toFixed(2)+' km');
+    html+=`<div class="hitem"><div class="hl">W${item.w+1}D${item.d+1} <span style="color:var(--text-dim);font-size:11px;margin-left:6px">${item.date}</span></div>
+      <div class="hr"><span style="color:var(--warmup)">${item.cal||0} kcal</span><span style="color:var(--done)">${dStr}</span></div></div>`;
+  });
+  html+='</div>';sec.innerHTML=html;
+}
+
+function resetProgress(){
+  if(confirm('Reset all progress? This cannot be undone.')){
+    localStorage.removeItem('c25k_prog');localStorage.removeItem('c25k_history');
+    renderProgress();renderPlan();
+  }
+}
+
+// ── Settings ──
+function openSettings(){
+  const s=getSettings();
+  document.getElementById('set-weight').value=s.weight||70;
+  document.getElementById('set-units').value=s.units||'km';
+  document.getElementById('set-voice').value=s.voice||'full';
+  document.getElementById('settings-modal').classList.add('open');
+}
+function closeSettings(){document.getElementById('settings-modal').classList.remove('open');}
+function saveSettings(){
+  const s={weight:parseInt(document.getElementById('set-weight').value)||70,
+    units:document.getElementById('set-units').value,
+    voice:document.getElementById('set-voice').value};
+  S.s('settings',s);
+  voiceMode=s.voice;voiceOn=s.voice!=='off';
+  document.getElementById('voice-toggle').classList.toggle('active',voiceOn);
+  closeSettings();
+}
+
+// ── Init ──
+(function(){
+  const s=getSettings();
+  voiceMode=s.voice||'full';voiceOn=voiceMode!=='off';
+  document.getElementById('voice-toggle').classList.toggle('active',voiceOn);
+  renderPlan();
+})();
+</script>
+</body>
+</html>
