@@ -115,15 +115,15 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t);min-hei
 .bs:active{transform:scale(.9)}
 
 /* Post-run summary overlay */
-.summary-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:20px;padding-top:calc(20px + var(--sat));padding-bottom:calc(20px + var(--sab));overflow-y:auto}
+.summary-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;flex-direction:column;align-items:center;padding:20px;padding-top:calc(20px + var(--sat));padding-bottom:calc(20px + var(--sab));overflow-y:auto}
 .summary-overlay.open{display:flex}
 .sum-title{font-size:13px;font-weight:700;color:var(--td);letter-spacing:3px;text-transform:uppercase;margin-bottom:4px}
 .sum-big{font-size:42px;font-weight:900;margin-bottom:4px;background:linear-gradient(135deg,var(--done),var(--walk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sum-sub{font-size:13px;color:var(--td);margin-bottom:20px;text-align:center;padding:0 10px}
-.sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%;max-width:320px;margin-bottom:16px}
-.sum-card{background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);padding:14px;text-align:center}
-.sum-card .sv{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700}
-.sum-card .sl{font-size:10px;color:var(--td);margin-top:2px;text-transform:uppercase;letter-spacing:1px}
+.sum-sub{font-size:13px;color:var(--td);margin-bottom:16px;text-align:center;padding:0 10px}
+.sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%;max-width:320px;margin-bottom:12px}
+.sum-card{background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);padding:12px;text-align:center}
+.sum-card .sv{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700}
+.sum-card .sl{font-size:9px;color:var(--td);margin-top:2px;text-transform:uppercase;letter-spacing:1px}
 .sum-xp{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--walk);background:var(--walks);padding:7px 20px;border-radius:30px;margin-bottom:10px}
 .sum-badge{background:var(--s1);border:1px solid var(--gold);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:10px;width:100%;max-width:320px}
 .sum-badge .badge-icon{font-size:26px}
@@ -149,7 +149,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t);min-hei
 .lvl-info .lvl-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--walk),var(--run));transition:width .5s}
 .lvl-xp{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--walk);flex-shrink:0}
 
-/* Progress grid - 7 cols fits iPhone XS better */
+/* Progress grid - 7 cols fits iPhone XS */
 .pgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:14px}
 .pc{aspect-ratio:.8;border-radius:5px;border:1.5px solid var(--brd);background:var(--s1);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:8px;color:var(--td);gap:1px}
 .pc .pw{font-weight:700;font-size:7px;letter-spacing:.3px}.pc .pd{font-size:10px;font-weight:800}
@@ -292,7 +292,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t);min-hei
   <div id="body-scr" class="scr bscr">
     <div style="font-size:16px;font-weight:800;margin-bottom:12px">Weight Tracker</div>
     <div class="wt-input">
-      <input type="number" id="wt-in" placeholder="Enter weight (kg)" step="0.1" min="20" max="300">
+      <input type="number" id="wt-in" step="0.1" min="20" max="700">
       <button onclick="logWeight()">Log</button>
     </div>
     <div class="wt-chart"><canvas id="wt-canvas"></canvas><div class="no-data" id="wt-nodata">Log your first weigh-in above</div></div>
@@ -326,8 +326,8 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t);min-hei
   <div class="mod">
     <button class="mod-x" onclick="closeSettings()">✕</button>
     <h2>Settings</h2>
-    <div class="fld"><label>Weight (kg)</label><input type="number" id="s-wt" placeholder="70" min="30" max="250"><div class="ht">Used for calorie estimation</div></div>
-    <div class="fld"><label>Units</label><select id="s-un"><option value="km">Kilometers</option><option value="mi">Miles</option></select></div>
+    <div class="fld"><label id="lbl-wt">Weight (kg)</label><input type="number" id="s-wt" placeholder="70" min="20" max="700"><div class="ht">Used for calorie estimation</div></div>
+    <div class="fld"><label>Units</label><select id="s-un"><option value="km">Metric (km / kg)</option><option value="mi">Imperial (mi / lbs)</option></select></div>
     <div class="fld"><label>Voice Coach</label><select id="s-vc"><option value="full">Full coaching</option><option value="simple">Simple announcements</option><option value="off">Off</option></select></div>
     <button class="sbtn" onclick="saveSettings()">Save Settings</button>
   </div>
@@ -369,6 +369,7 @@ var COACH={
   cooldown:["Almost done! Cool down walk.","Great work! Cool down now."],
   done:["Workout complete! Amazing effort!","You did it! Incredible!"],
   halfway:["Halfway there! Keep pushing!","Half done! You're killing it!"],
+  almost:["10 seconds! You're almost done!","Nearly there! Last push!"],
   tips:{run:"Keep shoulders relaxed, breathe steady.",walk:"Deep breaths, shake out your arms.",warmup:"Start slow, build your pace.",cooldown:"Gradually slow down. Well done."}
 };
 var QUOTES=[
@@ -401,8 +402,6 @@ var BADGES=[
   {id:'dist25',icon:'🌍',name:'Voyager',desc:'Run 25+ total km',check:function(s){return s.dist>=25}},
   {id:'ten',icon:'🔟',name:'Double Digits',desc:'Complete 10 workouts',check:function(s){return s.total>=10}}
 ];
-
-// LEVELS
 var LEVELS=[
   {name:'Couch Potato',xp:0,icon:'🛋️'},
   {name:'First Timer',xp:100,icon:'👟'},
@@ -421,10 +420,17 @@ var LEVELS=[
 var selW=0,curWO=null,ivs=[],curIv=0,secLeft=0,totEl=0;
 var isRun=false,tH=null,audioCtx=null;
 var voiceOn=true,voiceMode='full';
-var geoW=null,lastP=null,tDist=0,lastPT=0,cPace='--';
-var sCals=0,halfSp=false;
 var wakeLock=null;
-var lastTickTime=0; // FIX: track real time for background recovery
+var lastTickTime=0;
+
+// GPS state — persistent across pause/resume (FIX #1)
+var geoW=null,lastP=null,tDist=0,cPace='--';
+var gpsResumeSkip=0;      // FIX #15: skip first N readings after resume
+var runDist=0;             // FIX #3: distance during 'run' intervals only
+var runTimeSec=0;          // FIX #3: seconds spent in 'run' intervals
+var recentGPS=[];          // FIX #4: rolling window for current pace
+
+var sCals=0,halfSp=false;
 
 // ═══════════════════════════════════════════
 // STORAGE
@@ -436,6 +442,14 @@ function wkDn(w){return isDn(w,0)&&isDn(w,1)&&isDn(w,2)}
 function gSet(){return sg('settings',{weight:70,units:'km',voice:'full'})}
 function gXP(){return sg('xp',0)}
 function gBadges(){return sg('badges',[])}
+
+// FIX #12: Get weight in KG regardless of unit setting (for calorie calc)
+function getWeightKg(){
+  var s=gSet();
+  var w=s.weight||70;
+  if(s.units==='mi')return w*0.453592; // stored as lbs, convert to kg
+  return w;
+}
 
 function getStats(){
   var p=sg('prog',{});var total=0,cals=0,dist=0,weeks=[];
@@ -458,24 +472,17 @@ function calcStreak(){
 }
 
 // ═══════════════════════════════════════════
-// WAKE LOCK (keeps screen on during workout)
+// WAKE LOCK
 // ═══════════════════════════════════════════
 async function requestWakeLock(){
-  try{
-    if('wakeLock' in navigator){
-      wakeLock=await navigator.wakeLock.request('screen');
-      wakeLock.addEventListener('release',function(){wakeLock=null;});
-    }
-  }catch(e){}
+  try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');wakeLock.addEventListener('release',function(){wakeLock=null;});}}catch(e){}
 }
 function releaseWakeLock(){
   try{if(wakeLock){wakeLock.release();wakeLock=null;}}catch(e){}
 }
-// Re-acquire wake lock when page becomes visible again
 document.addEventListener('visibilitychange',function(){
   if(document.visibilityState==='visible'&&isRun){
     requestWakeLock();
-    // FIX: recover lost time when returning from background
     recoverLostTime();
   }
 });
@@ -484,23 +491,20 @@ function recoverLostTime(){
   if(!isRun||!lastTickTime||curIv>=ivs.length)return;
   var now=Date.now();
   var elapsed=Math.round((now-lastTickTime)/1000);
-  if(elapsed<=1)return; // no time lost
-  // Fast-forward the timer by the missed seconds
+  if(elapsed<=1)return;
   for(var i=0;i<elapsed&&curIv<ivs.length;i++){
     secLeft--;totEl++;
+    // Track run time during recovery too
+    if(curIv<ivs.length&&ivs[curIv][0]==='run')runTimeSec++;
     if(secLeft<=0){
       curIv++;
-      if(curIv<ivs.length){
-        secLeft=ivs[curIv][1];
-      }else{
-        // Workout finished while backgrounded
+      if(curIv<ivs.length){secLeft=ivs[curIv][1];}
+      else{
         if(tH){clearInterval(tH);tH=null;}
         isRun=false;halfSp=false;stopGPS();releaseWakeLock();
         snd('done');vPhase('done');
         document.getElementById('t-coach').textContent="You're a champion! 🏆";
-        showSummary();
-        refreshTimer();
-        return;
+        refreshTimer();showSummary();return;
       }
     }
   }
@@ -523,42 +527,120 @@ function vPhase(type){try{var msgs=COACH[type]||[];if(voiceMode==='simple'){var 
 function toggleVoice(){voiceOn=!voiceOn;document.getElementById('voice-btn').classList.toggle('on',voiceOn);}
 
 // ═══════════════════════════════════════════
-// GPS
+// GPS — FIX #1: persistent across pause/resume
 // ═══════════════════════════════════════════
 function startGPS(){
   try{
     if(!navigator.geolocation)return;
-    tDist=0;lastP=null;cPace='--';lastPT=0;
-    geoW=navigator.geolocation.watchPosition(function(p){
-      if(lastP&&isRun){
-        var d=hav(lastP.coords.latitude,lastP.coords.longitude,p.coords.latitude,p.coords.longitude);
-        // FIX: filter GPS jitter (min 3m) and outliers (max 500m)
-        if(d>0.003&&d<0.5){
-          tDist+=d;
-        }
-      }
-      lastP=p;
-      if(totEl-lastPT>=10&&tDist>0.01){
-        var mpk=totEl/60/tDist;
-        if(mpk<30)cPace=mpk.toFixed(1);
-        lastPT=totEl;
-      }
-    },function(){},{enableHighAccuracy:true,maximumAge:3000,timeout:10000});
+    // Only reset on fresh workout start, NOT on resume
+    if(geoW!=null)return; // already running
+    gpsResumeSkip=0;
+    geoW=navigator.geolocation.watchPosition(onGPS,function(){},{enableHighAccuracy:true,maximumAge:3000,timeout:10000});
   }catch(e){}
 }
-function stopGPS(){try{if(geoW!=null){navigator.geolocation.clearWatch(geoW);geoW=null;}}catch(e){}}
+
+function resumeGPS(){
+  // FIX #1: Resume without resetting distance
+  try{
+    if(!navigator.geolocation)return;
+    if(geoW!=null)return; // already running
+    gpsResumeSkip=2; // FIX #15: skip first 2 readings after resume (stale fix)
+    lastP=null; // don't measure distance from pre-pause position
+    geoW=navigator.geolocation.watchPosition(onGPS,function(){},{enableHighAccuracy:true,maximumAge:3000,timeout:10000});
+  }catch(e){}
+}
+
+function onGPS(p){
+  // FIX #2: Reject inaccurate readings (>25m accuracy)
+  if(p.coords.accuracy>25)return;
+
+  // FIX #15: Skip first N readings after resume (GPS cold-start jitter)
+  if(gpsResumeSkip>0){gpsResumeSkip--;lastP=p;return;}
+
+  if(lastP&&isRun){
+    var d=hav(lastP.coords.latitude,lastP.coords.longitude,p.coords.latitude,p.coords.longitude);
+    // Filter: min 2m (jitter), max 200m (teleport), speed check <40km/h
+    var dt=(p.timestamp-lastP.timestamp)/1000; // seconds between readings
+    if(dt>0){
+      var speedKmh=(d/dt)*3600;
+      if(d>0.002&&d<0.2&&speedKmh<40){
+        tDist+=d;
+        // FIX #3: Track run-only distance
+        if(curIv<ivs.length&&ivs[curIv][0]==='run'){
+          runDist+=d;
+        }
+        // FIX #4: Rolling window pace (last 30 seconds of GPS points)
+        var now=Date.now();
+        recentGPS.push({t:now,d:d});
+        // Prune entries older than 30 seconds
+        while(recentGPS.length>0&&now-recentGPS[0].t>30000)recentGPS.shift();
+      }
+    }
+  }
+  lastP=p;
+}
+
+function stopGPS(){
+  try{if(geoW!=null){navigator.geolocation.clearWatch(geoW);geoW=null;}}catch(e){}
+}
+
+function resetGPSState(){
+  stopGPS();
+  tDist=0;runDist=0;lastP=null;cPace='--';runTimeSec=0;
+  recentGPS=[];gpsResumeSkip=0;
+}
+
+// FIX #4: Calculate rolling pace from recent GPS data
+function calcCurrentPace(){
+  if(recentGPS.length<2)return'--';
+  var totalD=0;
+  for(var i=0;i<recentGPS.length;i++)totalD+=recentGPS[i].d;
+  if(totalD<0.005)return'--'; // less than 5m, unreliable
+  var timeSpan=(recentGPS[recentGPS.length-1].t-recentGPS[0].t)/1000/60; // minutes
+  if(timeSpan<0.05)return'--'; // less than 3 seconds
+  var mpk=timeSpan/totalD;
+  if(mpk>30||mpk<2)return'--'; // unreasonable pace
+  return mpk.toFixed(1);
+}
+
+// FIX #3: Calculate average running pace (run intervals only)
+function calcAvgRunPace(){
+  if(runDist<0.01||runTimeSec<10)return'--';
+  var mpk=(runTimeSec/60)/runDist;
+  if(mpk>30||mpk<2)return'--';
+  return mpk.toFixed(1);
+}
+
 function hav(a1,o1,a2,o2){var R=6371,dLat=(a2-a1)*Math.PI/180,dLon=(o2-o1)*Math.PI/180;var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a1*Math.PI/180)*Math.cos(a2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
 
 // ═══════════════════════════════════════════
-// CALORIES
+// CALORIES — verified: MET × kg × hours
 // ═══════════════════════════════════════════
-function calcCal(){var wt=gSet().weight||70;var met={warmup:3,run:8,walk:3.5,cooldown:3};var cal=0;for(var i=0;i<curIv&&i<ivs.length;i++)cal+=(met[ivs[i][0]]||3)*wt*ivs[i][1]/3600;if(curIv<ivs.length){var el=ivs[curIv][1]-secLeft;cal+=(met[ivs[curIv][0]]||3)*wt*el/3600;}return Math.round(cal);}
+function calcCal(){
+  var wt=getWeightKg(); // FIX #12: always use kg for MET formula
+  var met={warmup:3,run:8,walk:3.5,cooldown:3};
+  var cal=0;
+  for(var i=0;i<curIv&&i<ivs.length;i++){
+    cal+=(met[ivs[i][0]]||3)*wt*ivs[i][1]/3600;
+  }
+  if(curIv<ivs.length){
+    var el=ivs[curIv][1]-secLeft;
+    cal+=(met[ivs[curIv][0]]||3)*wt*el/3600;
+  }
+  return Math.round(cal);
+}
 
 // ═══════════════════════════════════════════
 // FORMATTING
 // ═══════════════════════════════════════════
 function fmt(s){var m=Math.floor(s/60);var sec=s%60;return m+':'+(sec<10?'0':'')+sec;}
 function fmtM(s){var m=Math.floor(s/60);return m<1?s+'s':m+'min';}
+function distStr(km){var s=gSet();if(s.units==='mi')return(km*0.621371).toFixed(2)+' mi';return km.toFixed(2)+' km';}
+function paceStr(mpk){if(mpk==='--')return'--';var s=gSet();if(s.units==='mi')return(parseFloat(mpk)*1.609).toFixed(1);return mpk;}
+function paceUnit(){return gSet().units==='mi'?'min/mi':'min/km';}
+function weightUnit(){return gSet().units==='mi'?'lbs':'kg';}
+function weightVal(v){return gSet().units==='mi'?(v*2.20462).toFixed(1):v.toFixed(1);}
+function distUnit(){return gSet().units==='mi'?'mi':'km';}
 
 // ═══════════════════════════════════════════
 // CONFETTI (DPR-aware)
@@ -567,22 +649,11 @@ function fireConfetti(){
   var c=document.getElementById('confetti');var ctx=c.getContext('2d');
   var dpr=window.devicePixelRatio||1;
   var W=window.innerWidth,H=window.innerHeight;
-  c.width=W*dpr;c.height=H*dpr;
-  c.style.width=W+'px';c.style.height=H+'px';
-  ctx.scale(dpr,dpr);
+  c.width=W*dpr;c.height=H*dpr;c.style.width=W+'px';c.style.height=H+'px';ctx.scale(dpr,dpr);
   var particles=[];var colors=['#ff4d2a','#00ccff','#ffb020','#00e676','#9955ff','#ffd740'];
   for(var i=0;i<120;i++){particles.push({x:W/2,y:H/2,vx:(Math.random()-.5)*16,vy:Math.random()*-14-4,size:Math.random()*6+3,color:colors[Math.floor(Math.random()*colors.length)],rotation:Math.random()*360,rotSpeed:(Math.random()-.5)*10,life:1});}
   var frame=0;
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    var alive=false;
-    for(var i=0;i<particles.length;i++){
-      var p=particles[i];
-      p.x+=p.vx;p.y+=p.vy;p.vy+=.3;p.rotation+=p.rotSpeed;p.life-=.008;
-      if(p.life>0){alive=true;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation*Math.PI/180);ctx.globalAlpha=p.life;ctx.fillStyle=p.color;ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size);ctx.restore();}
-    }
-    frame++;if(alive&&frame<200)requestAnimationFrame(draw);else ctx.clearRect(0,0,W,H);
-  }
+  function draw(){ctx.clearRect(0,0,W,H);var alive=false;for(var i=0;i<particles.length;i++){var p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.3;p.rotation+=p.rotSpeed;p.life-=.008;if(p.life>0){alive=true;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation*Math.PI/180);ctx.globalAlpha=p.life;ctx.fillStyle=p.color;ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size);ctx.restore();}}frame++;if(alive&&frame<200)requestAnimationFrame(draw);else ctx.clearRect(0,0,W,H);}
   draw();
 }
 
@@ -598,45 +669,31 @@ function go(name){
   if(name==='progress')renderProgress();
   if(name==='body')renderBody();
   if(name==='timer'&&!curWO)autoLoad();
-  // Scroll to top when switching tabs
   document.getElementById(name+'-scr').scrollTop=0;
 }
-
 function autoLoad(){for(var w=0;w<9;w++)for(var d=0;d<3;d++)if(!isDn(w,d)){loadWO(w,d);return;}loadWO(0,0);}
 
 // ═══════════════════════════════════════════
 // PLAN
 // ═══════════════════════════════════════════
 function renderPlan(){
-  // Quote
   var qi=Math.floor(Date.now()/(1000*60*60*12))%QUOTES.length;
   var q=QUOTES[qi];
-  document.getElementById('quote-box').innerHTML='"'+q.q+'"<span class="qa">— '+q.a+'</span>';
-
-  // Streak
+  document.getElementById('quote-box').innerHTML='\u201c'+q.q+'\u201d<span class="qa">\u2014 '+q.a+'</span>';
   var st=getStats();
   document.getElementById('streak-num').textContent=st.streak;
   document.getElementById('xp-total').textContent=gXP()+' XP';
 
-  // Weeks
   var sel=document.getElementById('wsel');sel.innerHTML='';
   for(var w=0;w<9;w++){
     var b=document.createElement('button');
     b.className='wk'+(w===selW?' on':'')+(wkDn(w)?' dn':'');
-    b.textContent=w+1;
-    b.setAttribute('data-w',w);
+    b.textContent=w+1;b.setAttribute('data-w',w);
     b.onclick=function(){selW=parseInt(this.getAttribute('data-w'));renderPlan();};
     sel.appendChild(b);
   }
-  // FIX: Auto-scroll to selected week
-  setTimeout(function(){
-    var activeWk=sel.querySelector('.wk.on');
-    if(activeWk){
-      activeWk.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
-    }
-  },50);
+  setTimeout(function(){var a=sel.querySelector('.wk.on');if(a)a.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});},50);
 
-  // Days
   var c=document.getElementById('dcds');c.innerHTML='';
   for(var di=0;di<3;di++){
     var day=P[selW][di];var total=0,runT=0,walkT=0;
@@ -649,14 +706,11 @@ function renderPlan(){
     cd.onclick=function(){loadWO(parseInt(this.getAttribute('data-w')),parseInt(this.getAttribute('data-d')));go('timer');};
     c.appendChild(cd);
   }
-
-  // Repeat button
   document.getElementById('repeat-btn').style.display=wkDn(selW)?'block':'none';
 }
 
 function repeatWeek(){
-  var p=sg('prog',{});
-  for(var d=0;d<3;d++)delete p[selW+'-'+d];
+  var p=sg('prog',{});for(var d=0;d<3;d++)delete p[selW+'-'+d];
   ss('prog',p);renderPlan();
 }
 
@@ -666,16 +720,16 @@ function repeatWeek(){
 function loadWO(w,d){
   if(tH){clearInterval(tH);tH=null;}
   isRun=false;halfSp=false;lastTickTime=0;
-  releaseWakeLock();
+  releaseWakeLock();resetGPSState();
   curWO={week:w,day:d};ivs=P[w][d];curIv=0;totEl=0;
-  secLeft=ivs[0][1];sCals=0;tDist=0;cPace='--';
-  stopGPS();refreshTimer();
+  secLeft=ivs[0][1];sCals=0;
+  refreshTimer();
   document.getElementById('t-coach').textContent='Tap play to start';
 }
 
 function refreshTimer(){
   if(!curWO)return;
-  document.getElementById('t-label').textContent='Week '+(curWO.week+1)+' · Day '+(curWO.day+1);
+  document.getElementById('t-label').textContent='Week '+(curWO.week+1)+' \u00b7 Day '+(curWO.day+1);
   var ph=(curIv<ivs.length)?ivs[curIv][0]:'done';
   var pe=document.getElementById('t-phase');
   if(ph==='done'){pe.textContent='Done!';pe.className='tph done';}
@@ -684,7 +738,8 @@ function refreshTimer(){
   document.getElementById('t-time').textContent=fmt(Math.max(0,secLeft));
   var ne=document.getElementById('t-next');
   if(curIv<ivs.length-1){var nx=ivs[curIv+1];ne.textContent='Next: '+nx[0]+' '+fmtM(nx[1]);}
-  else ne.textContent=ph==='done'?'':'Final interval';
+  else if(ph==='done')ne.textContent='';
+  else ne.textContent='Final interval';
 
   var ring=document.getElementById('ring');
   var iT=(curIv<ivs.length)?ivs[curIv][1]:1;
@@ -699,28 +754,19 @@ function refreshTimer(){
   document.getElementById('tp-tot').textContent=fmt(tD);
   document.getElementById('tp-fill').style.width=(tD>0?(totEl/tD)*100:0)+'%';
 
-  sCals=calcCal();document.getElementById('ls-cal').textContent=sCals;
-  var st=gSet();
-  if(st.units==='mi'){
-    document.getElementById('ls-pace').textContent=cPace==='--'?'--':(parseFloat(cPace)*1.609).toFixed(1);
-    document.getElementById('ll-pace').textContent='min/mi';
-    document.getElementById('ls-dist').textContent=(tDist*0.621371).toFixed(2);
-    document.getElementById('ll-dist').textContent='mi';
-  }else{
-    document.getElementById('ls-pace').textContent=cPace;
-    document.getElementById('ll-pace').textContent='min/km';
-    document.getElementById('ls-dist').textContent=tDist.toFixed(2);
-    document.getElementById('ll-dist').textContent='km';
-  }
-  // FIX: Play button — green "ready" when paused, blue "playing" when active
+  // FIX #4: Use rolling current pace, not overall average
+  sCals=calcCal();
+  cPace=calcCurrentPace();
+  document.getElementById('ls-cal').textContent=sCals;
+  document.getElementById('ls-pace').textContent=paceStr(cPace);
+  document.getElementById('ll-pace').textContent=paceUnit();
+  document.getElementById('ls-dist').textContent=gSet().units==='mi'?(tDist*0.621371).toFixed(2):tDist.toFixed(2);
+  document.getElementById('ll-dist').textContent=distUnit();
+
   var btn=document.getElementById('btn-play');
-  if(curIv>=ivs.length){
-    btn.textContent='✓';btn.className='bp ready';
-  }else if(isRun){
-    btn.textContent='⏸';btn.className='bp playing';
-  }else{
-    btn.textContent='▶';btn.className='bp ready';
-  }
+  if(curIv>=ivs.length){btn.textContent='\u2713';btn.className='bp ready';}
+  else if(isRun){btn.textContent='\u23f8';btn.className='bp playing';}
+  else{btn.textContent='\u25b6';btn.className='bp ready';}
 }
 
 function handlePlay(){
@@ -731,12 +777,15 @@ function handlePlay(){
   if(isRun){
     lastTickTime=Date.now();
     snd(ivs[curIv][0]);vPhase(ivs[curIv][0]);
-    startGPS();requestWakeLock();
+    // FIX #1: First start uses startGPS, subsequent resumes use resumeGPS
+    if(totEl===0)startGPS();else resumeGPS();
+    requestWakeLock();
     if(tH)clearInterval(tH);tH=setInterval(tick,1000);
   }else{
     if(tH){clearInterval(tH);tH=null;}
     lastTickTime=0;
-    stopGPS();releaseWakeLock();
+    stopGPS(); // stop watch on pause to save battery
+    releaseWakeLock();
   }
   refreshTimer();
 }
@@ -744,15 +793,27 @@ function handlePlay(){
 function tick(){
   lastTickTime=Date.now();
   secLeft--;totEl++;
+  // FIX #3: Track run-only time
+  if(curIv<ivs.length&&ivs[curIv][0]==='run')runTimeSec++;
+
   var tD=0;for(var i=0;i<ivs.length;i++)tD+=ivs[i][1];
   if(!halfSp&&totEl>=tD/2){halfSp=true;if(voiceMode==='full'){var m=COACH.halfway;speak(m[Math.floor(Math.random()*m.length)]);}}
-  if(secLeft===10&&curIv<ivs.length-1){snd('tick');var nt=ivs[curIv+1][0];speak('10 seconds. Get ready to '+nt+'.');}
+
+  // FIX #11: 10-sec warning for ALL intervals including last one
+  if(secLeft===10){
+    if(curIv<ivs.length-1){
+      snd('tick');var nt=ivs[curIv+1][0];speak('10 seconds. Get ready to '+nt+'.');
+    }else{
+      // Last interval → "almost done!"
+      snd('tick');
+      var am=COACH.almost;speak(am[Math.floor(Math.random()*am.length)]);
+    }
+  }
   if(secLeft>0&&secLeft<=3)snd('tick');
   if(secLeft<=0){
     curIv++;
     if(curIv<ivs.length){
       secLeft=ivs[curIv][1];snd(ivs[curIv][0]);vPhase(ivs[curIv][0]);
-      // Haptic feedback on interval change
       try{if(navigator.vibrate)navigator.vibrate([100,50,100]);}catch(e){}
       var tip=COACH.tips[ivs[curIv][0]]||'';document.getElementById('t-coach').textContent=tip;
       if(voiceMode==='full'&&tip)setTimeout(function(){speak(tip);},3500);
@@ -760,36 +821,49 @@ function tick(){
       if(tH){clearInterval(tH);tH=null;}isRun=false;halfSp=false;lastTickTime=0;
       stopGPS();releaseWakeLock();
       snd('done');vPhase('done');
-      // Haptic for completion
       try{if(navigator.vibrate)navigator.vibrate([100,50,100,50,200]);}catch(e){}
-      document.getElementById('t-coach').textContent="You're a champion! 🏆";
+      // FIX #5: Final calorie calc before summary
+      sCals=calcCal();
+      document.getElementById('t-coach').textContent="You're a champion! \ud83c\udfc6";
       showSummary();
     }
   }
   refreshTimer();
 }
 
-function skipInterval(){if(!isRun||curIv>=ivs.length)return;totEl+=secLeft;secLeft=0;tick();}
+// FIX #9: Skip no longer causes off-by-one
+function skipInterval(){
+  if(!isRun||curIv>=ivs.length)return;
+  // Track run time for skipped portion (minus 1 because tick adds the last second)
+  if(ivs[curIv][0]==='run')runTimeSec+=(secLeft-1);
+  totEl+=(secLeft-1); // tick() will do the final secLeft-- and totEl++
+  secLeft=1;
+  tick();
+}
+
 function resetTimer(){
   if(tH){clearInterval(tH);tH=null;}
   isRun=false;halfSp=false;lastTickTime=0;
-  stopGPS();releaseWakeLock();
-  if(curWO){curIv=0;totEl=0;secLeft=ivs[0][1];sCals=0;tDist=0;cPace='--';}
+  releaseWakeLock();resetGPSState();
+  if(curWO){curIv=0;totEl=0;secLeft=ivs[0][1];sCals=0;}
   document.getElementById('t-coach').textContent='Tap play to start';
   refreshTimer();
 }
 
 // ═══════════════════════════════════════════
-// POST-RUN SUMMARY
+// POST-RUN SUMMARY — FIX #6: detailed breakdown
 // ═══════════════════════════════════════════
 function showSummary(){
   if(!curWO)return;
-  // Save progress
   var p=sg('prog',{});
-  p[curWO.week+'-'+curWO.day]={cal:sCals,dist:parseFloat(tDist.toFixed(2)),pace:cPace,date:new Date().toISOString()};
+  var avgRunPace=calcAvgRunPace();
+  p[curWO.week+'-'+curWO.day]={cal:sCals,dist:parseFloat(tDist.toFixed(2)),pace:avgRunPace,runDist:parseFloat(runDist.toFixed(2)),runTime:runTimeSec,date:new Date().toISOString()};
   ss('prog',p);
+
+  // FIX #8: Cap history at 50 entries
   var h=sg('history',[]);
-  h.unshift({w:curWO.week,d:curWO.day,cal:sCals,dist:parseFloat(tDist.toFixed(2)),pace:cPace,date:new Date().toLocaleDateString()});
+  h.unshift({w:curWO.week,d:curWO.day,cal:sCals,dist:parseFloat(tDist.toFixed(2)),pace:avgRunPace,runDist:parseFloat(runDist.toFixed(2)),runTime:runTimeSec,date:new Date().toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})});
+  if(h.length>50)h=h.slice(0,50);
   ss('history',h);
 
   // XP
@@ -797,7 +871,6 @@ function showSummary(){
   var earned=Math.round(50+runMin*10+(curWO.week*5));
   var oldXP=gXP();ss('xp',oldXP+earned);
 
-  // Check new badges
   var stats=getStats();var oldBadges=gBadges();var newBadges=[];
   for(var i=0;i<BADGES.length;i++){
     var b=BADGES[i];
@@ -805,21 +878,22 @@ function showSummary(){
   }
   ss('badges',oldBadges);
 
-  // Populate summary
   var st=gSet();
-  document.getElementById('sum-wk').textContent='Week '+(curWO.week+1)+' · Day '+(curWO.day+1);
+  document.getElementById('sum-wk').textContent='Week '+(curWO.week+1)+' \u00b7 Day '+(curWO.day+1);
   var qi=Math.floor(Math.random()*QUOTES.length);
-  document.getElementById('sum-quote').textContent='"'+QUOTES[qi].q+'"';
+  document.getElementById('sum-quote').textContent='\u201c'+QUOTES[qi].q+'\u201d';
 
-  var distV=st.units==='mi'?(tDist*0.621371).toFixed(2)+' mi':tDist.toFixed(2)+' km';
-  var paceV=cPace==='--'?'--':st.units==='mi'?(parseFloat(cPace)*1.609).toFixed(1):cPace;
   var tD=0;for(var i=0;i<ivs.length;i++)tD+=ivs[i][1];
+  var avgSpeed=tDist>0.01?(tDist/(totEl/3600)):0; // km/h
 
+  // FIX #6: 6-card summary with run time, total dist, run pace, calories, avg speed, duration
   document.getElementById('sum-grid').innerHTML=
-    '<div class="sum-card"><div class="sv" style="color:var(--tm)">'+fmt(tD)+'</div><div class="sl">Duration</div></div>'+
+    '<div class="sum-card"><div class="sv" style="color:var(--tm)">'+fmt(tD)+'</div><div class="sl">Total Time</div></div>'+
+    '<div class="sum-card"><div class="sv" style="color:var(--run)">'+fmt(runTimeSec)+'</div><div class="sl">Run Time</div></div>'+
+    '<div class="sum-card"><div class="sv" style="color:var(--done)">'+distStr(tDist)+'</div><div class="sl">Distance</div></div>'+
+    '<div class="sum-card"><div class="sv" style="color:var(--walk)">'+paceStr(avgRunPace)+'</div><div class="sl">Run Pace '+paceUnit()+'</div></div>'+
     '<div class="sum-card"><div class="sv" style="color:var(--warm)">'+sCals+'</div><div class="sl">Calories</div></div>'+
-    '<div class="sum-card"><div class="sv" style="color:var(--done)">'+distV+'</div><div class="sl">Distance</div></div>'+
-    '<div class="sum-card"><div class="sv" style="color:var(--walk)">'+paceV+'</div><div class="sl">Pace '+(st.units==='mi'?'min/mi':'min/km')+'</div></div>';
+    '<div class="sum-card"><div class="sv" style="color:var(--cool)">'+(st.units==='mi'?(avgSpeed*0.621371).toFixed(1)+'</div><div class="sl">Avg mph'):(avgSpeed.toFixed(1)+'</div><div class="sl">Avg km/h'))+'</div></div>';
 
   document.getElementById('sum-xp').textContent='+'+earned+' XP';
 
@@ -844,44 +918,32 @@ function closeSummary(){
 function renderProgress(){
   var p=sg('prog',{});var st=gSet();var stats=getStats();
   var totalXP=gXP();var earned=gBadges();
-
-  // Find level
   var lvl=LEVELS[0];var nextLvl=LEVELS[1]||null;
   for(var i=LEVELS.length-1;i>=0;i--){if(totalXP>=LEVELS[i].xp){lvl=LEVELS[i];nextLvl=LEVELS[i+1]||null;break;}}
-
   var el=document.getElementById('progress-scr');
   var html='';
-
-  // Level bar
   var lvlPct=nextLvl?((totalXP-lvl.xp)/(nextLvl.xp-lvl.xp)*100):100;
   html+='<div class="lvl-bar"><div class="lvl-icon">'+lvl.icon+'</div><div class="lvl-info"><div class="lvl-name">'+lvl.name+'</div><div class="lvl-sub">'+(nextLvl?'Next: '+nextLvl.name+' ('+nextLvl.xp+' XP)':'Max level!')+'</div><div class="lvl-track"><div class="lvl-fill" style="width:'+Math.min(100,lvlPct)+'%"></div></div></div><div class="lvl-xp">'+totalXP+'</div></div>';
-
-  // Stats
-  var distV=st.units==='mi'?(stats.dist*0.621371).toFixed(1):stats.dist.toFixed(1);
-  html+='<div class="srow"><div class="sc"><div class="sv">'+stats.total+'</div><div class="sl">Workouts</div></div><div class="sc"><div class="sv">'+Math.round((stats.total/27)*100)+'%</div><div class="sl">Complete</div></div><div class="sc"><div class="sv" style="color:var(--warm)">'+stats.cals+'</div><div class="sl">Total kcal</div></div><div class="sc"><div class="sv" style="color:var(--walk)">'+distV+'</div><div class="sl">Total '+(st.units==='mi'?'mi':'km')+'</div></div></div>';
-
-  // Grid (7 cols — fits 375px nicely, 27 cells fills 4 rows)
+  var dV=st.units==='mi'?(stats.dist*0.621371).toFixed(1):stats.dist.toFixed(1);
+  html+='<div class="srow"><div class="sc"><div class="sv">'+stats.total+'</div><div class="sl">Workouts</div></div><div class="sc"><div class="sv">'+Math.round((stats.total/27)*100)+'%</div><div class="sl">Complete</div></div><div class="sc"><div class="sv" style="color:var(--warm)">'+stats.cals+'</div><div class="sl">Total kcal</div></div><div class="sc"><div class="sv" style="color:var(--walk)">'+dV+'</div><div class="sl">Total '+distUnit()+'</div></div></div>';
   html+='<div class="pgrid">';
-  for(var w=0;w<9;w++)for(var d=0;d<3;d++){var dn=p[w+'-'+d]!=null;html+='<div class="pc'+(dn?' dn':'')+'"><div class="pw">W'+(w+1)+'</div><div class="pd">'+(dn?'✓':'D'+(d+1))+'</div></div>';}
+  for(var w=0;w<9;w++)for(var d=0;d<3;d++){var dn=p[w+'-'+d]!=null;html+='<div class="pc'+(dn?' dn':'')+'"><div class="pw">W'+(w+1)+'</div><div class="pd">'+(dn?'\u2713':'D'+(d+1))+'</div></div>';}
   html+='</div>';
-
-  // Badges
   html+='<div class="badges-title">Achievements</div><div class="badges-grid">';
-  for(var i=0;i<BADGES.length;i++){var b=BADGES[i];var has=earned.indexOf(b.id)!==-1;html+='<div class="badge-cell'+(has?' earned':'')+'"><div class="be">'+(has?b.icon:'🔒')+'</div><div class="bn">'+b.name+'</div></div>';}
+  for(var i=0;i<BADGES.length;i++){var b=BADGES[i];var has=earned.indexOf(b.id)!==-1;html+='<div class="badge-cell'+(has?' earned':'')+'"><div class="be">'+(has?b.icon:'\ud83d\udd12')+'</div><div class="bn">'+b.name+'</div></div>';}
   html+='</div>';
-
-  // History
   var hist=sg('history',[]);
   if(hist.length>0){
     html+='<div class="htitle">Recent Workouts</div><div class="hlist">';
     var max=Math.min(hist.length,10);
     for(var i=0;i<max;i++){
-      var it=hist[i];var dS=st.units==='mi'?((it.dist||0)*0.621371).toFixed(2)+' mi':((it.dist||0).toFixed(2)+' km');
-      html+='<div class="hi"><div class="hl">W'+(it.w+1)+'D'+(it.d+1)+' <span style="color:var(--td);font-size:10px;margin-left:5px">'+it.date+'</span></div><div class="hr"><span style="color:var(--warm)">'+(it.cal||0)+' kcal</span><span style="color:var(--done)">'+dS+'</span></div></div>';
+      var it=hist[i];
+      var dS=distStr(it.dist||0);
+      var pS=it.pace&&it.pace!=='--'?(paceStr(it.pace)+' '+paceUnit()):'--';
+      html+='<div class="hi"><div class="hl">W'+(it.w+1)+'D'+(it.d+1)+' <span style="color:var(--td);font-size:10px;margin-left:5px">'+it.date+'</span></div><div class="hr"><span style="color:var(--warm)">'+(it.cal||0)+'</span><span style="color:var(--done)">'+dS+'</span></div></div>';
     }
     html+='</div>';
   }
-
   html+='<button class="rbtn" onclick="resetProgress()">Reset All Progress</button>';
   el.innerHTML=html;
 }
@@ -889,13 +951,22 @@ function renderProgress(){
 function resetProgress(){if(confirm('Reset all progress? Cannot be undone.')){try{localStorage.removeItem('c25k_prog');localStorage.removeItem('c25k_history');localStorage.removeItem('c25k_xp');localStorage.removeItem('c25k_badges');}catch(e){}renderProgress();renderPlan();}}
 
 // ═══════════════════════════════════════════
-// BODY / WEIGHT
+// BODY / WEIGHT — FIX #12: unit-aware
 // ═══════════════════════════════════════════
+function updateWeightUI(){
+  var u=gSet().units;
+  var inp=document.getElementById('wt-in');
+  if(u==='mi'){inp.placeholder='Enter weight (lbs)';inp.max='700';}
+  else{inp.placeholder='Enter weight (kg)';inp.max='300';}
+}
+
 function logWeight(){
   var v=parseFloat(document.getElementById('wt-in').value);
-  if(!v||v<20||v>300)return;
+  if(!v||v<20||v>700)return;
+  // Always store in KG internally
+  var kg=gSet().units==='mi'?v*0.453592:v;
   var logs=sg('wlogs',[]);
-  logs.push({w:v,d:new Date().toISOString().split('T')[0],ts:Date.now()});
+  logs.push({w:kg,d:new Date().toISOString().split('T')[0],ts:Date.now()});
   ss('wlogs',logs);
   document.getElementById('wt-in').value='';
   renderBody();
@@ -906,30 +977,26 @@ function deleteWeight(idx){
 }
 
 function renderBody(){
+  updateWeightUI();
   var logs=sg('wlogs',[]);
+  var wu=weightUnit();
   document.getElementById('wt-nodata').style.display=logs.length>0?'none':'flex';
-
-  // Summary
   var sum=document.getElementById('wt-summary');
   if(logs.length>0){
     var first=logs[0].w,last=logs[logs.length-1].w,diff=last-first;
     var col=diff<=0?'var(--done)':'var(--run)';
-    sum.innerHTML='<div class="ws"><div class="wsv" style="color:var(--tm)">'+first.toFixed(1)+'</div><div class="wsl">Start kg</div></div><div class="ws"><div class="wsv">'+last.toFixed(1)+'</div><div class="wsl">Current kg</div></div><div class="ws"><div class="wsv" style="color:'+col+'">'+(diff>0?'+':'')+diff.toFixed(1)+'</div><div class="wsl">Change kg</div></div>';
+    var fV=weightVal(first),lV=weightVal(last),dV=gSet().units==='mi'?(diff*2.20462).toFixed(1):diff.toFixed(1);
+    sum.innerHTML='<div class="ws"><div class="wsv" style="color:var(--tm)">'+fV+'</div><div class="wsl">Start '+wu+'</div></div><div class="ws"><div class="wsv">'+lV+'</div><div class="wsl">Current '+wu+'</div></div><div class="ws"><div class="wsv" style="color:'+col+'">'+(diff>0?'+':'')+dV+'</div><div class="wsl">Change '+wu+'</div></div>';
   }else{sum.innerHTML='';}
-
-  // Chart
   drawChart(logs);
-
-  // Log entries
   var logEl=document.getElementById('wt-log');
   var titleEl=document.getElementById('wt-log-title');
   if(logs.length>0){
     titleEl.style.display='block';
-    var html='';
-    var show=logs.slice().reverse().slice(0,15);
+    var html='';var show=logs.slice().reverse().slice(0,15);
     for(var i=0;i<show.length;i++){
       var realIdx=logs.length-1-i;
-      html+='<div class="wt-entry"><span class="we-date">'+show[i].d+'</span><span class="we-val">'+show[i].w.toFixed(1)+' kg</span><button class="we-del" onclick="deleteWeight('+realIdx+')">✕</button></div>';
+      html+='<div class="wt-entry"><span class="we-date">'+show[i].d+'</span><span class="we-val">'+weightVal(show[i].w)+' '+wu+'</span><button class="we-del" onclick="deleteWeight('+realIdx+')">\u2715</button></div>';
     }
     logEl.innerHTML=html;
   }else{titleEl.style.display='none';logEl.innerHTML='';}
@@ -946,14 +1013,13 @@ function drawChart(logs){
   var W=rect.width,H=150;
   ctx.clearRect(0,0,W,H);
   if(logs.length<2)return;
-
-  var vals=logs.map(function(l){return l.w;});
+  // FIX #12: Convert to display units for chart
+  var isImp=gSet().units==='mi';
+  var vals=logs.map(function(l){return isImp?l.w*2.20462:l.w;});
   var mn=Math.min.apply(null,vals)-1;var mx=Math.max.apply(null,vals)+1;
   if(mx===mn)mx=mn+2;
-  var pad={t:10,b:25,l:35,r:10};
+  var pad={t:10,b:25,l:40,r:10};
   var cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
-
-  // Grid lines
   ctx.strokeStyle='#2a2a3d';ctx.lineWidth=.5;
   var steps=4;
   for(var i=0;i<=steps;i++){
@@ -962,52 +1028,56 @@ function drawChart(logs){
     ctx.fillStyle='#7c7c9a';ctx.font='10px JetBrains Mono';ctx.textAlign='right';
     ctx.fillText((mx-(mx-mn)*(i/steps)).toFixed(1),pad.l-5,y+3);
   }
-
-  // Line
   ctx.beginPath();ctx.strokeStyle='#00ccff';ctx.lineWidth=2;ctx.lineJoin='round';
   for(var i=0;i<vals.length;i++){
-    var x=pad.l+(i/(vals.length-1))*cW;
-    var y=pad.t+cH*(1-(vals[i]-mn)/(mx-mn));
+    var x=pad.l+(i/(vals.length-1))*cW;var y=pad.t+cH*(1-(vals[i]-mn)/(mx-mn));
     if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
   }
   ctx.stroke();
-
-  // Gradient fill
   var grad=ctx.createLinearGradient(0,pad.t,0,H-pad.b);
   grad.addColorStop(0,'rgba(0,204,255,0.2)');grad.addColorStop(1,'rgba(0,204,255,0)');
   ctx.lineTo(pad.l+(vals.length-1)/(vals.length-1)*cW,H-pad.b);
   ctx.lineTo(pad.l,H-pad.b);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
-
-  // Dots
   for(var i=0;i<vals.length;i++){
-    var x=pad.l+(i/(vals.length-1))*cW;
-    var y=pad.t+cH*(1-(vals[i]-mn)/(mx-mn));
+    var x=pad.l+(i/(vals.length-1))*cW;var y=pad.t+cH*(1-(vals[i]-mn)/(mx-mn));
     ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fillStyle='#00ccff';ctx.fill();
   }
 }
 
-// FIX: Redraw chart on resize/orientation change
 var resizeTimer=null;
-window.addEventListener('resize',function(){
-  clearTimeout(resizeTimer);
-  resizeTimer=setTimeout(function(){
-    if(document.getElementById('body-scr').classList.contains('on')){
-      renderBody();
-    }
-  },200);
-});
+window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(function(){if(document.getElementById('body-scr').classList.contains('on'))renderBody();},200);});
 
 // ═══════════════════════════════════════════
-// SETTINGS
+// SETTINGS — FIX #12: unit-aware labels
 // ═══════════════════════════════════════════
-function openSettings(){var s=gSet();document.getElementById('s-wt').value=s.weight||70;document.getElementById('s-un').value=s.units||'km';document.getElementById('s-vc').value=s.voice||'full';document.getElementById('set-mo').classList.add('open');}
+function openSettings(){
+  var s=gSet();
+  document.getElementById('s-wt').value=s.weight||70;
+  document.getElementById('s-un').value=s.units||'km';
+  document.getElementById('s-vc').value=s.voice||'full';
+  updateSettingsLabels(s.units||'km');
+  document.getElementById('set-mo').classList.add('open');
+  document.getElementById('s-un').onchange=function(){updateSettingsLabels(this.value);};
+}
+function updateSettingsLabels(u){
+  document.getElementById('lbl-wt').textContent='Weight ('+(u==='mi'?'lbs':'kg')+')';
+}
 function closeSettings(){document.getElementById('set-mo').classList.remove('open');}
 function saveSettings(){
-  var s={weight:parseInt(document.getElementById('s-wt').value)||70,units:document.getElementById('s-un').value,voice:document.getElementById('s-vc').value};
+  var oldUnits=gSet().units;
+  var newUnits=document.getElementById('s-un').value;
+  var weightVal=parseFloat(document.getElementById('s-wt').value)||70;
+
+  // If units changed, convert the weight value
+  if(oldUnits!==newUnits){
+    if(oldUnits==='km'&&newUnits==='mi')weightVal=Math.round(weightVal*2.20462); // kg→lbs
+    else if(oldUnits==='mi'&&newUnits==='km')weightVal=Math.round(weightVal*0.453592); // lbs→kg
+  }
+
+  var s={weight:weightVal,units:newUnits,voice:document.getElementById('s-vc').value};
   ss('settings',s);voiceMode=s.voice;voiceOn=s.voice!=='off';
   document.getElementById('voice-btn').classList.toggle('on',voiceOn);
   closeSettings();
-  // FIX: Immediately update timer display with new units
   refreshTimer();
 }
 
