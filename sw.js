@@ -1,4 +1,4 @@
-var CACHE='c25k-v6';
+var CACHE='c25k-v7';
 var ASSETS=[
   './',
   './index.html',

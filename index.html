@@ -367,6 +367,50 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
 /* Streak shield */
 .streak-shield{font-size:12px;margin-left:4px;cursor:help}
 
+/* 3-2-1 Countdown overlay */
+.countdown-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:250;align-items:center;justify-content:center;flex-direction:column}
+.countdown-overlay.show{display:flex}
+.countdown-num{font-size:120px;font-weight:900;color:var(--run);animation:countPulse .7s ease;font-family:'JetBrains Mono',monospace}
+.countdown-go{font-size:60px;font-weight:900;color:var(--done);animation:countPulse .5s ease}
+.countdown-label{font-size:14px;color:var(--td);margin-top:10px;letter-spacing:2px;text-transform:uppercase}
+@keyframes countPulse{0%{transform:scale(1.8);opacity:0}50%{transform:scale(1);opacity:1}100%{transform:scale(.95);opacity:.8}}
+
+/* Onboarding */
+.onboard-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:300;align-items:center;justify-content:center;flex-direction:column;padding:30px;text-align:center}
+.onboard-overlay.show{display:flex}
+.onboard-overlay .ob-icon{font-size:60px;margin-bottom:16px}
+.onboard-overlay .ob-title{font-size:24px;font-weight:900;margin-bottom:6px}
+.onboard-overlay .ob-sub{font-size:13px;color:var(--td);margin-bottom:20px;line-height:1.6;max-width:300px}
+.onboard-overlay .ob-fields{width:100%;max-width:300px;text-align:left;margin-bottom:16px}
+.onboard-overlay .ob-fields .fld{margin-bottom:10px}
+.onboard-overlay .ob-btn{width:100%;max-width:300px;padding:14px;border:none;border-radius:var(--r);background:var(--run);color:#fff;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:1px}
+.onboard-overlay .ob-btn:active{transform:scale(.97)}
+.onboard-overlay .ob-skip{background:none;border:none;color:var(--td);font-family:inherit;font-size:12px;cursor:pointer;margin-top:10px}
+
+/* Smart skip banner */
+.skip-banner{background:linear-gradient(135deg,var(--cools),var(--s1));border:1px solid var(--cool);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px;display:none;align-items:flex-start;gap:8px;font-size:11px;line-height:1.5;color:var(--tm);cursor:pointer}
+.skip-banner.show{display:flex}
+.skip-banner .skip-icon{font-size:18px;flex-shrink:0}
+.skip-banner .skip-actions{display:flex;gap:6px;margin-top:6px}
+.skip-banner .skip-btn{padding:4px 12px;border-radius:20px;border:1px solid var(--cool);background:transparent;color:var(--cool);font-family:inherit;font-size:10px;font-weight:700;cursor:pointer}
+.skip-banner .skip-btn.primary{background:var(--cool);color:#fff}
+.skip-banner .skip-dismiss{background:none;border:none;color:var(--td);font-size:10px;cursor:pointer}
+
+/* Free run mode */
+.free-run-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:1.5px dashed var(--done);border-radius:var(--rs);background:transparent;color:var(--done);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;width:100%;margin-top:8px;margin-bottom:10px;transition:all .2s}
+.free-run-btn:active{background:var(--dones);border-style:solid}
+.free-run-active{color:var(--done);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+
+/* Route map */
+.route-map{background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);padding:10px;margin-bottom:10px;position:relative}
+.route-map canvas{width:100%;height:160px;border-radius:var(--rs)}
+.route-map .rm-title{font-size:9px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.route-map .rm-empty{text-align:center;padding:20px;font-size:11px;color:var(--td)}
+
+/* Estimated finish date */
+.finish-est{font-size:10px;color:var(--td);text-align:center;margin-top:4px;margin-bottom:6px}
+.finish-est span{color:var(--done);font-weight:700}
+
 /* Small screens */
 @media(max-height:700px){
   .rw{width:150px;height:150px}
@@ -380,6 +424,27 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
 </head>
 <body>
 <canvas id="confetti"></canvas>
+
+<!-- Onboarding (first-time) -->
+<div class="onboard-overlay" id="onboard">
+  <div class="ob-icon">🏃‍♂️</div>
+  <div class="ob-title">Welcome to C25K+</div>
+  <div class="ob-sub">14 weeks from couch to 10K. Let's set up your profile so we can personalise your experience.</div>
+  <div class="ob-fields">
+    <div class="fld"><label>Your Weight</label><input type="number" id="ob-wt" placeholder="70 kg" min="20" max="300"></div>
+    <div class="fld"><label>Your Height (cm)</label><input type="number" id="ob-ht" placeholder="170" min="100" max="250"></div>
+    <div class="fld"><label>Daily Calorie Goal</label><input type="number" id="ob-cal" placeholder="2000" min="500" max="5000" step="50"></div>
+  </div>
+  <button class="ob-btn" onclick="finishOnboard()">Let's Go! 🚀</button>
+  <button class="ob-skip" onclick="skipOnboard()">Skip for now</button>
+</div>
+
+<!-- 3-2-1 Countdown -->
+<div class="countdown-overlay" id="countdown-overlay">
+  <div id="countdown-display"></div>
+  <div class="countdown-label" id="countdown-label">Get ready...</div>
+</div>
+
 <div class="app">
   <div class="hdr">
     <div class="hdr-l"><div class="logo">Couch to</div><h1>5K+</h1></div>
@@ -406,10 +471,13 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
       <div class="water-glasses" id="water-glasses"></div>
       <span class="water-count" id="water-count">0/8</span>
     </div>
+    <div id="skip-banner" class="skip-banner"></div>
     <div id="quote-box" class="quote-box"></div>
     <div class="wscrl" id="wsel"></div>
     <div class="dcds" id="dcds"></div>
+    <div class="finish-est" id="finish-est"></div>
     <button class="repeat-btn" id="repeat-btn" onclick="repeatWeek()">↻ Repeat this week</button>
+    <button class="free-run-btn" id="free-run-btn" onclick="startFreeRun()">🏃‍♂️ Free Run — no intervals, just run</button>
   </div>
 
   <!-- TIMER -->
@@ -498,6 +566,10 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
   <div class="sum-xp" id="sum-xp">+0 XP</div>
   <div id="sum-badges"></div>
   <div id="sum-grad"></div>
+  <div class="route-map" id="sum-route" style="display:none">
+    <div class="rm-title">Your Route</div>
+    <canvas id="route-canvas"></canvas>
+  </div>
   <button class="sum-btn" onclick="closeSummary()">Continue</button>
 </div>
 
@@ -696,6 +768,10 @@ var recentGPS=[];
 var sCals=0,halfSp=false;
 var ivPreviewOpen=false;
 var paceAlertGiven=false;
+var routePoints=[];
+var freeRunMode=false;
+var freeRunTimer=null;
+var freeRunSec=0;
 
 // Cached DOM refs
 var _el={};
@@ -832,6 +908,8 @@ function resumeGPS(){
 }
 function onGPS(p){
   if(p.coords.accuracy>25)return;
+  // Collect route points
+  routePoints.push({lat:p.coords.latitude,lng:p.coords.longitude,t:Date.now(),phase:curIv<ivs.length?ivs[curIv][0]:'run'});
   if(gpsResumeSkip>0){gpsResumeSkip--;lastP=p;return;}
   if(lastP&&isRun){
     var d=hav(lastP.coords.latitude,lastP.coords.longitude,p.coords.latitude,p.coords.longitude);
@@ -849,7 +927,7 @@ function onGPS(p){
   lastP=p;
 }
 function stopGPS(){try{if(geoW!=null){navigator.geolocation.clearWatch(geoW);geoW=null;}}catch(e){}}
-function resetGPSState(){stopGPS();tDist=0;runDist=0;lastP=null;cPace='--';runTimeSec=0;recentGPS=[];gpsResumeSkip=0;}
+function resetGPSState(){stopGPS();tDist=0;runDist=0;lastP=null;cPace='--';runTimeSec=0;recentGPS=[];gpsResumeSkip=0;routePoints=[];}
 function calcCurrentPace(){
   if(treadmillMode){var s=gSet();return s.paceGoal>0?s.paceGoal.toString():'--';}
   if(recentGPS.length<2)return'--';
@@ -947,6 +1025,8 @@ function renderPlan(){
     document.getElementById('tip-box').innerHTML+=schedHTML;
   }
   renderWater();
+  renderSkipBanner();
+  renderFinishEstimate();
 
   // Quote
   var qi=Math.floor(Date.now()/(1000*60*60*12))%QUOTES.length;
@@ -1042,6 +1122,30 @@ function loadWO(w,d){
 
 function refreshTimer(){
   if(!curWO)return;
+  if(freeRunMode){
+    el('t-label').textContent='Free Run';
+    el('t-time').textContent=fmt(freeRunSec);
+    var pe=el('t-phase');
+    if(!isRun&&freeRunSec===0){pe.textContent='Ready';pe.className='tph ready';}
+    else{pe.textContent='Running';pe.className='tph run';}
+    el('t-next').textContent=isRun?'Tap stop when done':'';
+    var ring=el('ring');ring.setAttribute('stroke-dashoffset',0);
+    ring.style.stroke='var(--done)';ring.style.filter='drop-shadow(0 0 10px var(--doneg))';
+    el('tp-el').textContent=fmt(freeRunSec);el('tp-tot').textContent='--';
+    el('tp-fill').style.width='100%';
+    sCals=calcFreeCal();cPace=calcCurrentPace();
+    var st=gSet();var displayDist=treadmillMode?getTreadmillDist():tDist;
+    el('ls-cal').textContent=sCals;
+    el('ls-pace').textContent=paceStr(cPace);
+    el('ll-pace').textContent=treadmillMode?'treadmill':paceUnit();
+    el('ls-dist').textContent=st.units==='mi'?(displayDist*0.621371).toFixed(2):displayDist.toFixed(2);
+    el('ll-dist').textContent=distUnit();
+    var btn=el('btn-play');
+    if(isRun){btn.textContent='\u23f8';btn.className='bp playing';}
+    else if(freeRunSec>0){btn.textContent='\u25b6';btn.className='bp ready';}
+    else{btn.textContent='\u25b6';btn.className='bp ready';}
+    return;
+  }
   var wLabel=curWO.week>=9?'Beyond 5K · ':'';
   el('t-label').textContent=wLabel+'Week '+(curWO.week+1)+' \u00b7 Day '+(curWO.day+1);
   var ph=(curIv<ivs.length)?ivs[curIv][0]:'done';
@@ -1084,14 +1188,44 @@ function refreshTimer(){
 
 function handlePlay(){
   initA();
+  if(freeRunMode){
+    isRun=!isRun;
+    if(isRun){
+      if(freeRunSec===0){
+        doCountdown(function(){
+          isRun=true;lastTickTime=Date.now();
+          startGPS();requestWakeLock();
+          if(tH)clearInterval(tH);tH=setInterval(tick,1000);
+          refreshTimer();
+        });
+        return;
+      }
+      lastTickTime=Date.now();resumeGPS();requestWakeLock();
+      if(tH)clearInterval(tH);tH=setInterval(tick,1000);
+    }else{
+      if(tH){clearInterval(tH);tH=null;}
+      lastTickTime=0;stopGPS();releaseWakeLock();
+    }
+    refreshTimer();return;
+  }
   if(!curWO)autoLoad();
   if(curIv>=ivs.length)return;
+  // If starting from beginning, do 3-2-1 countdown
+  if(!isRun&&totEl===0){
+    doCountdown(function(){
+      isRun=true;lastTickTime=Date.now();
+      snd(ivs[curIv][0]);vPhase(ivs[curIv][0]);
+      startGPS();requestWakeLock();
+      if(tH)clearInterval(tH);tH=setInterval(tick,1000);
+      refreshTimer();
+    });
+    return;
+  }
   isRun=!isRun;
   if(isRun){
     lastTickTime=Date.now();
     snd(ivs[curIv][0]);vPhase(ivs[curIv][0]);
-    if(totEl===0)startGPS();else resumeGPS();
-    requestWakeLock();
+    resumeGPS();requestWakeLock();
     if(tH)clearInterval(tH);tH=setInterval(tick,1000);
   }else{
     if(tH){clearInterval(tH);tH=null;}
@@ -1100,9 +1234,36 @@ function handlePlay(){
   refreshTimer();
 }
 
+function doCountdown(callback){
+  var overlay=document.getElementById('countdown-overlay');
+  var display=document.getElementById('countdown-display');
+  var label=document.getElementById('countdown-label');
+  overlay.classList.add('show');
+  var count=3;
+  label.textContent='Get ready...';
+  display.innerHTML='<div class="countdown-num">'+count+'</div>';
+  snd('warmup');
+  var cdInterval=setInterval(function(){
+    count--;
+    if(count>0){
+      display.innerHTML='<div class="countdown-num">'+count+'</div>';
+      snd('warmup');
+    }else if(count===0){
+      display.innerHTML='<div class="countdown-go">GO!</div>';
+      label.textContent='';
+      snd('run');
+    }else{
+      clearInterval(cdInterval);
+      overlay.classList.remove('show');
+      callback();
+    }
+  },1000);
+}
+
 function tick(){
   lastTickTime=Date.now();secLeft--;totEl++;
-  if(curIv<ivs.length&&ivs[curIv][0]==='run')runTimeSec++;
+  if(freeRunMode){freeRunSec++;runTimeSec++;}
+  else if(curIv<ivs.length&&ivs[curIv][0]==='run')runTimeSec++;
 
   var tD=0;for(var i=0;i<ivs.length;i++)tD+=ivs[i][1];
 
@@ -1161,8 +1322,9 @@ function skipInterval(){
 }
 
 function resetTimer(){
+  if(freeRunMode&&freeRunSec>10){endFreeRun();return;}
   if(tH){clearInterval(tH);tH=null;}
-  isRun=false;halfSp=false;lastTickTime=0;paceAlertGiven=false;
+  isRun=false;halfSp=false;lastTickTime=0;paceAlertGiven=false;freeRunMode=false;freeRunSec=0;
   releaseWakeLock();resetGPSState();
   if(curWO){curIv=0;totEl=0;secLeft=ivs[0][1];sCals=0;}
   document.getElementById('t-coach').textContent='Tap play to start';
@@ -1235,6 +1397,20 @@ function showSummary(){
   }
   document.getElementById('sum-grad').innerHTML=gradHTML;
 
+  // Route map
+  var routeEl=document.getElementById('sum-route');
+  if(routePoints.length>=5&&!treadmillMode){
+    routeEl.style.display='block';
+    // Store route (downsampled to save space)
+    var storedRoute=[];
+    var step=Math.max(1,Math.floor(routePoints.length/80));
+    for(var i=0;i<routePoints.length;i+=step)storedRoute.push({lat:routePoints[i].lat,lng:routePoints[i].lng,ph:routePoints[i].phase});
+    // Save to last history entry
+    var hh=sg('history',[]);if(hh.length>0){hh[0].route=storedRoute;ss('history',hh);}
+    // Draw
+    setTimeout(function(){drawRoute(document.getElementById('route-canvas'),routePoints);},50);
+  }else{routeEl.style.display='none';}
+
   document.getElementById('sum-overlay').classList.add('open');
   setTimeout(fireConfetti,200);
 }
@@ -1249,6 +1425,7 @@ function closeSummary(){
 // ═══════════════════════════════════════════
 function renderProgress(){
   var p=sg('prog',{});var st=gSet();var stats=getStats();
+  var hist=sg('history',[]);
   var totalXP=gXP();var earned=gBadges();
   var lvl=LEVELS[0];var nextLvl=LEVELS[1]||null;
   for(var i=LEVELS.length-1;i>=0;i--){if(totalXP>=LEVELS[i].xp){lvl=LEVELS[i];nextLvl=LEVELS[i+1]||null;break;}}
@@ -1273,6 +1450,13 @@ function renderProgress(){
   // Weekly summary card (shareable)
   html+=renderWeekCard();
 
+  // Last route map
+  var lastRoute=null;
+  for(var i=0;i<hist.length;i++){if(hist[i].route&&hist[i].route.length>=5){var rl=hist[i].freeRun?'Free Run':('W'+(hist[i].w+1)+'D'+(hist[i].d+1));lastRoute={route:hist[i].route,label:rl+' · '+hist[i].date};break;}}
+  if(lastRoute){
+    html+='<div class="route-map"><div class="rm-title">Last Route — '+lastRoute.label+'</div><canvas id="hist-route-canvas"></canvas></div>';
+  }
+
   // Weekly distance trend chart
   html+='<div class="trend-chart"><div class="tc-title">Weekly Distance Trend</div><canvas id="trend-canvas"></canvas></div>';
 
@@ -1293,21 +1477,25 @@ function renderProgress(){
   html+='<div class="badges-title">Achievements</div><div class="badges-grid">';
   for(var i=0;i<BADGES.length;i++){var b=BADGES[i];var has=earned.indexOf(b.id)!==-1;html+='<div class="badge-cell'+(has?' earned':'')+'"><div class="be">'+(has?b.icon:'🔒')+'</div><div class="bn">'+b.name+'</div></div>';}
   html+='</div>';
-  var hist=sg('history',[]);
   if(hist.length>0){
     html+='<div class="htitle">Recent Workouts</div><div class="hlist">';
     var max=Math.min(hist.length,15);
     for(var i=0;i<max;i++){
       var it=hist[i];
-      html+='<div class="hi"><div class="hl">W'+(it.w+1)+'D'+(it.d+1)+' <span style="color:var(--td);font-size:10px;margin-left:5px">'+it.date+'</span></div><div class="hr"><span style="color:var(--warm)">'+(it.cal||0)+'</span><span style="color:var(--done)">'+distStr(it.dist||0)+'</span></div></div>';
+      var label=it.freeRun?'Free Run':('W'+(it.w+1)+'D'+(it.d+1));
+      var routeIcon=it.route&&it.route.length>=5?' 🗺':'';
+      html+='<div class="hi"><div class="hl">'+label+routeIcon+' <span style="color:var(--td);font-size:10px;margin-left:5px">'+it.date+'</span></div><div class="hr"><span style="color:var(--warm)">'+(it.cal||0)+'</span><span style="color:var(--done)">'+distStr(it.dist||0)+'</span></div></div>';
     }
     html+='</div>';
   }
   html+='<button class="rbtn" onclick="resetProgress()">Reset All Progress</button>';
   pEl.innerHTML=html;
 
-  // Draw trend chart after DOM update
-  setTimeout(drawTrendChart,50);
+  // Draw trend chart and last route after DOM update
+  setTimeout(function(){
+    drawTrendChart();
+    if(lastRoute){drawRoute(document.getElementById('hist-route-canvas'),lastRoute.route);}
+  },50);
 }
 
 function roundedRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h);ctx.lineTo(x,y+h);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
@@ -1726,10 +1914,10 @@ function scheduleReminder(){
 // ═══════════════════════════════════════════
 function exportData(){
   var data={};
-  var keys=['prog','history','xp','badges','settings','wlogs','photos','theme'];
+  var keys=['prog','history','xp','badges','settings','wlogs','photos','theme','onboarded'];
   for(var i=0;i<keys.length;i++)data[keys[i]]=sg(keys[i],null);
   data._exported=new Date().toISOString();
-  data._version='c25k-v6';
+  data._version='c25k-v7';
   var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   var a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download='c25k-backup-'+new Date().toISOString().split('T')[0]+'.json';
@@ -1744,7 +1932,7 @@ function importData(input){
       var data=JSON.parse(e.target.result);
       if(!data._version){alert('Invalid backup file');return;}
       if(!confirm('This will overwrite all current data. Continue?'))return;
-      var keys=['prog','history','xp','badges','settings','wlogs','photos','theme'];
+      var keys=['prog','history','xp','badges','settings','wlogs','photos','theme','onboarded'];
       for(var i=0;i<keys.length;i++){
         if(data[keys[i]]!=null)ss(keys[i],data[keys[i]]);
       }
@@ -1757,6 +1945,290 @@ function importData(input){
 }
 
 // ═══════════════════════════════════════════
+// ROUTE MAP DRAWING
+// ═══════════════════════════════════════════
+function drawRoute(canvas,pts){
+  if(!canvas||pts.length<3)return;
+  var dpr=window.devicePixelRatio||1;
+  var w=canvas.parentElement.getBoundingClientRect().width-20;
+  var h=160;
+  canvas.width=w*dpr;canvas.height=h*dpr;
+  canvas.style.width=w+'px';canvas.style.height=h+'px';
+  var ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);
+
+  // Find bounds
+  var minLat=Infinity,maxLat=-Infinity,minLng=Infinity,maxLng=-Infinity;
+  for(var i=0;i<pts.length;i++){
+    if(pts[i].lat<minLat)minLat=pts[i].lat;if(pts[i].lat>maxLat)maxLat=pts[i].lat;
+    if(pts[i].lng<minLng)minLng=pts[i].lng;if(pts[i].lng>maxLng)maxLng=pts[i].lng;
+  }
+  var pad=12;var dLat=maxLat-minLat||0.001;var dLng=maxLng-minLng||0.001;
+  var scaleX=(w-pad*2)/dLng;var scaleY=(h-pad*2)/dLat;
+  var scale=Math.min(scaleX,scaleY);
+  var offX=pad+(w-pad*2-dLng*scale)/2;var offY=pad+(h-pad*2-dLat*scale)/2;
+
+  function tx(lng){return offX+(lng-minLng)*scale;}
+  function ty(lat){return h-offY-(lat-minLat)*scale;}
+
+  var phColors={warmup:'#ffb020',run:'#ff4d2a',walk:'#00ccff',cooldown:'#9955ff'};
+
+  // Draw path segments
+  ctx.lineWidth=3;ctx.lineJoin='round';ctx.lineCap='round';
+  for(var i=1;i<pts.length;i++){
+    ctx.beginPath();
+    ctx.strokeStyle=phColors[pts[i].ph||pts[i].phase||'run']||'#ff4d2a';
+    ctx.globalAlpha=0.8;
+    ctx.moveTo(tx(pts[i-1].lng),ty(pts[i-1].lat));
+    ctx.lineTo(tx(pts[i].lng),ty(pts[i].lat));
+    ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+
+  // Start marker
+  ctx.beginPath();ctx.arc(tx(pts[0].lng),ty(pts[0].lat),5,0,Math.PI*2);ctx.fillStyle='#00e676';ctx.fill();
+  ctx.beginPath();ctx.arc(tx(pts[0].lng),ty(pts[0].lat),2,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
+  // End marker
+  var last=pts[pts.length-1];
+  ctx.beginPath();ctx.arc(tx(last.lng),ty(last.lat),5,0,Math.PI*2);ctx.fillStyle='#ff4d2a';ctx.fill();
+  ctx.beginPath();ctx.arc(tx(last.lng),ty(last.lat),2,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
+
+  // Legend
+  ctx.font='600 8px Outfit';ctx.textAlign='left';
+  var legX=pad;var legY=h-6;
+  ['warmup','run','walk','cooldown'].forEach(function(ph,i){
+    ctx.fillStyle=phColors[ph];ctx.fillRect(legX,legY-5,10,5);
+    ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--td')||'#7c7c9a';
+    ctx.fillText(ph,legX+13,legY);legX+=55;
+  });
+}
+
+// ═══════════════════════════════════════════
+// FREE RUN MODE (no intervals, just GPS + timer)
+// ═══════════════════════════════════════════
+function startFreeRun(){
+  freeRunMode=true;
+  curWO={week:-1,day:0};
+  ivs=[['run',36000]]; // 10hr max
+  curIv=0;totEl=0;secLeft=36000;freeRunSec=0;
+  sCals=0;halfSp=true; // skip halfway for free run
+  routePoints=[];
+  go('timer');
+  document.getElementById('t-label').textContent='Free Run';
+  document.getElementById('t-phase').textContent='🏃 Free Run';
+  document.getElementById('t-phase').className='tph run';
+  document.getElementById('t-coach').textContent='Tap play to start — run as long as you want';
+  document.getElementById('btn-play').textContent='▶';
+  document.getElementById('btn-play').className='bp ready';
+  refreshTimer();
+}
+
+function endFreeRun(){
+  if(tH){clearInterval(tH);tH=null;}
+  isRun=false;lastTickTime=0;
+  stopGPS();releaseWakeLock();
+  sCals=calcFreeCal();
+  showFreeRunSummary();
+}
+
+function calcFreeCal(){
+  var wt=getWeightKg();return Math.round(8*wt*freeRunSec/3600);
+}
+
+function showFreeRunSummary(){
+  var displayDist=treadmillMode?getTreadmillDist():tDist;
+  var avgPace=calcAvgRunPace();
+
+  // Save to history
+  var h=sg('history',[]);
+  h.unshift({w:-1,d:0,cal:sCals,dist:parseFloat(displayDist.toFixed(2)),pace:avgPace,runDist:parseFloat(displayDist.toFixed(2)),runTime:freeRunSec,date:new Date().toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}),isoDate:new Date().toISOString().split('T')[0],freeRun:true});
+  if(!treadmillMode&&routePoints.length>=5){
+    var sr=[];var step=Math.max(1,Math.floor(routePoints.length/80));
+    for(var i=0;i<routePoints.length;i+=step)sr.push({lat:routePoints[i].lat,lng:routePoints[i].lng,ph:'run'});
+    h[0].route=sr;
+  }
+  if(h.length>50)h=h.slice(0,50);
+  ss('history',h);
+
+  var st=gSet();
+  document.getElementById('sum-wk').textContent='Free Run';
+  document.getElementById('sum-quote').textContent='\u201c'+QUOTES[Math.floor(Math.random()*QUOTES.length)].q+'\u201d';
+  document.getElementById('sum-grid').innerHTML=
+    '<div class="sum-card"><div class="sv" style="color:var(--tm)">'+fmt(freeRunSec)+'</div><div class="sl">Total Time</div></div>'+
+    '<div class="sum-card"><div class="sv" style="color:var(--done)">'+distStr(displayDist)+'</div><div class="sl">Distance</div></div>'+
+    '<div class="sum-card"><div class="sv" style="color:var(--walk)">'+(treadmillMode?'--':paceStr(avgPace))+'</div><div class="sl">Pace '+paceUnit()+'</div></div>'+
+    '<div class="sum-card"><div class="sv" style="color:var(--warm)">'+sCals+'</div><div class="sl">Calories</div></div>';
+  document.getElementById('sum-xp').textContent='+50 XP';
+  ss('xp',gXP()+50);
+  document.getElementById('sum-badges').innerHTML='';
+  document.getElementById('sum-grad').innerHTML='';
+
+  // Route map
+  var routeEl=document.getElementById('sum-route');
+  if(routePoints.length>=5&&!treadmillMode){
+    routeEl.style.display='block';
+    setTimeout(function(){drawRoute(document.getElementById('route-canvas'),routePoints);},50);
+  }else{routeEl.style.display='none';}
+
+  document.getElementById('sum-overlay').classList.add('open');
+  setTimeout(fireConfetti,200);
+  freeRunMode=false;
+}
+
+// Override tick for free run time counting
+var _origTick;
+
+// ═══════════════════════════════════════════
+// SMART SKIP — analyse performance to suggest skipping
+// ═══════════════════════════════════════════
+function analyseSkip(){
+  var p=sg('prog',{});var hist=sg('history',[]);
+  var st=gSet();
+
+  // Find current week (first incomplete)
+  var curWeek=0;
+  for(var w=0;w<TOTAL_WEEKS;w++){if(!wkDn(w)){curWeek=w;break;}if(w===TOTAL_WEEKS-1)curWeek=TOTAL_WEEKS;}
+  if(curWeek<1||curWeek>=TOTAL_WEEKS)return null; // too early or done
+
+  // Get recent performance (last 3-6 workouts)
+  var recent=[];
+  for(var i=0;i<Math.min(6,hist.length);i++){
+    if(hist[i].w>=0)recent.push(hist[i]);
+  }
+  if(recent.length<3)return null; // not enough data
+
+  // Metrics: avg pace, avg distance, consistency
+  var avgPace=0,paceCount=0,avgDist=0;
+  for(var i=0;i<recent.length;i++){
+    if(recent[i].pace&&recent[i].pace!=='--'){avgPace+=parseFloat(recent[i].pace);paceCount++;}
+    avgDist+=recent[i].dist||0;
+  }
+  if(paceCount>0)avgPace/=paceCount;
+  avgDist/=recent.length;
+
+  // What does the NEXT week expect?
+  var nextWeek=curWeek;
+  if(nextWeek>=TOTAL_WEEKS)return null;
+  var nextDay=P[nextWeek][2]; // hardest day
+  var nextRunTime=0;for(var i=0;i<nextDay.length;i++)if(nextDay[i][0]==='run')nextRunTime+=nextDay[i][1];
+  var nextRunMin=nextRunTime/60;
+
+  // What does the week AFTER next expect?
+  var skipWeek=nextWeek+1;
+  if(skipWeek>=TOTAL_WEEKS)return null;
+  var skipDay=P[skipWeek][2];
+  var skipRunTime=0;for(var i=0;i<skipDay.length;i++)if(skipDay[i][0]==='run')skipRunTime+=skipDay[i][1];
+  var skipRunMin=skipRunTime/60;
+
+  // Decision logic:
+  // 1. Good pace (< 7.5 min/km or improving)
+  // 2. Completing all recent runs without issues
+  // 3. Running further than expected for their current week
+  var currentExpectedDist=nextRunMin*(avgPace>0?(1/(avgPace/60)):0.1); // expected km based on pace
+  var overPerforming=avgDist>currentExpectedDist*1.15; // 15% more than expected
+  var goodPace=avgPace>0&&avgPace<7.5;
+  var consistent=recent.length>=3&&paceCount>=2;
+
+  if(overPerforming&&goodPace&&consistent){
+    return{
+      from:nextWeek+1,
+      to:skipWeek+1,
+      reason:'You\'re running '+avgDist.toFixed(1)+distUnit()+' avg at '+avgPace.toFixed(1)+' '+paceUnit()+' — that\'s ahead of Week '+(nextWeek+1)+' targets.',
+      skipRunMin:skipRunMin
+    };
+  }
+  return null;
+}
+
+function renderSkipBanner(){
+  var banner=document.getElementById('skip-banner');
+  var analysis=analyseSkip();
+  if(!analysis){banner.classList.remove('show');return;}
+  // Don't show if user dismissed recently
+  var dismissed=sg('skipDismissed','');
+  if(dismissed===analysis.from+'-'+analysis.to){banner.classList.remove('show');return;}
+
+  banner.classList.add('show');
+  banner.innerHTML='<span class="skip-icon">⚡</span><div>'+
+    '<strong>Ready to level up?</strong><br>'+analysis.reason+
+    '<div class="skip-actions">'+
+    '<button class="skip-btn primary" onclick="doSmartSkip('+analysis.from+','+analysis.to+')">Skip to Week '+analysis.to+'</button>'+
+    '<button class="skip-dismiss" onclick="dismissSkip('+analysis.from+','+analysis.to+')">Not yet</button>'+
+    '</div></div>';
+}
+
+function doSmartSkip(from,to){
+  // Mark the skipped week as done with placeholder data
+  var p=sg('prog',{});
+  var w=from-1; // 0-indexed
+  for(var d=0;d<3;d++){p[w+'-'+d]={cal:0,dist:0,pace:'--',runDist:0,runTime:0,date:new Date().toISOString(),skipped:true};}
+  ss('prog',p);
+  document.getElementById('skip-banner').classList.remove('show');
+  selW=to-1;
+  renderPlan();
+  speak('Nice! Skipping to Week '+to+'. You\'ve earned it!');
+}
+
+function dismissSkip(from,to){
+  ss('skipDismissed',from+'-'+to);
+  document.getElementById('skip-banner').classList.remove('show');
+}
+
+// ═══════════════════════════════════════════
+// ESTIMATED FINISH DATE
+// ═══════════════════════════════════════════
+function renderFinishEstimate(){
+  var el=document.getElementById('finish-est');if(!el)return;
+  var s=gSet();var runDays=s.runDays||[1,3,5];
+  if(runDays.length<1){el.innerHTML='';return;}
+
+  // Find first incomplete week
+  var curWeek=0;
+  for(var w=0;w<TOTAL_WEEKS;w++){if(!wkDn(w)){curWeek=w;break;}if(w===TOTAL_WEEKS-1){curWeek=TOTAL_WEEKS;}}
+  if(curWeek>=TOTAL_WEEKS){el.innerHTML='🎉 <span>Program complete!</span>';return;}
+
+  // Count remaining workouts
+  var remaining=0;
+  for(var w=curWeek;w<TOTAL_WEEKS;w++){
+    for(var d=0;d<3;d++){if(!isDn(w,d))remaining++;}
+  }
+  if(remaining<=0){el.innerHTML='';return;}
+
+  // Estimate: runDays per week = workouts per week
+  var workoutsPerWeek=Math.min(runDays.length,3);
+  var weeksLeft=Math.ceil(remaining/workoutsPerWeek);
+  var finishDate=new Date();
+  finishDate.setDate(finishDate.getDate()+weeksLeft*7);
+  var dateStr=finishDate.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'});
+
+  el.innerHTML='Estimated finish: <span>'+dateStr+'</span> ('+remaining+' workouts left)';
+}
+
+// ═══════════════════════════════════════════
+// ONBOARDING (first-time welcome)
+// ═══════════════════════════════════════════
+function checkOnboarding(){
+  if(sg('onboarded',false))return;
+  document.getElementById('onboard').classList.add('show');
+}
+function finishOnboard(){
+  var wt=parseFloat(document.getElementById('ob-wt').value);
+  var ht=parseFloat(document.getElementById('ob-ht').value);
+  var cal=parseInt(document.getElementById('ob-cal').value);
+  var s=gSet();
+  if(wt&&wt>20)s.weight=wt;
+  if(ht&&ht>100)s.height=ht;
+  if(cal&&cal>500)s.calGoal=cal;
+  ss('settings',s);
+  ss('onboarded',true);
+  document.getElementById('onboard').classList.remove('show');
+  updateWeightUI();renderPlan();
+}
+function skipOnboard(){
+  ss('onboarded',true);
+  document.getElementById('onboard').classList.remove('show');
+}
+
+// ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
 (function(){
@@ -1766,6 +2238,7 @@ function importData(input){
   applyBigTimer();
   updateWeightUI();
   renderPlan();
+  checkOnboarding();
   if('Notification' in window&&Notification.permission==='granted')scheduleReminder();
   if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 })();
