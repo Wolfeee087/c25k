@@ -9,6 +9,7 @@
 <meta name="theme-color" content="#08080e">
 <meta name="description" content="Couch to 5K+ — a progressive 14-week running program with voice coaching, GPS tracking, and progress stats">
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>C25K+ — Couch to 5K and Beyond</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -416,6 +417,21 @@ html.night{--bg:#000;--s1:#0a0a00;--s2:#151500;--s3:#1f1f00;--brd:#333300;--t:#f
 html.night .rfg{stroke:#ffee00!important}
 html.night .rbg{stroke:#333300!important}
 
+/* Splash screen */
+.splash{position:fixed;inset:0;background:#08080e;z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .4s;opacity:1}
+.splash.hide{opacity:0;pointer-events:none}
+.splash-icon{width:100px;height:100px;border-radius:24px;margin-bottom:16px;animation:splashPulse 1s ease infinite alternate}
+.splash-title{font-size:28px;font-weight:900;color:#fff;letter-spacing:1px}
+.splash-sub{font-size:12px;color:#7c7c9a;margin-top:4px}
+.splash-bar{width:120px;height:3px;background:#1a1a2e;border-radius:2px;margin-top:16px;overflow:hidden}
+.splash-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#ff4d2a,#00ccff,#00e676);border-radius:2px;animation:splashLoad 1s ease forwards}
+@keyframes splashPulse{0%{transform:scale(1)}100%{transform:scale(1.05)}}
+@keyframes splashLoad{0%{width:0%}100%{width:100%}}
+
+/* Share app button */
+.share-app-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:1.5px solid var(--brd);border-radius:var(--rs);background:var(--s1);color:var(--td);font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;width:100%;margin-top:6px;margin-bottom:10px;transition:all .2s}
+.share-app-btn:active{border-color:var(--run);color:var(--run)}
+
 /* Recovery score */
 .recovery-bar{background:var(--s1);border:1px solid var(--brd);border-radius:var(--rs);padding:8px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px;font-size:11px}
 .recovery-bar .rec-icon{font-size:16px}
@@ -503,6 +519,13 @@ html.night .rbg{stroke:#333300!important}
 </style>
 </head>
 <body>
+<div class="splash" id="splash">
+  <img class="splash-icon" src="icon-192.png" alt="C25K+" onerror="this.style.display='none'">
+  <div class="splash-title">C25K+</div>
+  <div class="splash-sub">Couch to 5K & Beyond</div>
+  <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+</div>
+
 <canvas id="confetti"></canvas>
 
 <!-- Onboarding (first-time) -->
@@ -560,6 +583,7 @@ html.night .rbg{stroke:#333300!important}
     <div class="finish-est" id="finish-est"></div>
     <button class="repeat-btn" id="repeat-btn" onclick="repeatWeek()">↻ Repeat this week</button>
     <button class="free-run-btn" id="free-run-btn" onclick="startFreeRun()">🏃‍♂️ Free Run — no intervals, just run</button>
+    <button class="share-app-btn" onclick="shareApp()">📤 Share this app with a friend</button>
   </div>
 
   <!-- TIMER -->
@@ -2047,7 +2071,7 @@ function exportData(){
   var keys=['prog','history','xp','badges','settings','wlogs','photos','theme','onboarded','measurements'];
   for(var i=0;i<keys.length;i++)data[keys[i]]=sg(keys[i],null);
   data._exported=new Date().toISOString();
-  data._version='c25k-v8';
+  data._version='c25k-v9';
   var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   var a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download='c25k-backup-'+new Date().toISOString().split('T')[0]+'.json';
@@ -2620,6 +2644,32 @@ function applyNightMode(){
 }
 
 // ═══════════════════════════════════════════
+// SPLASH SCREEN
+// ═══════════════════════════════════════════
+function dismissSplash(){
+  var sp=document.getElementById('splash');
+  if(sp){sp.classList.add('hide');setTimeout(function(){sp.style.display='none';},500);}
+}
+
+// ═══════════════════════════════════════════
+// SHARE APP
+// ═══════════════════════════════════════════
+function shareApp(){
+  var url='https://wolfeee087.github.io/c25k/';
+  var text='Check out C25K+ — a free Couch to 5K running app with 33+ features. No ads, works offline!';
+  if(navigator.share){
+    navigator.share({title:'C25K+ — Couch to 5K & Beyond',text:text,url:url}).catch(function(){});
+  }else{
+    // Fallback: copy to clipboard
+    try{
+      navigator.clipboard.writeText(url+'\n\n'+text).then(function(){alert('Link copied to clipboard! Share it with your friends.');}).catch(function(){
+        prompt('Copy this link to share:',url);
+      });
+    }catch(e){prompt('Copy this link to share:',url);}
+  }
+}
+
+// ═══════════════════════════════════════════
 // ONBOARDING (first-time welcome)
 // ═══════════════════════════════════════════
 function checkOnboarding(){
@@ -2648,6 +2698,7 @@ function skipOnboard(){
 // INIT
 // ═══════════════════════════════════════════
 (function(){
+  setTimeout(dismissSplash,1200);
   applyTheme();applyNightMode();
   var s=gSet();voiceMode=s.voice||'full';voiceOn=voiceMode!=='off';
   document.getElementById('voice-btn').classList.toggle('on',voiceOn);

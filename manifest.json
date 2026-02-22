@@ -1,7 +1,7 @@
 {
   "name": "C25K+ — Couch to 5K & Beyond",
   "short_name": "C25K+",
-  "description": "A progressive 14-week running program with voice coaching, GPS tracking, and weight loss tools",
+  "description": "A progressive 14-week running program with voice coaching, GPS tracking, and weight loss tools. 33+ features, completely free, works offline.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#08080e",
@@ -9,9 +9,16 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%2308080e'/><text x='96' y='80' text-anchor='middle' font-family='sans-serif' font-size='52' font-weight='900' fill='%23ff4d2a'>5K</text><text x='96' y='120' text-anchor='middle' font-family='sans-serif' font-size='22' font-weight='700' fill='%2300ccff'>+</text><text x='96' y='155' text-anchor='middle' font-family='sans-serif' font-size='16' font-weight='600' fill='%237c7c9a'>BEYOND</text></svg>",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

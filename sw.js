@@ -1,7 +1,9 @@
-var CACHE='c25k-v8';
+var CACHE='c25k-v9';
 var ASSETS=[
   './',
   './index.html',
+  './icon-192.png',
+  './icon-512.png',
   'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap'
 ];
 
