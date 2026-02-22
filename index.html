@@ -26,6 +26,12 @@
   --sat:env(safe-area-inset-top);
   --sab:env(safe-area-inset-bottom)
 }
+html.light{
+  --bg:#f4f4f8;--s1:#ffffff;--s2:#eaeaf0;--s3:#dddde6;--brd:#c8c8d8;
+  --t:#1a1a2e;--td:#6b6b85;--tm:#4a4a60;
+  --runs:#ff4d2a15;--walks:#0099cc15;--warms:#cc8a0015;--cools:#7733cc15;--dones:#00b35e15;
+  --rung:#ff4d2a30;--walkg:#0099cc30;--warmg:#cc8a0030;--coolg:#7733cc30;--doneg:#00b35e30
+}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{touch-action:manipulation}
 body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;background:var(--bg);color:var(--t);min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
@@ -300,6 +306,67 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
 @keyframes popIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
 .pop{animation:popIn .4s cubic-bezier(.17,.67,.35,1.3) forwards}
 
+/* Big timer mode */
+.big-timer .rw{width:220px;height:220px}
+.big-timer .rc .rtm{font-size:56px}
+.big-timer .tph{font-size:48px}
+.big-timer .lss{max-width:360px}
+.big-timer .ls .lv{font-size:18px}
+
+/* Water tracker */
+.water-bar{background:var(--s1);border:1px solid var(--brd);border-radius:var(--rs);padding:9px 12px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.water-bar .water-icon{font-size:18px}
+.water-bar .water-glasses{display:flex;gap:3px;flex:1}
+.water-bar .water-glass{width:22px;height:22px;border-radius:5px;border:1.5px solid var(--brd);background:var(--s2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
+.water-bar .water-glass.filled{border-color:var(--walk);background:var(--walks);color:var(--walk)}
+.water-bar .water-count{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--walk);min-width:32px;text-align:right}
+
+/* Calorie tracker */
+.cal-section{background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.cal-section .cal-title{font-size:10px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.cal-row{display:flex;gap:6px;margin-bottom:8px}
+.cal-row input{flex:1;padding:8px;background:var(--s2);border:1.5px solid var(--brd);border-radius:var(--rs);color:var(--t);font-family:inherit;font-size:13px;outline:none}
+.cal-row input:focus{border-color:var(--walk)}
+.cal-row button{padding:8px 14px;border:none;border-radius:var(--rs);background:var(--warm);color:#fff;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.cal-deficit{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
+.cal-deficit .cd-box{text-align:center;padding:8px 4px;border-radius:var(--rs);background:var(--s2)}
+.cal-deficit .cd-val{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700}
+.cal-deficit .cd-lbl{font-size:8px;color:var(--td);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* Progress photos */
+.photo-section{margin-bottom:14px}
+.photo-section .photo-title{font-size:10px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.photo-cell{aspect-ratio:.75;border-radius:var(--rs);border:1.5px dashed var(--brd);background:var(--s1);overflow:hidden;position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--td)}
+.photo-cell img{width:100%;height:100%;object-fit:cover}
+.photo-cell .photo-date{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#000a);padding:2px 4px;font-size:7px;color:#fff;text-align:center}
+.photo-cell .photo-del{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:#000a;border:none;color:#fff;font-size:9px;cursor:pointer;display:none;align-items:center;justify-content:center}
+.photo-cell:hover .photo-del{display:flex}
+.photo-add{border-style:dashed}
+.photo-add input{display:none}
+
+/* Personal records */
+.pr-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.pr-card{background:var(--s1);border:1px solid var(--gold);border-radius:var(--rs);padding:10px;text-align:center}
+.pr-card .pr-icon{font-size:16px}
+.pr-card .pr-val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--gold);margin-top:2px}
+.pr-card .pr-lbl{font-size:8px;color:var(--td);margin-top:1px}
+
+/* Weekly summary card (shareable) */
+.week-card{background:linear-gradient(135deg,#1a1a2e,#0d0d1a);border:2px solid var(--run);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:12px;position:relative;overflow:hidden}
+.week-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--run),var(--walk),var(--done))}
+.week-card .wc-week{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--run);margin-bottom:4px}
+.week-card .wc-big{font-size:28px;font-weight:900;margin-bottom:2px}
+.week-card .wc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.week-card .wc-stat .wc-sv{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700}
+.week-card .wc-stat .wc-sl{font-size:8px;color:var(--td);text-transform:uppercase}
+.week-card .wc-brand{font-size:9px;color:var(--td);margin-top:8px}
+.week-card .wc-share{margin-top:8px;padding:8px 16px;border:1.5px solid var(--run);border-radius:20px;background:transparent;color:var(--run);font-family:inherit;font-size:11px;font-weight:700;cursor:pointer}
+.week-card .wc-share:active{background:var(--runs)}
+
+/* Streak shield */
+.streak-shield{font-size:12px;margin-left:4px;cursor:help}
+
 /* Small screens */
 @media(max-height:700px){
   .rw{width:150px;height:150px}
@@ -317,6 +384,7 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
   <div class="hdr">
     <div class="hdr-l"><div class="logo">Couch to</div><h1>5K+</h1></div>
     <div class="hdr-r">
+      <button class="ib" id="theme-btn" onclick="toggleTheme()" title="Theme" aria-label="Toggle light/dark mode">🌙</button>
       <button class="ib" id="voice-btn" onclick="toggleVoice()" title="Voice" aria-label="Toggle voice coach">🗣</button>
       <button class="ib" onclick="openSettings()" title="Settings" aria-label="Open settings">⚙</button>
     </div>
@@ -326,12 +394,18 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
     <span class="flame">🔥</span>
     <span class="streak-num" id="streak-num">0</span>
     <span class="streak-txt">week streak</span>
+    <span class="streak-shield" id="streak-shield" title="Streak shield: protects your streak if you miss 1 week"></span>
     <span class="xp-badge" id="xp-total">0 XP</span>
   </div>
 
   <!-- PLAN -->
   <div id="plan-scr" class="scr on">
     <div id="tip-box" class="tip-box"></div>
+    <div class="water-bar" id="water-bar">
+      <span class="water-icon">💧</span>
+      <div class="water-glasses" id="water-glasses"></div>
+      <span class="water-count" id="water-count">0/8</span>
+    </div>
     <div id="quote-box" class="quote-box"></div>
     <div class="wscrl" id="wsel"></div>
     <div class="dcds" id="dcds"></div>
@@ -388,6 +462,18 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
       <button onclick="logWeight()">Log</button>
     </div>
     <div id="bmi-section"></div>
+    <div class="cal-section" id="cal-section">
+      <div class="cal-title">🔥 Today's Calorie Balance</div>
+      <div class="cal-row">
+        <input type="number" id="cal-in" placeholder="Calories eaten today" min="0" max="10000">
+        <button onclick="logCalories()">Log</button>
+      </div>
+      <div class="cal-deficit" id="cal-deficit"></div>
+    </div>
+    <div class="photo-section">
+      <div class="photo-title"><span>📸 Progress Photos</span><label class="pv-btn" style="cursor:pointer">+ Add<input type="file" accept="image/*" capture="user" style="display:none" onchange="addPhoto(this)"></label></div>
+      <div class="photo-grid" id="photo-grid"></div>
+    </div>
     <div class="wt-chart"><canvas id="wt-canvas"></canvas><div class="no-data" id="wt-nodata">Log your first weigh-in above</div></div>
     <div class="wt-summary" id="wt-summary"></div>
     <div class="htitle" id="wt-log-title" style="display:none">Recent Entries</div>
@@ -431,7 +517,11 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
       <div class="fld"><label>Units</label><select id="s-un"><option value="km">Metric</option><option value="mi">Imperial</option></select></div>
     </div>
     <div class="fld"><label>Voice Coach</label><select id="s-vc"><option value="full">Full coaching</option><option value="simple">Simple announcements</option><option value="off">Off</option></select></div>
-    <div class="fld"><label id="lbl-pace">Pace Goal (min/km)</label><input type="number" id="s-pace" placeholder="7.0" min="2" max="15" step="0.1"><div class="ht">Voice coach alerts if you're off pace during runs</div></div>
+    <div class="fld-row">
+      <div class="fld"><label id="lbl-pace">Pace Goal (min/km)</label><input type="number" id="s-pace" placeholder="7.0" min="2" max="15" step="0.1"></div>
+      <div class="fld"><label>Daily Cal Goal</label><input type="number" id="s-calgoal" placeholder="2000" min="500" max="5000" step="50"><div class="ht">Calorie intake target</div></div>
+    </div>
+    <div class="fld"><label>Timer Size</label><select id="s-bigtimer"><option value="normal">Normal</option><option value="big">Large (armband)</option></select><div class="ht">Larger text for glancing mid-run</div></div>
 
     <div class="settings-section">Schedule & Reminders</div>
     <div class="fld"><label>Run Days</label>
@@ -618,8 +708,7 @@ function sg(k,d){try{var v=localStorage.getItem('c25k_'+k);if(v===null)return d;
 function ss(k,v){try{localStorage.setItem('c25k_'+k,JSON.stringify(v))}catch(e){}}
 function isDn(w,d){return sg('prog',{})[w+'-'+d]!=null}
 function wkDn(w){return isDn(w,0)&&isDn(w,1)&&isDn(w,2)}
-function gSet(){return sg('settings',{weight:70,height:170,units:'km',voice:'full',paceGoal:0,runDays:[1,3,5],remindTime:'07:00'})}
-function gXP(){return sg('xp',0)}
+function gSet(){return sg('settings',{weight:70,height:170,units:'km',voice:'full',paceGoal:0,runDays:[1,3,5],remindTime:'07:00',calGoal:2000,bigTimer:false})}function gXP(){return sg('xp',0)}
 function gBadges(){return sg('badges',[])}
 
 function getWeightKg(){
@@ -644,14 +733,19 @@ function getStats(){
     }
     weeks.push(wd);
   }
-  return{total:total,cals:cals,dist:dist,weeks:weeks,streak:calcStreak()};
+  return{total:total,cals:cals,dist:dist,weeks:weeks,streak:getStreakNum()};
 }
 
 function calcStreak(){
-  var s=0;
-  for(var w=0;w<TOTAL_WEEKS;w++){if(wkDn(w))s++;else break;}
-  return s;
+  var s=0,shieldUsed=false;
+  for(var w=0;w<TOTAL_WEEKS;w++){
+    if(wkDn(w)){s++;}
+    else if(!shieldUsed&&s>=1){shieldUsed=true;s++;} // shield: skip 1 miss
+    else break;
+  }
+  return{count:s,shieldAvail:!shieldUsed&&s>=1,shieldUsed:shieldUsed};
 }
+function getStreakNum(){return calcStreak().count;}
 
 // ═══════════════════════════════════════════
 // TREADMILL MODE
@@ -852,13 +946,16 @@ function renderPlan(){
     schedHTML+='</div>';
     document.getElementById('tip-box').innerHTML+=schedHTML;
   }
+  renderWater();
 
   // Quote
   var qi=Math.floor(Date.now()/(1000*60*60*12))%QUOTES.length;
   document.getElementById('quote-box').innerHTML='\u201c'+QUOTES[qi].q+'\u201d<span class="qa">\u2014 '+QUOTES[qi].a+'</span>';
 
-  var st=getStats();
-  document.getElementById('streak-num').textContent=st.streak;
+  var st=getStats();var streakData=calcStreak();
+  document.getElementById('streak-num').textContent=streakData.count;
+  document.getElementById('streak-shield').textContent=streakData.shieldAvail?'🛡️':'';
+  document.getElementById('streak-shield').title=streakData.shieldAvail?'Streak shield active: protects your streak if you miss 1 week':'Streak shield: complete 1+ weeks to earn';
   document.getElementById('xp-total').textContent=gXP()+' XP';
 
   // Week selector
@@ -1085,7 +1182,7 @@ function showSummary(){
   ss('prog',p);
 
   var h=sg('history',[]);
-  h.unshift({w:curWO.week,d:curWO.day,cal:sCals,dist:parseFloat(displayDist.toFixed(2)),pace:avgRunPace,runDist:parseFloat(displayRunDist.toFixed(2)),runTime:runTimeSec,date:new Date().toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})});
+  h.unshift({w:curWO.week,d:curWO.day,cal:sCals,dist:parseFloat(displayDist.toFixed(2)),pace:avgRunPace,runDist:parseFloat(displayRunDist.toFixed(2)),runTime:runTimeSec,date:new Date().toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}),isoDate:new Date().toISOString().split('T')[0]});
   if(h.length>50)h=h.slice(0,50);
   ss('history',h);
 
@@ -1162,6 +1259,19 @@ function renderProgress(){
   var totalWO=TOTAL_WEEKS*3;
   var dV=st.units==='mi'?(stats.dist*0.621371).toFixed(1):stats.dist.toFixed(1);
   html+='<div class="srow"><div class="sc"><div class="sv">'+stats.total+'</div><div class="sl">Workouts</div></div><div class="sc"><div class="sv">'+Math.round((stats.total/totalWO)*100)+'%</div><div class="sl">Complete</div></div><div class="sc"><div class="sv" style="color:var(--warm)">'+stats.cals+'</div><div class="sl">Total kcal</div></div><div class="sc"><div class="sv" style="color:var(--walk)">'+dV+'</div><div class="sl">Total '+distUnit()+'</div></div></div>';
+
+  // Personal Records
+  var pr=getPersonalRecords();
+  if(stats.total>0){
+    html+='<div class="htitle">🏅 Personal Records</div><div class="pr-row">';
+    html+='<div class="pr-card"><div class="pr-icon">⚡</div><div class="pr-val">'+(pr.bestPace!=='--'?paceStr(pr.bestPace):'--')+'</div><div class="pr-lbl">Best Pace</div></div>';
+    html+='<div class="pr-card"><div class="pr-icon">📏</div><div class="pr-val">'+distStr(pr.longestDist)+'</div><div class="pr-lbl">Longest Run</div></div>';
+    html+='<div class="pr-card"><div class="pr-icon">🔥</div><div class="pr-val">'+pr.mostCal+'</div><div class="pr-lbl">Most kcal</div></div>';
+    html+='</div>';
+  }
+
+  // Weekly summary card (shareable)
+  html+=renderWeekCard();
 
   // Weekly distance trend chart
   html+='<div class="trend-chart"><div class="tc-title">Weekly Distance Trend</div><canvas id="trend-canvas"></canvas></div>';
@@ -1305,7 +1415,7 @@ function deleteWeight(idx){
 }
 
 function renderBody(){
-  updateWeightUI();renderBMI();
+  updateWeightUI();renderBMI();renderCalories();renderPhotos();
   var logs=sg('wlogs',[]);var wu=weightUnit();
   document.getElementById('wt-nodata').style.display=logs.length>0?'none':'flex';
   var sum=document.getElementById('wt-summary');
@@ -1369,7 +1479,175 @@ var resizeTimer=null;
 window.addEventListener('resize',function(){clearTimeout(resizeTimer);resizeTimer=setTimeout(function(){if(document.getElementById('body-scr').classList.contains('on'))renderBody();},200);});
 
 // ═══════════════════════════════════════════
-// SETTINGS
+// LIGHT/DARK MODE
+// ═══════════════════════════════════════════
+function toggleTheme(){
+  var isLight=document.documentElement.classList.toggle('light');
+  ss('theme',isLight?'light':'dark');
+  document.getElementById('theme-btn').textContent=isLight?'☀️':'🌙';
+  document.querySelector('meta[name="theme-color"]').content=isLight?'#f4f4f8':'#08080e';
+}
+function applyTheme(){
+  var t=sg('theme','dark');
+  if(t==='light'){document.documentElement.classList.add('light');document.getElementById('theme-btn').textContent='☀️';document.querySelector('meta[name="theme-color"]').content='#f4f4f8';}
+}
+
+// ═══════════════════════════════════════════
+// BIG TIMER
+// ═══════════════════════════════════════════
+function applyBigTimer(){
+  var s=gSet();
+  document.getElementById('timer-scr').classList.toggle('big-timer',!!s.bigTimer);
+}
+
+// ═══════════════════════════════════════════
+// WATER TRACKER (daily reset)
+// ═══════════════════════════════════════════
+function getWaterKey(){return'water_'+new Date().toISOString().split('T')[0];}
+function getWater(){return sg(getWaterKey(),0);}
+function renderWater(){
+  var count=getWater();var g=document.getElementById('water-glasses');g.innerHTML='';
+  for(var i=0;i<8;i++){
+    var b=document.createElement('div');b.className='water-glass'+(i<count?' filled':'');
+    b.textContent=i<count?'💧':'';b.setAttribute('data-i',i);
+    b.onclick=function(){tapWater(parseInt(this.getAttribute('data-i')));};
+    g.appendChild(b);
+  }
+  document.getElementById('water-count').textContent=count+'/8';
+}
+function tapWater(i){
+  var count=getWater();
+  if(i<count)ss(getWaterKey(),i); // tap filled = unfill from there
+  else ss(getWaterKey(),i+1); // tap empty = fill up to there
+  renderWater();
+}
+
+// ═══════════════════════════════════════════
+// CALORIE DEFICIT TRACKER
+// ═══════════════════════════════════════════
+function getCalKey(){return'cals_'+new Date().toISOString().split('T')[0];}
+function logCalories(){
+  var v=parseInt(document.getElementById('cal-in').value);
+  if(!v||v<0||v>10000){alert('Enter calories between 0 and 10,000');return;}
+  var today=getCalKey();var existing=sg(today,0);
+  ss(today,existing+v);
+  document.getElementById('cal-in').value='';
+  renderCalories();
+}
+function renderCalories(){
+  var eaten=sg(getCalKey(),0);
+  var goal=gSet().calGoal||2000;
+  // Get today's exercise calories from history
+  var todayStr=new Date().toISOString().split('T')[0];
+  var hist=sg('history',[]);var burned=0;
+  for(var i=0;i<hist.length;i++){
+    var h=hist[i];
+    if(h.isoDate===todayStr){burned+=h.cal||0;}
+    else if(h.date&&h.date.length>10){try{var hd=new Date(h.date).toISOString().split('T')[0];if(hd===todayStr)burned+=h.cal||0;}catch(e){}}
+  }
+  var net=eaten-burned;var deficit=goal-net;
+  var defCol=deficit>=0?'var(--done)':'var(--run)';
+  document.getElementById('cal-deficit').innerHTML=
+    '<div class="cd-box"><div class="cd-val" style="color:var(--warm)">'+eaten+'</div><div class="cd-lbl">Eaten</div></div>'+
+    '<div class="cd-box"><div class="cd-val" style="color:var(--run)">'+burned+'</div><div class="cd-lbl">Burned</div></div>'+
+    '<div class="cd-box"><div class="cd-val" style="color:'+defCol+'">'+deficit+'</div><div class="cd-lbl">Remaining</div></div>';
+}
+
+// ═══════════════════════════════════════════
+// PROGRESS PHOTOS (compressed thumbnails in localStorage)
+// ═══════════════════════════════════════════
+function addPhoto(input){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    // Resize to small thumbnail to save localStorage space
+    var img=new Image();
+    img.onload=function(){
+      var canvas=document.createElement('canvas');
+      var MAX=200;var ratio=Math.min(MAX/img.width,MAX/img.height*1.33);
+      canvas.width=Math.round(img.width*ratio);canvas.height=Math.round(img.height*ratio);
+      var ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      var thumb=canvas.toDataURL('image/jpeg',0.5); // ~10-20KB each
+      var photos=sg('photos',[]);
+      photos.push({img:thumb,date:new Date().toISOString().split('T')[0]});
+      if(photos.length>20)photos=photos.slice(-20); // max 20 photos
+      try{ss('photos',photos);}catch(e){alert('Storage full! Delete old photos first.');return;}
+      renderPhotos();
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+  input.value='';
+}
+function deletePhoto(idx){
+  if(!confirm('Delete this photo?'))return;
+  var photos=sg('photos',[]);photos.splice(idx,1);ss('photos',photos);renderPhotos();
+}
+function renderPhotos(){
+  var photos=sg('photos',[]);var g=document.getElementById('photo-grid');
+  if(!g)return;
+  var html='';
+  for(var i=0;i<photos.length;i++){
+    html+='<div class="photo-cell"><img src="'+photos[i].img+'" alt="Progress"><div class="photo-date">'+photos[i].date+'</div><button class="photo-del" onclick="deletePhoto('+i+')">✕</button></div>';
+  }
+  if(photos.length<20){
+    html+='<label class="photo-cell photo-add"><span>📷<br>Add</span><input type="file" accept="image/*" capture="user" onchange="addPhoto(this)"></label>';
+  }
+  g.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════
+// PERSONAL RECORDS
+// ═══════════════════════════════════════════
+function getPersonalRecords(){
+  var hist=sg('history',[]);
+  var pr={bestPace:'--',longestDist:0,mostCal:0,longestRun:0};
+  for(var i=0;i<hist.length;i++){
+    var h=hist[i];
+    if(h.pace&&h.pace!=='--'){var p=parseFloat(h.pace);if(pr.bestPace==='--'||p<parseFloat(pr.bestPace))pr.bestPace=h.pace;}
+    if(h.dist&&h.dist>pr.longestDist)pr.longestDist=h.dist;
+    if(h.cal&&h.cal>pr.mostCal)pr.mostCal=h.cal;
+    if(h.runTime&&h.runTime>pr.longestRun)pr.longestRun=h.runTime;
+  }
+  return pr;
+}
+
+// ═══════════════════════════════════════════
+// WEEKLY SUMMARY CARD (shareable)
+// ═══════════════════════════════════════════
+function getLastCompletedWeek(){
+  for(var w=TOTAL_WEEKS-1;w>=0;w--){if(wkDn(w))return w;}
+  return-1;
+}
+function renderWeekCard(){
+  var lw=getLastCompletedWeek();if(lw<0)return'';
+  var p=sg('prog',{});var st=gSet();
+  var wkCal=0,wkDist=0,wkRuns=0;
+  for(var d=0;d<3;d++){
+    var k=lw+'-'+d;if(p[k]){wkCal+=(p[k].cal||0);wkDist+=(p[k].dist||0);wkRuns++;}
+  }
+  var dV=st.units==='mi'?(wkDist*0.621371).toFixed(1):wkDist.toFixed(1);
+  var dU=distUnit();
+  var label=lw<9?'Week '+(lw+1):'Beyond 5K · Week '+(lw+1);
+  return'<div class="week-card"><div class="wc-week">'+label+' Complete ✓</div>'+
+    '<div class="wc-big">🎉 '+wkRuns+'/3 Runs</div>'+
+    '<div class="wc-stats"><div class="wc-stat"><div class="wc-sv" style="color:var(--done)">'+dV+'</div><div class="wc-sl">'+dU+'</div></div>'+
+    '<div class="wc-stat"><div class="wc-sv" style="color:var(--warm)">'+wkCal+'</div><div class="wc-sl">kcal</div></div>'+
+    '<div class="wc-stat"><div class="wc-sv" style="color:var(--walk)">'+getStreakNum()+'</div><div class="wc-sl">streak</div></div></div>'+
+    '<div class="wc-brand">C25K+ — Couch to 5K & Beyond</div>'+
+    '<button class="wc-share" onclick="shareWeekCard()">📤 Share / Screenshot</button></div>';
+}
+function shareWeekCard(){
+  if(navigator.share){
+    var lw=getLastCompletedWeek();var stats=getStats();
+    navigator.share({title:'C25K+ Week '+(lw+1)+' Complete!',text:'Just finished Week '+(lw+1)+' of C25K+! 🏃‍♂️ '+stats.total+' workouts done, '+distStr(stats.dist)+' total. #C25K #Running'}).catch(function(){});
+  }else{
+    alert('Take a screenshot of the card above to share with friends!');
+  }
+}
+
+// ═══════════════════════════════════════════
+// SETTINGS (updated)
 // ═══════════════════════════════════════════
 function openSettings(){
   var s=gSet();
@@ -1378,9 +1656,10 @@ function openSettings(){
   document.getElementById('s-un').value=s.units||'km';
   document.getElementById('s-vc').value=s.voice||'full';
   document.getElementById('s-pace').value=s.paceGoal||'';
+  document.getElementById('s-calgoal').value=s.calGoal||2000;
+  document.getElementById('s-bigtimer').value=s.bigTimer?'big':'normal';
   document.getElementById('s-remind').value=s.remindTime||'07:00';
   updateSettingsLabels(s.units||'km');
-  // Run days
   var days=s.runDays||[1,3,5];
   var btns=document.querySelectorAll('#day-sel button');
   for(var i=0;i<btns.length;i++)btns[i].classList.toggle('on',days.indexOf(i)!==-1);
@@ -1405,9 +1684,10 @@ function saveSettings(){
   var runDays=[];
   var btns=document.querySelectorAll('#day-sel button');
   for(var i=0;i<btns.length;i++)if(btns[i].classList.contains('on'))runDays.push(i);
-  var s={weight:weightVal,height:heightVal,units:newUnits,voice:document.getElementById('s-vc').value,paceGoal:parseFloat(document.getElementById('s-pace').value)||0,runDays:runDays,remindTime:document.getElementById('s-remind').value};
+  var s={weight:weightVal,height:heightVal,units:newUnits,voice:document.getElementById('s-vc').value,paceGoal:parseFloat(document.getElementById('s-pace').value)||0,calGoal:parseInt(document.getElementById('s-calgoal').value)||2000,bigTimer:document.getElementById('s-bigtimer').value==='big',runDays:runDays,remindTime:document.getElementById('s-remind').value};
   ss('settings',s);voiceMode=s.voice;voiceOn=s.voice!=='off';
   document.getElementById('voice-btn').classList.toggle('on',voiceOn);
+  applyBigTimer();
   closeSettings();refreshTimer();
 }
 
@@ -1446,10 +1726,10 @@ function scheduleReminder(){
 // ═══════════════════════════════════════════
 function exportData(){
   var data={};
-  var keys=['prog','history','xp','badges','settings','wlogs'];
+  var keys=['prog','history','xp','badges','settings','wlogs','photos','theme'];
   for(var i=0;i<keys.length;i++)data[keys[i]]=sg(keys[i],null);
   data._exported=new Date().toISOString();
-  data._version='c25k-v5';
+  data._version='c25k-v6';
   var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   var a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download='c25k-backup-'+new Date().toISOString().split('T')[0]+'.json';
@@ -1464,7 +1744,7 @@ function importData(input){
       var data=JSON.parse(e.target.result);
       if(!data._version){alert('Invalid backup file');return;}
       if(!confirm('This will overwrite all current data. Continue?'))return;
-      var keys=['prog','history','xp','badges','settings','wlogs'];
+      var keys=['prog','history','xp','badges','settings','wlogs','photos','theme'];
       for(var i=0;i<keys.length;i++){
         if(data[keys[i]]!=null)ss(keys[i],data[keys[i]]);
       }
@@ -1480,13 +1760,13 @@ function importData(input){
 // INIT
 // ═══════════════════════════════════════════
 (function(){
+  applyTheme();
   var s=gSet();voiceMode=s.voice||'full';voiceOn=voiceMode!=='off';
   document.getElementById('voice-btn').classList.toggle('on',voiceOn);
+  applyBigTimer();
   updateWeightUI();
   renderPlan();
-  // Start reminder check if permission already granted
   if('Notification' in window&&Notification.permission==='granted')scheduleReminder();
-  // Register service worker for offline support
   if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 })();
 </script>
