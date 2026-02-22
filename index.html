@@ -411,6 +411,86 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
 .finish-est{font-size:10px;color:var(--td);text-align:center;margin-top:4px;margin-bottom:6px}
 .finish-est span{color:var(--done);font-weight:700}
 
+/* Night run mode */
+html.night{--bg:#000;--s1:#0a0a00;--s2:#151500;--s3:#1f1f00;--brd:#333300;--t:#ffee00;--td:#ccaa00;--tm:#ddcc00;--run:#ffee00;--walk:#ffee00;--warm:#ffee00;--cool:#ffee00;--done:#ffee00}
+html.night .rfg{stroke:#ffee00!important}
+html.night .rbg{stroke:#333300!important}
+
+/* Recovery score */
+.recovery-bar{background:var(--s1);border:1px solid var(--brd);border-radius:var(--rs);padding:8px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px;font-size:11px}
+.recovery-bar .rec-icon{font-size:16px}
+.recovery-bar .rec-text{color:var(--tm);flex:1}
+.recovery-bar .rec-badge{font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px}
+.rec-fresh{background:var(--dones);color:var(--done)}
+.rec-ok{background:var(--warms);color:var(--warm)}
+.rec-tired{background:var(--runs);color:var(--run)}
+
+/* Condition advice */
+.cond-tip{font-size:10px;color:var(--td);padding:4px 12px;margin-bottom:6px}
+
+/* Stretches modal */
+.stretch-modal{display:none;position:fixed;inset:0;background:#000a;z-index:120;align-items:center;justify-content:center;padding:16px}
+.stretch-modal.open{display:flex}
+.stretch-content{background:var(--s1);border:1px solid var(--brd);border-radius:var(--r);padding:16px;width:100%;max-width:380px;max-height:80vh;overflow-y:auto}
+.stretch-content h3{font-size:15px;font-weight:800;margin-bottom:10px}
+.stretch-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--brd);align-items:flex-start}
+.stretch-item:last-child{border-bottom:none}
+.stretch-item .si-icon{font-size:24px;flex-shrink:0;width:32px;text-align:center}
+.stretch-item .si-name{font-size:12px;font-weight:700;color:var(--t)}
+.stretch-item .si-desc{font-size:10px;color:var(--td);line-height:1.4;margin-top:2px}
+.stretch-item .si-dur{font-size:9px;color:var(--walk);font-weight:600;margin-top:3px}
+.stretch-close{width:100%;padding:10px;border:none;border-radius:var(--rs);background:var(--run);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;margin-top:10px}
+.stretch-btns{display:flex;gap:6px;margin-bottom:8px}
+.stretch-btns button{flex:1;padding:8px;border:1.5px solid var(--brd);border-radius:var(--rs);background:var(--s2);color:var(--td);font-family:inherit;font-size:11px;font-weight:700;cursor:pointer}
+.stretch-btns button.active{border-color:var(--run);color:var(--run);background:var(--runs)}
+
+/* Body measurements */
+.meas-section{margin-bottom:12px}
+.meas-title{font-size:10px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.meas-row{display:flex;gap:6px;margin-bottom:6px}
+.meas-row .meas-input{flex:1;display:flex;flex-direction:column;gap:3px}
+.meas-row .meas-input label{font-size:9px;color:var(--td);font-weight:600}
+.meas-row .meas-input input{padding:7px;background:var(--s2);border:1.5px solid var(--brd);border-radius:var(--rs);color:var(--t);font-family:inherit;font-size:12px;outline:none;width:100%}
+.meas-row .meas-input input:focus{border-color:var(--walk)}
+.meas-btn{padding:8px 14px;border:none;border-radius:var(--rs);background:var(--cool);color:#fff;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;width:100%}
+.meas-history{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.meas-tag{font-size:9px;padding:3px 8px;border-radius:12px;background:var(--s2);color:var(--td)}
+
+/* Photo compare */
+.compare-modal{display:none;position:fixed;inset:0;background:#000e;z-index:130;align-items:center;justify-content:center;flex-direction:column;padding:16px}
+.compare-modal.open{display:flex}
+.compare-wrap{display:flex;gap:6px;width:100%;max-width:380px;flex:1;min-height:0}
+.compare-wrap .compare-col{flex:1;display:flex;flex-direction:column;gap:4px;overflow:hidden}
+.compare-wrap .compare-col img{width:100%;flex:1;object-fit:cover;border-radius:var(--rs)}
+.compare-wrap .compare-col .compare-date{font-size:9px;color:var(--td);text-align:center}
+.compare-nav{display:flex;gap:8px;margin-top:8px}
+.compare-nav button{padding:8px 16px;border:1.5px solid var(--brd);border-radius:var(--rs);background:var(--s2);color:var(--t);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.compare-nav button.primary{background:var(--run);border-color:var(--run);color:#fff}
+
+/* Heatmap calendar */
+.heatmap{margin-bottom:12px}
+.heatmap .hm-title{font-size:10px;font-weight:700;color:var(--td);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.heatmap .hm-grid{display:flex;gap:2px;flex-wrap:wrap}
+.heatmap .hm-cell{width:12px;height:12px;border-radius:2px;background:var(--s2)}
+.heatmap .hm-cell.l1{background:var(--dones)}
+.heatmap .hm-cell.l2{background:var(--doneg)}
+.heatmap .hm-cell.l3{background:var(--done)}
+.heatmap .hm-cell.today{outline:1.5px solid var(--t)}
+.heatmap .hm-months{display:flex;gap:2px;margin-bottom:3px;font-size:7px;color:var(--td)}
+.heatmap .hm-months span{width:12px;text-align:center}
+
+/* Challenges */
+.challenges{margin-bottom:12px}
+.challenge-card{background:var(--s1);border:1px solid var(--brd);border-radius:var(--rs);padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.challenge-card.done{border-color:var(--done);opacity:.7}
+.challenge-card .ch-icon{font-size:20px}
+.challenge-card .ch-info{flex:1}
+.challenge-card .ch-name{font-size:12px;font-weight:700}
+.challenge-card .ch-desc{font-size:9px;color:var(--td);margin-top:1px}
+.challenge-card .ch-prog{height:4px;background:var(--s2);border-radius:2px;margin-top:5px;overflow:hidden}
+.challenge-card .ch-prog-fill{height:100%;background:var(--done);border-radius:2px;transition:width .3s}
+.challenge-card .ch-check{font-size:16px;color:var(--done)}
+
 /* Small screens */
 @media(max-height:700px){
   .rw{width:150px;height:150px}
@@ -465,6 +545,8 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
 
   <!-- PLAN -->
   <div id="plan-scr" class="scr on">
+    <div id="recovery-bar" class="recovery-bar" style="display:none"></div>
+    <div id="cond-tip" class="cond-tip"></div>
     <div id="tip-box" class="tip-box"></div>
     <div class="water-bar" id="water-bar">
       <span class="water-icon">💧</span>
@@ -488,6 +570,7 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
       <div class="tco" id="t-coach">Tap play to start</div>
       <div class="timer-hints">
         <button class="hint-pill" id="treadmill-btn" onclick="toggleTreadmill()">🏃‍♂️ Treadmill</button>
+        <button class="hint-pill" onclick="openStretches('pre')">🧘 Warm-up</button>
         <button class="hint-pill" onclick="alert('Start your music app first.\nVoice coach plays over it automatically.')">🎵 Music tip</button>
       </div>
     </div>
@@ -530,6 +613,16 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
       <button onclick="logWeight()">Log</button>
     </div>
     <div id="bmi-section"></div>
+    <div class="meas-section">
+      <div class="meas-title">📏 Body Measurements</div>
+      <div class="meas-row">
+        <div class="meas-input"><label>Waist</label><input type="number" id="m-waist" step="0.5" placeholder="cm"></div>
+        <div class="meas-input"><label>Chest</label><input type="number" id="m-chest" step="0.5" placeholder="cm"></div>
+        <div class="meas-input"><label>Hips</label><input type="number" id="m-hips" step="0.5" placeholder="cm"></div>
+      </div>
+      <button class="meas-btn" onclick="logMeasurements()">Log Measurements</button>
+      <div class="meas-history" id="meas-history"></div>
+    </div>
     <div class="cal-section" id="cal-section">
       <div class="cal-title">🔥 Today's Calorie Balance</div>
       <div class="cal-row">
@@ -539,7 +632,7 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
       <div class="cal-deficit" id="cal-deficit"></div>
     </div>
     <div class="photo-section">
-      <div class="photo-title"><span>📸 Progress Photos</span><label class="pv-btn" style="cursor:pointer">+ Add<input type="file" accept="image/*" capture="user" style="display:none" onchange="addPhoto(this)"></label></div>
+      <div class="photo-title"><span>📸 Progress Photos</span><span><button class="pv-btn" onclick="openCompare()" style="margin-right:4px">Compare</button><label class="pv-btn" style="cursor:pointer">+ Add<input type="file" accept="image/*" capture="user" style="display:none" onchange="addPhoto(this)"></label></span></div>
       <div class="photo-grid" id="photo-grid"></div>
     </div>
     <div class="wt-chart"><canvas id="wt-canvas"></canvas><div class="no-data" id="wt-nodata">Log your first weigh-in above</div></div>
@@ -570,12 +663,37 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
     <div class="rm-title">Your Route</div>
     <canvas id="route-canvas"></canvas>
   </div>
-  <button class="sum-btn" onclick="closeSummary()">Continue</button>
+  <button class="sum-btn" onclick="closeSummary()" style="margin-bottom:6px">Continue</button>
+  <button class="sum-btn" onclick="closeSummary();openStretches('post')" style="background:transparent;border:1.5px solid var(--cool);color:var(--cool)">🧘 Cool-down Stretches</button>
 </div>
 
 <!-- Interval Preview Modal -->
 <div class="iv-modal" id="iv-modal" onclick="if(event.target===this)closeIvModal()">
   <div class="iv-modal-content" id="iv-modal-content"></div>
+</div>
+
+<!-- Stretches Guide Modal -->
+<div class="stretch-modal" id="stretch-modal" onclick="if(event.target===this)closeStretches()">
+  <div class="stretch-content">
+    <h3 id="stretch-title">Warm-up Stretches</h3>
+    <div class="stretch-btns">
+      <button id="stretch-pre-btn" class="active" onclick="showStretchType('pre')">🔥 Pre-Run</button>
+      <button id="stretch-post-btn" onclick="showStretchType('post')">❄️ Post-Run</button>
+    </div>
+    <div id="stretch-list"></div>
+    <button class="stretch-close" onclick="closeStretches()">Done</button>
+  </div>
+</div>
+
+<!-- Photo Compare Modal -->
+<div class="compare-modal" id="compare-modal" onclick="if(event.target===this)closeCompare()">
+  <div style="font-size:14px;font-weight:800;margin-bottom:8px;color:#fff">Before & After</div>
+  <div class="compare-wrap" id="compare-wrap"></div>
+  <div class="compare-nav">
+    <button onclick="compareNav(-1)">← Earlier</button>
+    <button class="primary" onclick="closeCompare()">Close</button>
+    <button onclick="compareNav(1)">Later →</button>
+  </div>
 </div>
 
 <!-- Settings -->
@@ -589,11 +707,13 @@ body{font-family:'Outfit',-apple-system,BlinkMacSystemFont,'SF Pro Display','Seg
       <div class="fld"><label>Units</label><select id="s-un"><option value="km">Metric</option><option value="mi">Imperial</option></select></div>
     </div>
     <div class="fld"><label>Voice Coach</label><select id="s-vc"><option value="full">Full coaching</option><option value="simple">Simple announcements</option><option value="off">Off</option></select></div>
+    <div class="fld"><label>Coach Personality</label><select id="s-personality"><option value="default">Supportive Coach</option><option value="drill">Drill Sergeant 🎖️</option><option value="mate">Best Mate 🍻</option><option value="zen">Zen Master 🧘</option></select><div class="ht">Changes voice coach tone and phrases</div></div>
     <div class="fld-row">
       <div class="fld"><label id="lbl-pace">Pace Goal (min/km)</label><input type="number" id="s-pace" placeholder="7.0" min="2" max="15" step="0.1"></div>
       <div class="fld"><label>Daily Cal Goal</label><input type="number" id="s-calgoal" placeholder="2000" min="500" max="5000" step="50"><div class="ht">Calorie intake target</div></div>
     </div>
     <div class="fld"><label>Timer Size</label><select id="s-bigtimer"><option value="normal">Normal</option><option value="big">Large (armband)</option></select><div class="ht">Larger text for glancing mid-run</div></div>
+    <div class="fld"><label>Night Run Mode</label><select id="s-nightmode"><option value="off">Off</option><option value="on">On — high contrast yellow/black</option></select><div class="ht">Maximum visibility in the dark</div></div>
 
     <div class="settings-section">Schedule & Reminders</div>
     <div class="fld"><label>Run Days</label>
@@ -784,7 +904,7 @@ function sg(k,d){try{var v=localStorage.getItem('c25k_'+k);if(v===null)return d;
 function ss(k,v){try{localStorage.setItem('c25k_'+k,JSON.stringify(v))}catch(e){}}
 function isDn(w,d){return sg('prog',{})[w+'-'+d]!=null}
 function wkDn(w){return isDn(w,0)&&isDn(w,1)&&isDn(w,2)}
-function gSet(){return sg('settings',{weight:70,height:170,units:'km',voice:'full',paceGoal:0,runDays:[1,3,5],remindTime:'07:00',calGoal:2000,bigTimer:false})}function gXP(){return sg('xp',0)}
+function gSet(){return sg('settings',{weight:70,height:170,units:'km',voice:'full',personality:'default',paceGoal:0,runDays:[1,3,5],remindTime:'07:00',calGoal:2000,bigTimer:false,nightMode:false})}function gXP(){return sg('xp',0)}
 function gBadges(){return sg('badges',[])}
 
 function getWeightKg(){
@@ -892,7 +1012,7 @@ function snd(t){try{if(t==='run')beep(880,.12,3);else if(t==='walk')beep(523,.18
 // VOICE
 // ═══════════════════════════════════════════
 function speak(text){try{if(!voiceOn||voiceMode==='off'||!window.speechSynthesis)return;window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.rate=1;u.pitch=1;u.volume=1;window.speechSynthesis.speak(u);}catch(e){}}
-function vPhase(type){try{var msgs=COACH[type]||[];if(voiceMode==='simple'){var m={run:'Run!',walk:'Walk!',warmup:'Warm up!',cooldown:'Cool down!',done:'Workout complete!'};speak(m[type]||type);}else if(msgs.length>0){speak(msgs[Math.floor(Math.random()*msgs.length)]);}}catch(e){}}
+function vPhase(type){try{var msgs=COACH[type]||[];if(voiceMode==='simple'){var m={run:'Run!',walk:'Walk!',warmup:'Warm up!',cooldown:'Cool down!',done:'Workout complete!'};speak(m[type]||type);}else if(voiceMode==='full'){var pm=getCoachMsg(type);if(pm)speak(pm);else if(msgs.length>0)speak(msgs[Math.floor(Math.random()*msgs.length)]);}}catch(e){}}
 function toggleVoice(){voiceOn=!voiceOn;document.getElementById('voice-btn').classList.toggle('on',voiceOn);}
 
 // ═══════════════════════════════════════════
@@ -1027,6 +1147,8 @@ function renderPlan(){
   renderWater();
   renderSkipBanner();
   renderFinishEstimate();
+  renderRecovery();
+  renderConditionTip();
 
   // Quote
   var qi=Math.floor(Date.now()/(1000*60*60*12))%QUOTES.length;
@@ -1271,7 +1393,7 @@ function tick(){
   if(!halfSp&&totEl>=tD/2){
     halfSp=true;
     if(voiceMode==='full'){
-      speak("Halfway there! Time to turn around and head back. Keep pushing!");
+      speak(getCoachMsg('half'));
     }
   }
 
@@ -1282,10 +1404,10 @@ function tick(){
       var current=parseFloat(cPace);
       if(current>goal+0.5&&!paceAlertGiven){
         paceAlertGiven=true;
-        speak("Pick up the pace! You're running slower than your goal.");
+        speak(getCoachMsg('pace_slow'));
       }else if(current<=goal&&paceAlertGiven){
         paceAlertGiven=false;
-        speak("Great pace! You're on target.");
+        speak(getCoachMsg('pace_good'));
       }
     }
   }
@@ -1447,6 +1569,12 @@ function renderProgress(){
     html+='</div>';
   }
 
+  // Run streak heatmap
+  html+=renderHeatmap();
+
+  // Weekly challenges
+  html+=renderChallenges();
+
   // Weekly summary card (shareable)
   html+=renderWeekCard();
 
@@ -1603,7 +1731,7 @@ function deleteWeight(idx){
 }
 
 function renderBody(){
-  updateWeightUI();renderBMI();renderCalories();renderPhotos();
+  updateWeightUI();renderBMI();renderCalories();renderPhotos();renderMeasurements();
   var logs=sg('wlogs',[]);var wu=weightUnit();
   document.getElementById('wt-nodata').style.display=logs.length>0?'none':'flex';
   var sum=document.getElementById('wt-summary');
@@ -1846,6 +1974,8 @@ function openSettings(){
   document.getElementById('s-pace').value=s.paceGoal||'';
   document.getElementById('s-calgoal').value=s.calGoal||2000;
   document.getElementById('s-bigtimer').value=s.bigTimer?'big':'normal';
+  document.getElementById('s-personality').value=s.personality||'default';
+  document.getElementById('s-nightmode').value=s.nightMode?'on':'off';
   document.getElementById('s-remind').value=s.remindTime||'07:00';
   updateSettingsLabels(s.units||'km');
   var days=s.runDays||[1,3,5];
@@ -1872,10 +2002,10 @@ function saveSettings(){
   var runDays=[];
   var btns=document.querySelectorAll('#day-sel button');
   for(var i=0;i<btns.length;i++)if(btns[i].classList.contains('on'))runDays.push(i);
-  var s={weight:weightVal,height:heightVal,units:newUnits,voice:document.getElementById('s-vc').value,paceGoal:parseFloat(document.getElementById('s-pace').value)||0,calGoal:parseInt(document.getElementById('s-calgoal').value)||2000,bigTimer:document.getElementById('s-bigtimer').value==='big',runDays:runDays,remindTime:document.getElementById('s-remind').value};
+  var s={weight:weightVal,height:heightVal,units:newUnits,voice:document.getElementById('s-vc').value,personality:document.getElementById('s-personality').value,paceGoal:parseFloat(document.getElementById('s-pace').value)||0,calGoal:parseInt(document.getElementById('s-calgoal').value)||2000,bigTimer:document.getElementById('s-bigtimer').value==='big',nightMode:document.getElementById('s-nightmode').value==='on',runDays:runDays,remindTime:document.getElementById('s-remind').value};
   ss('settings',s);voiceMode=s.voice;voiceOn=s.voice!=='off';
   document.getElementById('voice-btn').classList.toggle('on',voiceOn);
-  applyBigTimer();
+  applyBigTimer();applyNightMode();
   closeSettings();refreshTimer();
 }
 
@@ -1914,10 +2044,10 @@ function scheduleReminder(){
 // ═══════════════════════════════════════════
 function exportData(){
   var data={};
-  var keys=['prog','history','xp','badges','settings','wlogs','photos','theme','onboarded'];
+  var keys=['prog','history','xp','badges','settings','wlogs','photos','theme','onboarded','measurements'];
   for(var i=0;i<keys.length;i++)data[keys[i]]=sg(keys[i],null);
   data._exported=new Date().toISOString();
-  data._version='c25k-v7';
+  data._version='c25k-v8';
   var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   var a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download='c25k-backup-'+new Date().toISOString().split('T')[0]+'.json';
@@ -1932,7 +2062,7 @@ function importData(input){
       var data=JSON.parse(e.target.result);
       if(!data._version){alert('Invalid backup file');return;}
       if(!confirm('This will overwrite all current data. Continue?'))return;
-      var keys=['prog','history','xp','badges','settings','wlogs','photos','theme','onboarded'];
+      var keys=['prog','history','xp','badges','settings','wlogs','photos','theme','onboarded','measurements'];
       for(var i=0;i<keys.length;i++){
         if(data[keys[i]]!=null)ss(keys[i],data[keys[i]]);
       }
@@ -2204,6 +2334,292 @@ function renderFinishEstimate(){
 }
 
 // ═══════════════════════════════════════════
+// ═══════════════════════════════════════════
+// VOICE COACH PERSONALITIES
+// ═══════════════════════════════════════════
+var PERSONALITIES={
+  default:{
+    start:'Let\'s go! You\'ve got this.',
+    half:'Halfway there! Time to turn around and head back. Keep pushing!',
+    done:'Amazing work! You\'re a champion!',
+    run:'Time to run!',
+    walk:'Great job! Walking break.',
+    cooldown:'Cooling down. Great effort today.',
+    warmup:'Warming up. Let\'s ease into it.',
+    pace_slow:'Pick up the pace! You\'re running slower than your goal.',
+    pace_good:'Great pace! You\'re on target.',
+    skip:'Nice! You\'ve earned this skip.'
+  },
+  drill:{
+    start:'Drop and give me five K! Move it, move it, MOVE IT!',
+    half:'Halfway, soldier! Turn around and double time back! No excuses!',
+    done:'At ease! Not bad, recruit. Not bad at all.',
+    run:'RUN! Faster! Your grandmother runs faster than this!',
+    walk:'Walk it off! But don\'t get comfortable!',
+    cooldown:'Cool down. You survived. Barely.',
+    warmup:'Warm up those legs! We\'re going to war!',
+    pace_slow:'You call that running?! Pick it UP!',
+    pace_good:'Now THAT\'S more like it! Keep that pace!',
+    skip:'You\'re ahead of schedule. I\'m almost impressed.'
+  },
+  mate:{
+    start:'Oi legend! Let\'s smash it today!',
+    half:'Halfway there mate! Turn it around and cruise home. Easy!',
+    done:'Absolute legend! That was mint!',
+    run:'Time to pick it up mate! You got this no worries.',
+    walk:'Walking break, champ! Catch your breath.',
+    cooldown:'Cooling down mate. Solid effort today.',
+    warmup:'Let\'s warm up hey. Easy does it.',
+    pace_slow:'Bit slow there mate! Pick er up a notch!',
+    pace_good:'That\'s the go! Cruising at a beaut pace!',
+    skip:'You\'re flying mate! Skip that week, too easy for ya!'
+  },
+  zen:{
+    start:'Breathe deeply. Feel your body awaken. Let us begin.',
+    half:'You are at the midpoint. Turn mindfully and flow back. You are strong.',
+    done:'Peace. You have honored your body today. Be grateful.',
+    run:'Flow into your run. Each step is a meditation.',
+    walk:'Return to walking. Let your breath find its rhythm.',
+    cooldown:'Slowly now. Let the energy settle. You are complete.',
+    warmup:'Begin gently. Connect with your breath. Feel the earth.',
+    pace_slow:'Notice your pace without judgment. Can you find more energy?',
+    pace_good:'Beautiful rhythm. You are in flow.',
+    skip:'Your body is ready. Trust in your progress.'
+  }
+};
+function getCoachMsg(key){
+  var s=gSet();var p=s.personality||'default';
+  return(PERSONALITIES[p]&&PERSONALITIES[p][key])||PERSONALITIES.default[key]||'';
+}
+
+// ═══════════════════════════════════════════
+// RECOVERY SCORE
+// ═══════════════════════════════════════════
+function calcRecovery(){
+  var hist=sg('history',[]);
+  if(hist.length===0)return{level:'fresh',days:-1,msg:'Ready for your first run!'};
+  // Find days since last workout
+  var lastDate=null;
+  for(var i=0;i<hist.length;i++){
+    if(hist[i].isoDate){lastDate=hist[i].isoDate;break;}
+    if(hist[i].date){try{lastDate=new Date(hist[i].date).toISOString().split('T')[0];}catch(e){}if(lastDate)break;}
+  }
+  if(!lastDate)return{level:'fresh',days:-1,msg:'Ready to run!'};
+  var now=new Date();var last=new Date(lastDate+'T12:00:00');
+  var days=Math.floor((now-last)/(1000*60*60*24));
+  if(days>=3)return{level:'fresh',days:days,msg:days+' days rest — you\'re fully recovered!'};
+  if(days>=1)return{level:'ok',days:days,msg:days+' day'+(days>1?'s':'')+' since last run — good to go'};
+  return{level:'tired',days:0,msg:'You ran today — rest or easy day recommended'};
+}
+function renderRecovery(){
+  var r=calcRecovery();var el=document.getElementById('recovery-bar');
+  var icons={fresh:'✅',ok:'💪',tired:'😴'};
+  var classes={fresh:'rec-fresh',ok:'rec-ok',tired:'rec-tired'};
+  var labels={fresh:'Fresh',ok:'Ready',tired:'Rest'};
+  el.style.display='flex';
+  el.innerHTML='<span class="rec-icon">'+icons[r.level]+'</span><span class="rec-text">'+r.msg+'</span><span class="rec-badge '+classes[r.level]+'">'+labels[r.level]+'</span>';
+}
+
+// ═══════════════════════════════════════════
+// CONDITION ADVICE (time-of-day + seasonal)
+// ═══════════════════════════════════════════
+function renderConditionTip(){
+  var now=new Date();var h=now.getHours();var m=now.getMonth();
+  var tips=[];
+  // Time of day
+  if(h>=5&&h<9)tips.push('🌅 Morning run — great for metabolism! Run before eating for extra fat burn.');
+  else if(h>=9&&h<12)tips.push('☀️ Mid-morning — decent running time. Have a light snack 30min before.');
+  else if(h>=12&&h<16)tips.push('🌡️ Afternoon — warmest part of day. Hydrate well and wear sunscreen.');
+  else if(h>=16&&h<19)tips.push('🌇 Evening run — your body is warmed up. Peak performance window!');
+  else if(h>=19||h<5)tips.push('🌙 Night run — wear reflective gear and stay on well-lit paths.');
+  // Season (Southern hemisphere since Melbourne)
+  if(m>=11||m<=1)tips.push('☀️ Summer — run early or late. Bring water. Watch for sun.');
+  else if(m>=2&&m<=4)tips.push('🍂 Autumn — great running weather! Layer up for cool mornings.');
+  else if(m>=5&&m<=7)tips.push('🧥 Winter — warm up longer. Layer clothes. Watch for wet surfaces.');
+  else tips.push('🌸 Spring — perfect running season! Watch for wind.');
+  document.getElementById('cond-tip').textContent=tips[0];
+}
+
+// ═══════════════════════════════════════════
+// STRETCHES GUIDE
+// ═══════════════════════════════════════════
+var STRETCHES={
+  pre:[
+    {icon:'🦵',name:'Leg Swings',desc:'Stand on one foot, swing opposite leg forward and back. 10 each side.',dur:'30s'},
+    {icon:'🦿',name:'Walking Lunges',desc:'Step forward into a lunge, alternate legs. Keep torso upright.',dur:'30s'},
+    {icon:'🏃',name:'High Knees',desc:'Jog in place lifting knees to hip height. Pump arms.',dur:'20s'},
+    {icon:'🦶',name:'Ankle Circles',desc:'Circle each ankle 10 times clockwise, then counter-clockwise.',dur:'20s'},
+    {icon:'💃',name:'Hip Circles',desc:'Hands on hips, circle hips in large circles. 10 each direction.',dur:'20s'},
+    {icon:'🙆',name:'Arm Circles',desc:'Extend arms out, make small then large circles. 10 each.',dur:'20s'}
+  ],
+  post:[
+    {icon:'🧘',name:'Quad Stretch',desc:'Stand on one foot, grab ankle behind you and pull heel to glute. Hold each side.',dur:'30s each'},
+    {icon:'🏋️',name:'Calf Stretch',desc:'Step one foot back, press heel into ground. Lean forward. Hold each side.',dur:'30s each'},
+    {icon:'🙇',name:'Hamstring Stretch',desc:'Stand feet together, hinge at hips and reach toward toes. Don\'t bounce.',dur:'30s'},
+    {icon:'🧎',name:'Hip Flexor Stretch',desc:'Kneel on one knee, push hips forward. Feel stretch in front hip. Each side.',dur:'30s each'},
+    {icon:'🤸',name:'Pigeon Stretch',desc:'Seated, cross one ankle over opposite knee. Lean forward gently.',dur:'30s each'},
+    {icon:'🙏',name:'Child\'s Pose',desc:'Kneel, sit back on heels, arms extended forward on ground. Breathe deep.',dur:'30s'}
+  ]
+};
+function openStretches(type){
+  document.getElementById('stretch-modal').classList.add('open');
+  showStretchType(type||'pre');
+}
+function closeStretches(){document.getElementById('stretch-modal').classList.remove('open');}
+function showStretchType(type){
+  document.getElementById('stretch-pre-btn').classList.toggle('active',type==='pre');
+  document.getElementById('stretch-post-btn').classList.toggle('active',type==='post');
+  document.getElementById('stretch-title').textContent=type==='pre'?'Pre-Run Dynamic Stretches':'Post-Run Static Stretches';
+  var list=STRETCHES[type];var html='';
+  for(var i=0;i<list.length;i++){
+    var s=list[i];
+    html+='<div class="stretch-item"><div class="si-icon">'+s.icon+'</div><div><div class="si-name">'+s.name+'</div><div class="si-desc">'+s.desc+'</div><div class="si-dur">⏱ '+s.dur+'</div></div></div>';
+  }
+  document.getElementById('stretch-list').innerHTML=html;
+}
+
+// ═══════════════════════════════════════════
+// BODY MEASUREMENTS
+// ═══════════════════════════════════════════
+function logMeasurements(){
+  var w=parseFloat(document.getElementById('m-waist').value);
+  var c=parseFloat(document.getElementById('m-chest').value);
+  var h=parseFloat(document.getElementById('m-hips').value);
+  if(!w&&!c&&!h){alert('Enter at least one measurement');return;}
+  var meas=sg('measurements',[]);
+  var entry={date:new Date().toISOString().split('T')[0]};
+  if(w)entry.waist=w;if(c)entry.chest=c;if(h)entry.hips=h;
+  meas.unshift(entry);if(meas.length>30)meas=meas.slice(0,30);
+  ss('measurements',meas);
+  document.getElementById('m-waist').value='';
+  document.getElementById('m-chest').value='';
+  document.getElementById('m-hips').value='';
+  renderMeasurements();
+}
+function renderMeasurements(){
+  var meas=sg('measurements',[]);var el=document.getElementById('meas-history');
+  if(!el||meas.length===0){if(el)el.innerHTML='';return;}
+  var u=gSet().units==='mi'?'in':'cm';
+  var html='';var max=Math.min(meas.length,5);
+  for(var i=0;i<max;i++){
+    var m=meas[i];var parts=[];
+    if(m.waist)parts.push('W:'+m.waist+u);
+    if(m.chest)parts.push('C:'+m.chest+u);
+    if(m.hips)parts.push('H:'+m.hips+u);
+    html+='<span class="meas-tag">'+m.date+' · '+parts.join(' ')+'</span>';
+  }
+  // Show change from first to latest
+  if(meas.length>=2){
+    var first=meas[meas.length-1],last=meas[0];
+    if(first.waist&&last.waist){var diff=last.waist-first.waist;html+='<span class="meas-tag" style="color:'+(diff<=0?'var(--done)':'var(--run)')+'">Waist '+(diff>0?'+':'')+diff.toFixed(1)+u+'</span>';}
+  }
+  el.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════
+// PHOTO COMPARE (before/after side-by-side)
+// ═══════════════════════════════════════════
+var compareIdx=0;
+function openCompare(){
+  var photos=sg('photos',[]);
+  if(photos.length<2){alert('Need at least 2 photos to compare');return;}
+  compareIdx=photos.length-1;
+  document.getElementById('compare-modal').classList.add('open');
+  renderCompare();
+}
+function closeCompare(){document.getElementById('compare-modal').classList.remove('open');}
+function compareNav(dir){
+  var photos=sg('photos',[]);
+  compareIdx=Math.max(1,Math.min(photos.length-1,compareIdx+dir));
+  renderCompare();
+}
+function renderCompare(){
+  var photos=sg('photos',[]);
+  var first=photos[0];var current=photos[compareIdx];
+  document.getElementById('compare-wrap').innerHTML=
+    '<div class="compare-col"><img src="'+first.img+'" alt="Before"><div class="compare-date">📅 '+first.date+'</div></div>'+
+    '<div class="compare-col"><img src="'+current.img+'" alt="After"><div class="compare-date">📅 '+current.date+'</div></div>';
+}
+
+// ═══════════════════════════════════════════
+// RUN STREAK HEATMAP (GitHub-style)
+// ═══════════════════════════════════════════
+function renderHeatmap(){
+  var hist=sg('history',[]);
+  // Build set of dates with workouts
+  var runDates={};
+  for(var i=0;i<hist.length;i++){
+    var d=hist[i].isoDate||hist[i].date;
+    if(d){
+      if(d.length>10)try{d=new Date(d).toISOString().split('T')[0];}catch(e){}
+      runDates[d]=(runDates[d]||0)+1;
+    }
+  }
+  // Also check prog data
+  var p=sg('prog',{});
+  for(var k in p){if(p[k]&&p[k].date){var d=p[k].date;if(d.length>10)try{d=new Date(d).toISOString().split('T')[0];}catch(e){}runDates[d]=(runDates[d]||0)+1;}}
+
+  // Generate last 90 days
+  var today=new Date();var todayStr=today.toISOString().split('T')[0];
+  var cells=[];var months=[];var lastMonth=-1;
+  for(var i=89;i>=0;i--){
+    var d=new Date(today);d.setDate(d.getDate()-i);
+    var ds=d.toISOString().split('T')[0];
+    var count=runDates[ds]||0;
+    var cls='hm-cell';
+    if(count>=3)cls+=' l3';else if(count>=2)cls+=' l2';else if(count>=1)cls+=' l1';
+    if(ds===todayStr)cls+=' today';
+    cells.push('<div class="'+cls+'" title="'+ds+(count>0?': '+count+' workout'+(count>1?'s':''):'')+'" ></div>');
+    var m=d.getMonth();
+    if(m!==lastMonth){months.push('<span>'+['J','F','M','A','M','J','J','A','S','O','N','D'][m]+'</span>');lastMonth=m;}
+  }
+  return'<div class="heatmap"><div class="hm-title">Activity (last 90 days)</div><div class="hm-grid">'+cells.join('')+'</div></div>';
+}
+
+// ═══════════════════════════════════════════
+// CHALLENGES SYSTEM
+// ═══════════════════════════════════════════
+function getChallenges(){
+  var now=new Date();var weekNum=Math.floor(now.getTime()/(1000*60*60*24*7));
+  var hist=sg('history',[]);var stats=getStats();
+  var thisWeekDist=0,thisWeekRuns=0,thisWeekCal=0;
+  var weekStart=new Date(now);weekStart.setDate(weekStart.getDate()-weekStart.getDay());
+  var wsStr=weekStart.toISOString().split('T')[0];
+  for(var i=0;i<hist.length;i++){
+    var d=hist[i].isoDate||'';
+    if(d>=wsStr){thisWeekDist+=(hist[i].dist||0);thisWeekRuns++;thisWeekCal+=(hist[i].cal||0);}
+  }
+  // Generate challenges based on current level
+  var challenges=[];
+  var distGoal=stats.total<10?5:stats.total<25?10:15;
+  challenges.push({id:'wk-dist',icon:'📏',name:'Weekly Distance',desc:'Run '+distGoal+'km this week',progress:Math.min(1,thisWeekDist/distGoal),done:thisWeekDist>=distGoal});
+  challenges.push({id:'wk-runs',icon:'🏃',name:'Three Runs',desc:'Complete 3 workouts this week',progress:Math.min(1,thisWeekRuns/3),done:thisWeekRuns>=3});
+  var calGoal=stats.total<10?300:stats.total<25?500:750;
+  challenges.push({id:'wk-cal',icon:'🔥',name:'Calorie Crusher',desc:'Burn '+calGoal+' kcal this week',progress:Math.min(1,thisWeekCal/calGoal),done:thisWeekCal>=calGoal});
+  // Streak challenge
+  var streak=getStreakNum();
+  var streakGoal=streak<3?3:streak<6?6:10;
+  challenges.push({id:'streak',icon:'🔥',name:streakGoal+'-Week Streak',desc:'Maintain a '+streakGoal+'-week streak',progress:Math.min(1,streak/streakGoal),done:streak>=streakGoal});
+  return challenges;
+}
+function renderChallenges(){
+  var ch=getChallenges();var html='<div class="challenges"><div class="htitle">🎯 Weekly Challenges</div>';
+  for(var i=0;i<ch.length;i++){
+    var c=ch[i];
+    html+='<div class="challenge-card'+(c.done?' done':'')+'"><div class="ch-icon">'+c.icon+'</div><div class="ch-info"><div class="ch-name">'+c.name+'</div><div class="ch-desc">'+c.desc+'</div><div class="ch-prog"><div class="ch-prog-fill" style="width:'+Math.round(c.progress*100)+'%"></div></div></div>'+(c.done?'<div class="ch-check">✓</div>':'')+'</div>';
+  }
+  html+='</div>';return html;
+}
+
+// ═══════════════════════════════════════════
+// NIGHT RUN MODE
+// ═══════════════════════════════════════════
+function applyNightMode(){
+  var s=gSet();
+  document.documentElement.classList.toggle('night',!!s.nightMode);
+}
+
+// ═══════════════════════════════════════════
 // ONBOARDING (first-time welcome)
 // ═══════════════════════════════════════════
 function checkOnboarding(){
@@ -2232,7 +2648,7 @@ function skipOnboard(){
 // INIT
 // ═══════════════════════════════════════════
 (function(){
-  applyTheme();
+  applyTheme();applyNightMode();
   var s=gSet();voiceMode=s.voice||'full';voiceOn=voiceMode!=='off';
   document.getElementById('voice-btn').classList.toggle('on',voiceOn);
   applyBigTimer();
