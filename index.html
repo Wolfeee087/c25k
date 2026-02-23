@@ -418,8 +418,9 @@ html.night .rfg{stroke:#ffee00!important}
 html.night .rbg{stroke:#333300!important}
 
 /* Splash screen */
-.splash{position:fixed;inset:0;background:#08080e;z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .4s;opacity:1}
-.splash.hide{opacity:0;pointer-events:none}
+.splash{position:fixed;inset:0;background:#08080e;z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:1;animation:splashAuto 1.6s ease forwards}
+.splash.hide{opacity:0;pointer-events:none;animation:none}
+@keyframes splashAuto{0%,75%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
 .splash-icon{width:100px;height:100px;border-radius:24px;margin-bottom:16px;animation:splashPulse 1s ease infinite alternate}
 .splash-title{font-size:28px;font-weight:900;color:#fff;letter-spacing:1px}
 .splash-sub{font-size:12px;color:#7c7c9a;margin-top:4px}
@@ -573,6 +574,10 @@ html.night .rbg{stroke:#333300!important}
   <div class="splash-sub">Couch to 5K & Beyond</div>
   <div class="splash-bar"><div class="splash-bar-fill"></div></div>
 </div>
+<script>
+// Failsafe: remove splash after 2s no matter what
+setTimeout(function(){var s=document.getElementById('splash');if(s){s.style.opacity='0';s.style.pointerEvents='none';setTimeout(function(){s.style.display='none';},500);}},2000);
+</script>
 
 <canvas id="confetti"></canvas>
 
