@@ -623,25 +623,30 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.style.opac
 
   <!-- PLAN -->
   <div id="plan-scr" class="scr on">
-    <div id="recovery-bar" class="recovery-bar" style="display:none"></div>
-    <div id="cond-tip" class="cond-tip"></div>
-    <div id="tip-box" class="tip-box"></div>
-    <div class="water-bar" id="water-bar">
-      <span class="water-icon">💧</span>
-      <div class="water-glasses" id="water-glasses"></div>
-      <span class="water-count" id="water-count">0/8</span>
+    <div id="plan-extras" style="display:none">
+      <div id="recovery-bar" class="recovery-bar" style="display:none"></div>
+      <div id="cond-tip" class="cond-tip"></div>
+      <div id="tip-box" class="tip-box"></div>
+      <div class="water-bar" id="water-bar">
+        <span class="water-icon">💧</span>
+        <div class="water-glasses" id="water-glasses"></div>
+        <span class="water-count" id="water-count">0/8</span>
+      </div>
     </div>
     <div id="skip-banner" class="skip-banner"></div>
-    <div id="quote-box" class="quote-box"></div>
+    <div id="quote-box" class="quote-box" style="display:none"></div>
     <div class="wscrl" id="wsel"></div>
     <div class="dcds" id="dcds"></div>
     <div class="finish-est" id="finish-est"></div>
-    <button class="repeat-btn" id="repeat-btn" onclick="repeatWeek()">↻ Repeat this week</button>
-    <button class="skipweek-btn" id="skipweek-btn" onclick="manualSkipWeek()" style="display:none">⏩ Too easy — skip to next week</button>
-    <button class="undo-btn" id="undo-btn" onclick="undoLastWorkout()">↩ Undo last completed workout</button>
     <button class="free-run-btn" id="free-run-btn" onclick="startFreeRun()">🏃‍♂️ Free Run — no intervals, just run</button>
-    <button class="free-run-btn" onclick="openCustomBuilder()" style="border-color:var(--walk);color:var(--walk)">🛠️ Custom Workout — build your own intervals</button>
-    <button class="share-app-btn" onclick="shareApp()">📤 Share this app with a friend</button>
+    <button class="free-run-btn" id="more-opts-toggle" onclick="document.getElementById('more-opts').style.display=document.getElementById('more-opts').style.display==='none'?'flex':'none';this.textContent=document.getElementById('more-opts').style.display==='none'?'⚙️ More options':'⚙️ Hide options'" style="border-color:var(--brd);color:var(--td);font-size:12px">⚙️ More options</button>
+    <div id="more-opts" style="display:none;flex-direction:column;gap:6px">
+      <button class="repeat-btn" id="repeat-btn" onclick="repeatWeek()">↻ Repeat this week</button>
+      <button class="skipweek-btn" id="skipweek-btn" onclick="manualSkipWeek()" style="display:none">⏩ Too easy — skip to next week</button>
+      <button class="undo-btn" id="undo-btn" onclick="undoLastWorkout()">↩ Undo last completed workout</button>
+      <button class="free-run-btn" onclick="openCustomBuilder()" style="border-color:var(--walk);color:var(--walk)">🛠️ Custom Workout — build your own intervals</button>
+      <button class="share-app-btn" onclick="shareApp()">📤 Share this app with a friend</button>
+    </div>
   </div>
 
   <!-- TIMER -->
@@ -1136,16 +1141,22 @@ function resumeGPS(){
   try{if(!navigator.geolocation||geoW!=null)return;gpsResumeSkip=2;lastP=null;geoW=navigator.geolocation.watchPosition(onGPS,function(){},{enableHighAccuracy:true,maximumAge:3000,timeout:10000});}catch(e){}
 }
 function onGPS(p){
-  if(p.coords.accuracy>25)return;
-  // Collect route points
-  routePoints.push({lat:p.coords.latitude,lng:p.coords.longitude,t:Date.now(),phase:curIv<ivs.length?ivs[curIv][0]:'run'});
+  if(p.coords.accuracy>15)return;
+  var lat=p.coords.latitude,lng=p.coords.longitude;
+  // Filter GPS jumps: if we have a previous point, reject teleports
+  if(lastP){
+    var jump=hav(lastP.coords.latitude,lastP.coords.longitude,lat,lng);
+    var dt=((p.timestamp||Date.now())-(lastP.timestamp||Date.now()))/1000;
+    if(dt>0&&(jump/dt)*3600>25)return; // reject if implies >25km/h between points
+  }
+  routePoints.push({lat:lat,lng:lng,t:Date.now(),phase:curIv<ivs.length?ivs[curIv][0]:'run'});
   if(gpsResumeSkip>0){gpsResumeSkip--;lastP=p;return;}
   if(lastP&&isRun){
-    var d=hav(lastP.coords.latitude,lastP.coords.longitude,p.coords.latitude,p.coords.longitude);
-    var dt=((p.timestamp||Date.now())-(lastP.timestamp||Date.now()))/1000;
-    if(dt>0.5){
-      var speedKmh=(d/dt)*3600;
-      if(d>0.002&&d<0.2&&speedKmh<40){
+    var d=hav(lastP.coords.latitude,lastP.coords.longitude,lat,lng);
+    var dt2=((p.timestamp||Date.now())-(lastP.timestamp||Date.now()))/1000;
+    if(dt2>0.5){
+      var speedKmh=(d/dt2)*3600;
+      if(d>0.002&&d<0.15&&speedKmh<20){
         tDist+=d;
         if(curIv<ivs.length&&ivs[curIv][0]==='run')runDist+=d;
         var now=Date.now();recentGPS.push({t:now,d:d});
@@ -1234,6 +1245,11 @@ function autoLoad(){for(var w=0;w<TOTAL_WEEKS;w++)for(var d=0;d<3;d++)if(!isDn(w
 // PLAN
 // ═══════════════════════════════════════════
 function renderPlan(){
+  // Show extras only after user has completed at least 1 workout
+  var hasHistory=sg('history',[]).length>0;
+  document.getElementById('plan-extras').style.display=hasHistory?'':'none';
+  document.getElementById('streak-bar').style.display=hasHistory?'flex':'none';
+  document.getElementById('finish-est').style.display=hasHistory?'':'none';
   // Daily tip
   var tipIdx=Math.floor(Date.now()/(1000*60*60*24))%TIPS.length;
   var tip=TIPS[tipIdx];
@@ -1294,12 +1310,21 @@ function renderPlan(){
     var bars='';for(var k=0;k<day.length;k++)bars+='<div class="ivb '+day[k][0]+'" style="flex:'+day[k][1]+'"></div>';
     cd.innerHTML='<div class="dt">Day '+(di+1)+'</div><div class="ds">'+NM[selW][di]+'</div><div class="dd"><span class="rv">🏃 '+fmtM(runT)+'</span><span class="wv">🚶 '+fmtM(walkT)+'</span><span class="tv">⏱ '+fmt(total)+'</span></div><div class="ivp">'+bars+'</div>';
     cd.onclick=function(){loadWO(parseInt(this.getAttribute('data-w')),parseInt(this.getAttribute('data-d')));go('timer');};
-    // Preview button
+    // Preview button (top-right)
     var pvBtn=document.createElement('button');
     pvBtn.className='pv-btn';pvBtn.textContent='👁 Preview';
     pvBtn.setAttribute('data-w',selW);pvBtn.setAttribute('data-d',di);
     pvBtn.onclick=function(e){e.stopPropagation();showIvModal(parseInt(this.getAttribute('data-w')),parseInt(this.getAttribute('data-d')));};
     cd.appendChild(pvBtn);
+    // Mark done button (full width, below interval bar)
+    if(!done){
+      var mcBtn=document.createElement('button');
+      mcBtn.setAttribute('data-w',selW);mcBtn.setAttribute('data-d',di);
+      mcBtn.style.cssText='display:block;width:100%;margin-top:10px;padding:9px;border:1.5px dashed var(--done);border-radius:8px;background:transparent;color:var(--done);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;position:relative;z-index:3';
+      mcBtn.textContent='✓ Already did this — mark complete';
+      mcBtn.onclick=function(e){e.stopPropagation();e.preventDefault();var w=parseInt(this.getAttribute('data-w'));var d=parseInt(this.getAttribute('data-d'));markComplete(w,d);};
+      cd.appendChild(mcBtn);
+    }
     c.appendChild(cd);
   }
   document.getElementById('repeat-btn').style.display=wkDn(selW)?'block':'none';
@@ -2882,6 +2907,25 @@ function sharePR(type,val){
   var text='🏅 New Personal Record!\n'+labels[type]+': '+val+'\n\nC25K+ — Couch to 5K & Beyond\nhttps://wolfeee087.github.io/c25k/';
   if(navigator.share){navigator.share({title:'C25K+ PR',text:text}).catch(function(){});}
   else{try{navigator.clipboard.writeText(text).then(function(){alert('PR copied!');});}catch(e){prompt('Copy:',text);}}
+}
+
+// ═══════════════════════════════════════════
+// MARK DAY COMPLETE (without running)
+// ═══════════════════════════════════════════
+function markComplete(w,d){
+  if(isDn(w,d)){alert('Already completed!');return;}
+  if(!confirm('Mark Week '+(w+1)+' Day '+(d+1)+' as complete?'))return;
+  var p=sg('prog',{});
+  p[w+'-'+d]={cal:0,dist:0,pace:'--',runDist:0,runTime:0,date:new Date().toISOString(),manual:true};
+  ss('prog',p);
+  // Add to history
+  var h=sg('history',[]);
+  h.unshift({w:w,d:d,date:new Date().toLocaleDateString(),cal:0,dist:'0.00',pace:'--',time:'--',manual:true});
+  ss('history',h);
+  // Small XP for manual complete
+  ss('xp',gXP()+20);
+  renderPlan();
+  speak(getCoachMsg('done'));
 }
 
 // ═══════════════════════════════════════════
