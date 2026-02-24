@@ -12,7 +12,9 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>C25K+ — Couch to 5K and Beyond</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
   --bg:#08080e;--s1:#111119;--s2:#1a1a26;--s3:#222233;--brd:#2a2a3d;
@@ -3015,7 +3017,7 @@ function skipOnboard(){
   renderPlan();
   checkOnboarding();
   if('Notification' in window&&Notification.permission==='granted')scheduleReminder();
-  if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').then(function(reg){reg.update();}).catch(function(){});}
 })();
 </script>
 </body>
